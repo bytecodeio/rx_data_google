@@ -2,7 +2,7 @@ include: "/views/prescriptions.view.lkml"
 
 explore: prescriptions {
   label: "Rx Explore"
-  persist_with: performance_datagroup
+#  persist_with: performance_datagroup
   aggregate_table: rollup_agg_brand_age_date {
     query: {
       dimensions: [prescriptions.brand_name, prescriptions.rx_date,prescriptions.specialty
