@@ -10,4 +10,7 @@ include: "/views/prescriptions.view.lkml"
       relationship: one_to_many
       sql_on: ${pharmacy.ncpdpid} = ${prescriptions.ncpdpid} ;;
     }
+    always_filter: {
+     filters: [pharmacy.state: "NY"]
+    }
   }
