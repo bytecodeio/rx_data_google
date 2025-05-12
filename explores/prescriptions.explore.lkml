@@ -1,7 +1,8 @@
 include: "/views/prescriptions.view.lkml"
 
 explore: prescriptions {
-  label: "Rx Explore Google"
+  group_label: "Google Project"
+  label: "Prescriptions"
 #  persist_with: performance_datagroup
   aggregate_table: rollup_agg_brand_age_date {
     query: {
