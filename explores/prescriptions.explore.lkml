@@ -9,6 +9,7 @@ explore: prescriptions {
       ]
       measures: [prescriptions.total_new_rx]
       # prescriptions.specialty
+     timezone: America/Los_Angeles
     }
 
     materialization: {
@@ -20,6 +21,7 @@ explore: prescriptions {
     query: {
       dimensions: [prescriptions.brand_name, prescriptions.specialty, prescriptions.rx_month]
       measures: [prescriptions.total_new_rx]
+      timezone: America/Los_Angeles
     }
 
     materialization: {
