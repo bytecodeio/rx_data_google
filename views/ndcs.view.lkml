@@ -4,6 +4,7 @@ view: ndcs {
 
   dimension: ndc_pk {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.ndc_pk ;;
   }
