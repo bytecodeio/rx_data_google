@@ -149,7 +149,7 @@ view: prescriptions {
     value_format_name: decimal_2
   }
   measure: count {
-    #hidden: yes
+    hidden: yes
     type: count
     drill_fields: [detail*]
   }
