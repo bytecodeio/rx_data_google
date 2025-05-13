@@ -5,8 +5,7 @@ explore: prescriptions {
   label: "Prescriptions"
   aggregate_table: rollup_agg_brand_age_date {
     query: {
-      dimensions: [prescriptions.brand_name, prescriptions.rx_date, prescriptions.specialty
-      ]
+      dimensions: [prescriptions.brand_name, prescriptions.rx_date, prescriptions.specialty ]
       measures: [prescriptions.number_of_prescriptions]
       timezone: America/Los_Angeles
     }
