@@ -142,16 +142,41 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.vendor_name ;;
   }
+  measure: avg_days_supply {
+    label: "Average Days of Supply"
+    type: average
+    sql: ${days_supply} ;;
+    value_format_name: decimal_2
+  }
   measure: count {
+    #hidden: yes
     type: count
     drill_fields: [detail*]
   }
-  measure: total_new_rx {
+  measure: number_of_pharmacies {
+    label: "Number of Pharmacies"
+    type: count_distinct
+    sql: ${ncpdpid} ;;
+    value_format_name: decimal_2
+  }
+  measure: number_of_prescriptions {
     hidden: no
-    label: "Count of Prescriptions"
+    label: "Number of Prescriptions"
     description: "Count of prescriptions sold"
     type: sum
     sql: ${new_rx} ;;
+    drill_fields: [detail*]
+  }
+  measure: number_of_providers {
+    label: "Number of Providers"
+    type: count_distinct
+    sql: ${spi_root} ;;
+    drill_fields: [detail*]
+  }
+  measure: utilization {
+    type: number
+    sql: SAFE_DIVIDE(${number_of_prescriptions},${number_of_providers}) ;;
+    value_format_name:decimal_2
     drill_fields: [detail*]
   }
   # ----- Sets of fields for drilling ------

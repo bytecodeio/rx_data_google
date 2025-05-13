@@ -220,7 +220,14 @@ view: spi_roots {
     sql: ${TABLE}.Zip ;;
   }
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [spi_root_pk, primary_rollup_name, primary_common_name, primary_vendor_name]
+  }
+  measure: number_of_doctors {
+    label: "Number of Doctors"
+    type: count_distinct
+    sql: ${spi_root_pk} ;;
+    value_format_name: decimal_2
   }
 }

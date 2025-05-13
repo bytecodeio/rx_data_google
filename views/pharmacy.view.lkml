@@ -4,6 +4,7 @@ view: pharmacy {
 
   dimension: pharmacy_pk {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.pharmacy_pk ;;
   }
@@ -32,7 +33,14 @@ view: pharmacy {
     sql: ${TABLE}.Zip ;;
   }
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [pharmacy_pk]
+  }
+  measure: number_of_pharmacies {
+    label: "Number of Pharmacies"
+    type: count_distinct
+    sql: ${ncpdpid} ;;
+    value_format_name: decimal_2
   }
 }

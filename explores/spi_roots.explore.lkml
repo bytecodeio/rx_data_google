@@ -3,6 +3,7 @@ include: "/views/spi_roots.view.lkml"
 
 explore: spi_roots {
   label: "Doctors Explore"
+  group_label: "Google RX Project"
   join: prescriptions {
     type: left_outer
     relationship: one_to_many
