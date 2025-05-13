@@ -5,6 +5,7 @@ include: "/views/prescriptions.view.lkml"
 #JR NOTE 05/12/25 DO MORE ANALYSIS ON THE BELOW EXPLORE TO DETERMINE IF I CAN REWORK THE JOIN
   explore: pharmacy {
     label: "Pharmacy Explore"
+    group_label: "Google RX Project"
     join: prescriptions {
       type: left_outer
       relationship: one_to_many

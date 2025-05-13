@@ -44,42 +44,52 @@ view: prescriptions {
     sql: ${TABLE}.Label_Name ;;
   }
   dimension: ncpdpid {
+    label: "Pharmacy ID"
     type: string
     sql: ${TABLE}.NCPDPID ;;
   }
   dimension: ndc {
+    description: "National Drug Code"
     type: number
     sql: ${TABLE}.NDC ;;
   }
   dimension: new_rx {
+    label: "New Prescriptions"
     type: number
     sql: ${TABLE}.new_rx ;;
   }
   dimension: patient_city {
+    group_label: "Patient Location"
     type: string
     sql: ${TABLE}.patient_city ;;
   }
   dimension: patient_county {
+    group_label: "Patient Location"
     type: string
     sql: ${TABLE}.patient_county ;;
   }
   dimension: patient_state {
+    group_label: "Patient Location"
     type: string
     sql: ${TABLE}.patient_state ;;
   }
   dimension: patient_zip {
+    group_label: "Patient Location"
     type: string
     sql: ${TABLE}.patient_zip ;;
   }
   dimension: pharmacy_city {
+    group_label: "Pharmacy Location"
     type: string
     sql: ${TABLE}.pharmacy_city ;;
   }
   dimension: pharmacy_state {
+    group_label: "Pharmacy Location"
     type: string
     sql: ${TABLE}.pharmacy_state ;;
   }
   dimension: pharmacy_zip {
+    group_label: "Pharmacy Location"
     type: string
     sql: ${TABLE}.pharmacy_zip ;;
   }
@@ -100,6 +110,7 @@ view: prescriptions {
     sql: ${TABLE}.rtpb ;;
   }
   dimension_group: rx {
+    label: "Prescription"
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
@@ -111,22 +122,31 @@ view: prescriptions {
     sql: ${TABLE}.Specialty ;;
   }
   dimension: spi_city {
+    group_label: "Prescriber Location"
+    label: "Prescriber City"
     type: string
     sql: ${TABLE}.spi_city ;;
   }
   dimension: spi_county {
+    group_label: "Prescriber Location"
+    label: "Prescriber Country"
     type: string
     sql: ${TABLE}.spi_county ;;
   }
   dimension: spi_root {
+    label: "Prescriber ID"
     type: string
     sql: ${TABLE}.SPI_Root ;;
   }
   dimension: spi_state {
+    group_label: "Prescriber Location"
+    label: "Prescriber State"
     type: string
     sql: ${TABLE}.spi_state ;;
   }
   dimension: spi_zip {
+    group_label: "Prescriber Location"
+    label: "Prescriber Zip"
     type: string
     sql: ${TABLE}.spi_zip ;;
   }
@@ -143,6 +163,7 @@ view: prescriptions {
     sql: ${TABLE}.vendor_name ;;
   }
   measure: avg_days_supply {
+    label: "Average Days of Supply"
     type: average
     sql: ${days_supply} ;;
     value_format_name: decimal_2
@@ -162,18 +183,37 @@ view: prescriptions {
     value_format_name: decimal_2
   }
   measure: count_spi_root {
+    hidden: no
     label: "Provider Count"
     description: "Distinct count of SPI root"
     type: count_distinct
     sql: ${spi_root} ;;
     drill_fields: [detail*]
   }
-  measure: total_new_rx {
+  measure: number_of_pharmacies {
+    label: "Number of Pharmacies"
+    type: count_distinct
+    sql: ${ncpdpid} ;;
+    value_format_name: decimal_2
+  }
+  measure: number_of_prescriptions {
     hidden: no
-    label: "Count of Prescriptions"
+    label: "Number of Prescriptions"
     description: "Count of prescriptions sold"
     type: sum
     sql: ${new_rx} ;;
+    drill_fields: [detail*]
+  }
+  measure: number_of_providers {
+    label: "Number of Providers"
+    type: count_distinct
+    sql: ${spi_root} ;;
+    drill_fields: [detail*]
+  }
+  measure: utilization {
+    type: number
+    sql: SAFE_DIVIDE(${number_of_prescriptions},${number_of_providers}) ;;
+    value_format_name:decimal_2
     drill_fields: [detail*]
   }
   # ----- Sets of fields for drilling ------

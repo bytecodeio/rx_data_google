@@ -8,10 +8,12 @@ view: spi_roots {
     sql: ${TABLE}.spi_root_pk ;;
   }
   dimension: city {
+    group_label: "Location"
     type: string
     sql: ${TABLE}.City ;;
   }
   dimension: county {
+    group_label: "Location"
     type: string
     sql: ${TABLE}.County ;;
   }
@@ -24,26 +26,32 @@ view: spi_roots {
     sql: ${TABLE}.Decile_EPA_iReq ;;
   }
   dimension: decile_routing {
+    group_label: "Decile Routing"
     type: string
     sql: ${TABLE}.Decile_Routing ;;
   }
   dimension: decile_routing_2019 {
+    group_label: "Decile Routing"
     type: string
     sql: ${TABLE}.Decile_Routing_2019 ;;
   }
   dimension: decile_routing_2020 {
+    group_label: "Decile Routing"
     type: string
     sql: ${TABLE}.Decile_Routing_2020 ;;
   }
   dimension: decile_routing_2021 {
+    group_label: "Decile Routing"
     type: string
     sql: ${TABLE}.Decile_Routing_2021 ;;
   }
   dimension: decile_routing_2022 {
+    group_label: "Decile Routing"
     type: string
     sql: ${TABLE}.Decile_Routing_2022 ;;
   }
   dimension: decile_routing_2023 {
+    group_label: "Decile Routing"
     type: string
     sql: ${TABLE}.Decile_Routing_2023 ;;
   }
@@ -56,26 +64,32 @@ view: spi_roots {
     sql: ${TABLE}.Is_EPA_Activated_202301 ;;
   }
   dimension: is_physician {
+    group_label: "Is Physician"
     type: string
     sql: ${TABLE}.Is_Physician ;;
   }
   dimension: is_physician_2019 {
+    group_label: "Is Physician"
     type: string
     sql: ${TABLE}.Is_physician_2019 ;;
   }
   dimension: is_physician_2020 {
+    group_label: "Is Physician"
     type: string
     sql: ${TABLE}.Is_physician_2020 ;;
   }
   dimension: is_physician_2021 {
+    group_label: "Is Physician"
     type: string
     sql: ${TABLE}.Is_physician_2021 ;;
   }
   dimension: is_physician_2022 {
+    group_label: "Is Physician"
     type: string
     sql: ${TABLE}.Is_physician_2022 ;;
   }
   dimension: is_physician_2023 {
+    group_label: "Is Physician"
     type: string
     sql: ${TABLE}.Is_physician_2023 ;;
   }
@@ -96,70 +110,87 @@ view: spi_roots {
     sql: ${TABLE}.Primary_Vendor_Name ;;
   }
   dimension: specialty {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty ;;
   }
   dimension: specialty_2016 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2016 ;;
   }
   dimension: specialty_2017 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2017 ;;
   }
   dimension: specialty_2018 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2018 ;;
   }
   dimension: specialty_2019 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2019 ;;
   }
   dimension: specialty_2020 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2020 ;;
   }
   dimension: specialty_2021 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2021 ;;
   }
   dimension: specialty_2022 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2022 ;;
   }
   dimension: specialty_2023 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_2023 ;;
   }
   dimension: specialty_specialization_2016 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2016 ;;
   }
   dimension: specialty_specialization_2017 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2017 ;;
   }
   dimension: specialty_specialization_2018 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2018 ;;
   }
   dimension: specialty_specialization_2019 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2019 ;;
   }
   dimension: specialty_specialization_2020 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2020 ;;
   }
   dimension: specialty_specialization_2021 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2021 ;;
   }
   dimension: specialty_specialization_2022 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2022 ;;
   }
   dimension: specialty_specialization_2023 {
+    group_label: "Specialization"
     type: string
     sql: ${TABLE}.Specialty_specialization_2023 ;;
   }
@@ -172,55 +203,74 @@ view: spi_roots {
     sql: ${TABLE}.SPIRoot_Zip_Income_Per_Household ;;
   }
   dimension: state {
+    group_label: "Location"
     type: string
     sql: ${TABLE}.State ;;
   }
   dimension: status_2020 {
+    group_label: "Status"
     type: string
     sql: ${TABLE}.Status_2020 ;;
   }
   dimension: status_2021 {
+    group_label: "Status"
     type: string
     sql: ${TABLE}.Status_2021 ;;
   }
   dimension: status_2022 {
+    group_label: "Status"
     type: string
     sql: ${TABLE}.Status_2022 ;;
   }
   dimension: status_2023 {
+    group_label: "Status"
     type: string
     sql: ${TABLE}.Status_2023 ;;
   }
   dimension: title {
+    group_label: "Title"
     type: string
     sql: ${TABLE}.Title ;;
   }
   dimension: title_2019 {
+    group_label: "Title"
     type: string
     sql: ${TABLE}.Title_2019 ;;
   }
   dimension: title_2020 {
+    group_label: "Title"
     type: string
     sql: ${TABLE}.Title_2020 ;;
   }
   dimension: title_2021 {
+    group_label: "Title"
     type: string
     sql: ${TABLE}.Title_2021 ;;
   }
   dimension: title_2022 {
+    group_label: "Title"
     type: string
     sql: ${TABLE}.Title_2022 ;;
   }
   dimension: title_2023 {
+    group_label: "Title"
     type: string
     sql: ${TABLE}.Title_2023 ;;
   }
   dimension: zip {
+    group_label: "Location"
     type: zipcode
     sql: ${TABLE}.Zip ;;
   }
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [spi_root_pk, primary_rollup_name, primary_common_name, primary_vendor_name]
+  }
+  measure: number_of_doctors {
+    label: "Number of Doctors"
+    type: count_distinct
+    sql: ${spi_root_pk} ;;
+    value_format_name: decimal_2
   }
 }

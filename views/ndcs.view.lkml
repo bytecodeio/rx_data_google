@@ -4,6 +4,7 @@ view: ndcs {
 
   dimension: ndc_pk {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.ndc_pk ;;
   }
@@ -40,7 +41,14 @@ view: ndcs {
     sql: ${TABLE}.Therapeutic ;;
   }
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [ndc_pk, generic_name, label_name, generic_long_name, brand_name]
+  }
+  measure: number_of_medications {
+    label: "Number of Medications"
+    type: count_distinct
+    sql: ${ndc} ;;
+    value_format_name: decimal_2
   }
 }
