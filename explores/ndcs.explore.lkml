@@ -4,6 +4,7 @@ include: "/views/prescriptions.view.lkml"
 explore: ndcs {
   label: "Medication Explore"
   group_label: "Google RX Project"
+  view_label: "Medications"
   join: prescriptions {
     type: left_outer
     relationship: one_to_many
