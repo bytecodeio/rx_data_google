@@ -13,6 +13,6 @@ explore: ndcs {
       prescriptions.rx_date: "7 days ago",
       prescriptions.specialty: "Dermatology"
     ]
-    unless: [prescriptions.rx_date, prescriptions.specialty]
+    unless: [prescriptions.rx_week, prescriptions.rx_month,prescriptions.rx_year]
   }
 }

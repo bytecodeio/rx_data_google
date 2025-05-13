@@ -10,9 +10,8 @@ explore: spi_roots {
   }
   conditionally_filter: {
     filters: [
-      spi_roots.state: "'NY'",
-      prescriptions.rx_month: "this month"
+      spi_roots.county: "WESTCHESTER"
     ]
-    unless: [spi_roots.state, prescriptions.rx_month]
+    unless: [spi_roots.state]
   }
 }

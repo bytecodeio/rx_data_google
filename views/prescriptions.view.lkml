@@ -142,8 +142,30 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.vendor_name ;;
   }
+  measure: avg_days_supply {
+    type: average
+    sql: ${days_supply} ;;
+    value_format_name: decimal_2
+  }
   measure: count {
-    type: count
+    label: "Count"
+    description: "Distinct Count of total number of rows"
+    type: count_distinct
+    sql: ${primary_key} ;;
+    drill_fields: [detail*]
+  }
+  measure: count_of_pharmacies {
+    label: "Count of Pharmacies"
+    description: "Distinct count of pharmacies"
+    type: count_distinct
+    sql: ${ncpdpid} ;;
+    value_format_name: decimal_2
+  }
+  measure: count_spi_root {
+    label: "Provider Count"
+    description: "Distinct count of SPI root"
+    type: count_distinct
+    sql: ${spi_root} ;;
     drill_fields: [detail*]
   }
   measure: total_new_rx {
