@@ -4,8 +4,22 @@ view: prescriptions {
   dimension: primary_key {
     primary_key: yes
     hidden: yes
-    type: number
+    type: string
     sql: CONCAT(${account_name},${age_group},${rx_date},${ndc},${ncpdpid},${spi_root},${patient_zip}) ;;
+  }
+
+  parameter: pick_field_to_count {
+    label: "Pick Field to Count"
+    description: "Parameter that allows you to dynamically select Pharmacies or Providers to count"
+    type: unquoted
+    allowed_value: {
+      label: "Pharmacies"
+      value: "ncpdpid"
+    }
+    allowed_value: {
+      label: "Providers"
+      value: "spi_root"
+    }
   }
   dimension: account_name {
     type: string
@@ -175,40 +189,43 @@ view: prescriptions {
     sql: ${primary_key} ;;
     drill_fields: [detail*]
   }
-  measure: count_of_pharmacies {
-    label: "Count of Pharmacies"
-    description: "Distinct count of pharmacies"
-    type: count_distinct
-    sql: ${ncpdpid} ;;
-    value_format_name: decimal_2
-  }
-  measure: count_spi_root {
+  measure: dynamic_counter {
     hidden: no
-    label: "Provider Count"
-    description: "Distinct count of SPI root"
+    label: "Dynamic Counter"
+    description: "Measure that receives input value from the parameter Pick Field to Count and returns a distinct count of the input dimension"
     type: count_distinct
-    sql: ${spi_root} ;;
-    drill_fields: [detail*]
+    sql: {% parameter pick_field_to_count %};;
   }
   measure: number_of_pharmacies {
+    hidden: no
     label: "Number of Pharmacies"
+    description: "Distinct count of pharmacies"
     type: count_distinct
     sql: ${ncpdpid} ;;
     value_format_name: decimal_2
   }
   measure: number_of_prescriptions {
     hidden: no
-    label: "Number of Prescriptions"
-    description: "Count of prescriptions sold"
+    label: "Number of New Prescriptions"
+    description: "Sum of prescriptions sold"
     type: sum
     sql: ${new_rx} ;;
     drill_fields: [detail*]
   }
   measure: number_of_providers {
+    hidden: no
     label: "Number of Providers"
+    description: "Distinct count of SPI root"
     type: count_distinct
     sql: ${spi_root} ;;
     drill_fields: [detail*]
+  }
+  measure: prescription_count {
+    hidden: no
+    label: "Number of Prescriptions"
+    description: "Distinct count of prescriptions/primary key"
+    type: count_distinct
+    sql: ${primary_key} ;;
   }
   measure: utilization {
     type: number
