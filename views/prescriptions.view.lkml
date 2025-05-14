@@ -235,12 +235,14 @@ view: prescriptions {
     suggest_dimension: rx_date
     suggest_explore: prescriptions
     default_value: "2023"
+    sql: ${is_first_period} OR ${is_second_period} ;;
   }
   filter: second_date_period {
     type: date
     suggest_dimension: rx_date
     suggest_explore: prescriptions
     default_value: "2022"
+    sql: ${is_first_period} OR ${is_second_period} ;;
   }
   dimension: is_first_period {
     hidden: yes
