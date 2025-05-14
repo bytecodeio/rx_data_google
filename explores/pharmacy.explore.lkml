@@ -8,8 +8,8 @@ include: "/views/prescriptions.view.lkml"
     group_label: "Google RX Project"
     aggregate_table: pharmacy_monthly_summary {
       query: {
-        dimensions: [pharmacy.city, pharmacy.state, prescriptions.rx_month]
-        measures: [prescriptions.number_of_pharmacies]
+        dimensions: [pharmacy.city, prescriptions.rx_month]
+        measures: [prescriptions.number_of_prescriptions]
         timezone: America/Los_Angeles
       }
     materialization: {

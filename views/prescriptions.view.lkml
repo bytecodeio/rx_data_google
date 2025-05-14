@@ -179,6 +179,7 @@ view: prescriptions {
     sql: ${TABLE}.vendor_name ;;
   }
   measure: avg_days_supply {
+    hidden: no
     label: "Average Days of Supply"
     type: average
     sql: ${days_supply} ;;
@@ -221,6 +222,13 @@ view: prescriptions {
     description: "The total number of prescriptions."
     type: count_distinct
     sql: ${primary_key} ;;
+  }
+  measure: number_of_specialties {
+    hidden: no
+    label: "Number of Specialties"
+    description: "Distinct count of the total number of specialties"
+    type: count_distinct
+    sql: ${specialty} ;;
   }
   measure: utilization {
     type: number
