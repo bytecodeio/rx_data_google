@@ -45,13 +45,6 @@ view: ndcs {
     type: count
     drill_fields: [ndc_pk, generic_name, label_name, generic_long_name, brand_name]
   }
-  measure: average_ndc {
-    hidden: no
-    label: "Average NDC"
-    description: "Average of ndc"
-    type: average
-    sql: ${ndc} ;;
-  }
   measure: number_of_medications {
     hidden: no
     label: "Number of Medications"

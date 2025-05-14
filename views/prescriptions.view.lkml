@@ -184,13 +184,6 @@ view: prescriptions {
     sql: ${days_supply} ;;
     value_format_name: decimal_2
   }
-  measure: count {
-    label: "Count"
-    description: "Distinct Count of total number of rows"
-    type: count_distinct
-    sql: ${primary_key} ;;
-    drill_fields: [detail*]
-  }
   measure: dynamic_counter {
     hidden: no
     label: "Dynamic Counter"
@@ -201,15 +194,15 @@ view: prescriptions {
   measure: number_of_pharmacies {
     hidden: no
     label: "Number of Pharmacies"
-    description: "Distinct count of pharmacies"
+    description: "The total number of pharmacies (Distinct count of ncpdpid)"
     type: count_distinct
     sql: ${ncpdpid} ;;
     value_format_name: decimal_2
   }
-  measure: number_of_prescriptions {
+  measure: number_of_new_prescriptions {
     hidden: no
     label: "Number of New Prescriptions"
-    description: "Sum of prescriptions sold"
+    description: "The total number of new prescriptions (Sum of new prescriptions sold)"
     type: sum
     sql: ${new_rx} ;;
     drill_fields: [detail*]
@@ -217,15 +210,15 @@ view: prescriptions {
   measure: number_of_providers {
     hidden: no
     label: "Number of Providers"
-    description: "Distinct count of SPI root"
+    description: "The total number of providers (SPI root)"
     type: count_distinct
     sql: ${spi_root} ;;
     drill_fields: [detail*]
   }
-  measure: prescription_count {
+  measure: number_of_prescriptions {
     hidden: no
     label: "Number of Prescriptions"
-    description: "Distinct count of prescriptions/primary key"
+    description: "The total number of prescriptions."
     type: count_distinct
     sql: ${primary_key} ;;
   }
