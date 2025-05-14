@@ -6,6 +6,16 @@ include: "/views/prescriptions.view.lkml"
   explore: pharmacy {
     label: "Pharmacy Explore"
     group_label: "Google RX Project"
+    aggregate_table: pharmacy_monthly_summary {
+      query: {
+        dimensions: [pharmacy.city, pharmacy.state, prescriptions.rx_month]
+        measures: [prescriptions.number_of_pharmacies]
+        timezone: America/Los_Angeles
+      }
+    materialization: {
+      sql_trigger_value: SELECT EXTRACT(Year FROM CURRENT_TIMESTAMP())  ;;
+      }
+    }
     join: prescriptions {
       type: left_outer
       relationship: one_to_many

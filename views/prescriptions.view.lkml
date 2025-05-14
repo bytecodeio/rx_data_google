@@ -93,11 +93,13 @@ view: prescriptions {
     sql: ${TABLE}.patient_zip ;;
   }
   dimension: pharmacy_city {
+    hidden: no
     group_label: "Pharmacy Location"
     type: string
     sql: ${TABLE}.pharmacy_city ;;
   }
   dimension: pharmacy_state {
+    hidden: no
     group_label: "Pharmacy Location"
     type: string
     sql: ${TABLE}.pharmacy_state ;;
