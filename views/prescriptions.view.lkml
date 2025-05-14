@@ -128,7 +128,7 @@ view: prescriptions {
   dimension_group: rx {
     label: "Prescription"
     type: time
-    timeframes: [raw, date, week, month, quarter, year]
+    timeframes: [raw, date, time, week, month, quarter, year]
     convert_tz: no
     datatype: date
     sql: ${TABLE}.rx_date ;;
@@ -189,7 +189,7 @@ view: prescriptions {
     label: "Dynamic Counter"
     description: "Measure that receives input value from the parameter Pick Field to Count and returns a distinct count of the input dimension"
     type: count_distinct
-    sql: {% parameter pick_field_to_count %};;
+    sql: {% parameter pick_field_to_count %} ;;
   }
   measure: number_of_pharmacies {
     hidden: no
@@ -228,6 +228,49 @@ view: prescriptions {
     value_format_name:decimal_2
     drill_fields: [detail*]
   }
+
+  ### PERIOD COMPARISON
+  filter: first_date_period {
+    type: date
+    suggest_dimension: rx_date
+    suggest_explore: prescriptions
+    default_value: "2023"
+  }
+  filter: second_date_period {
+    type: date
+    suggest_dimension: rx_date
+    suggest_explore: prescriptions
+    default_value: "2022"
+  }
+  dimension: is_first_period {
+    hidden: yes
+    type: yesno
+    sql: {% condition first_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
+  }
+  dimension: is_second_period {
+    hidden: yes
+    type: yesno
+    sql: {% condition second_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
+  }
+  measure: number_of_new_prescriptions_in_first_period {
+    hidden: no
+    label: "Number of New Prescriptions in First Period"
+    description: "The total number of new prescriptions in the first period selected (Sum of new prescriptions sold)"
+    type: sum
+    sql: ${new_rx} ;;
+    filters: [is_first_period: "Yes"]
+    drill_fields: [detail*]
+  }
+  measure: number_of_new_prescriptions_in_second_period {
+    hidden: no
+    label: "Number of New Prescriptions in Second Period"
+    description: "The total number of new prescriptions in the second period selected (Sum of new prescriptions sold)"
+    type: sum
+    sql: ${new_rx} ;;
+    filters: [is_second_period: "Yes"]
+    drill_fields: [detail*]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
