@@ -239,6 +239,8 @@ view: prescriptions {
 
   ### PERIOD COMPARISON
   filter: first_date_period {
+    group_label: "Period Comparison"
+    description: "Use this to compare measures against two date ranges. This will filter the first period comparison measures by the selected date range."
     type: date
     suggest_dimension: rx_date
     suggest_explore: prescriptions
@@ -246,6 +248,8 @@ view: prescriptions {
     sql: ${is_first_period} OR ${is_second_period} ;;
   }
   filter: second_date_period {
+    group_label: "Period Comparison"
+    description: "Use this to compare measures against two date ranges. This will filter the second period comparison measures by the selected date range."
     type: date
     suggest_dimension: rx_date
     suggest_explore: prescriptions
@@ -254,17 +258,20 @@ view: prescriptions {
   }
   dimension: is_first_period {
     hidden: yes
+    group_label: "Period Comparison"
     type: yesno
     sql: {% condition first_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
   }
   dimension: is_second_period {
     hidden: yes
+    group_label: "Period Comparison"
     type: yesno
     sql: {% condition second_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
   }
   measure: number_of_new_prescriptions_in_first_period {
     hidden: no
     label: "Number of New Prescriptions in First Period"
+    group_label: "Period Comparison"
     description: "The total number of new prescriptions in the first period selected (Sum of new prescriptions sold)"
     type: sum
     sql: ${new_rx} ;;
@@ -274,13 +281,31 @@ view: prescriptions {
   measure: number_of_new_prescriptions_in_second_period {
     hidden: no
     label: "Number of New Prescriptions in Second Period"
+    group_label: "Period Comparison"
     description: "The total number of new prescriptions in the second period selected (Sum of new prescriptions sold)"
     type: sum
     sql: ${new_rx} ;;
     filters: [is_second_period: "Yes"]
     drill_fields: [detail*]
   }
-
+  measure: avg_days_supply_in_first_period {
+    hidden: no
+    label: "Average Days of Supply in First Period"
+    group_label: "Period Comparison"
+    type: average
+    sql: ${days_supply} ;;
+    filters: [is_first_period: "Yes"]
+    value_format_name: decimal_2
+  }
+  measure: avg_days_supply_in_second_period {
+    hidden: no
+    label: "Average Days of Supply in Second Period"
+    group_label: "Period Comparison"
+    type: average
+    sql: ${days_supply} ;;
+    filters: [is_second_period: "Yes"]
+    value_format_name: decimal_2
+  }
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
