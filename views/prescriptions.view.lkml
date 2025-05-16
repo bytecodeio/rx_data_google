@@ -10,15 +10,24 @@ view: prescriptions {
 
   parameter: pick_field_to_count {
     label: "Pick Field to Count"
-    description: "Parameter that allows you to dynamically select Pharmacies or Providers to count"
+    description: "Parameter that allows you to dynamically select Diseases, Brands, Vendors or Therapeutics to count"
     type: unquoted
+    default_value: "Vendors"
     allowed_value: {
-      label: "Pharmacies"
-      value: "ncpdpid"
+      label: "Diseases"
+      value: "disease"
     }
     allowed_value: {
-      label: "Providers"
-      value: "spi_root"
+      label: "Brands"
+      value: "brand_name"
+    }
+    allowed_value: {
+      label: "Vendors"
+      value: "vendor_name"
+    }
+    allowed_value: {
+      label: "Therapeutics"
+      value: "therapeutic"
     }
   }
   dimension: account_name {
@@ -130,8 +139,8 @@ view: prescriptions {
     type: time
     timeframes: [raw, date, time, week, month, quarter, year]
     convert_tz: no
-    datatype: date
-    sql: ${TABLE}.rx_date ;;
+    datatype: timestamp
+    sql: CAST(${TABLE}.rx_date as TIMESTAMP) ;;
   }
   dimension: specialty {
     type: string
@@ -187,8 +196,9 @@ view: prescriptions {
   }
   measure: dynamic_counter {
     hidden: no
-    label: "Dynamic Counter"
-    description: "Measure that receives input value from the parameter Pick Field to Count and returns a distinct count of the input dimension"
+   # label: "Number of {% parameter pick_field_to_count %}"
+    label_from_parameter: pick_field_to_count
+    description: "Use this with the Pick Field to Count parameter to return a count of the selected field."
     type: count_distinct
     sql: {% parameter pick_field_to_count %} ;;
   }
@@ -206,6 +216,58 @@ view: prescriptions {
     description: "The total number of new prescriptions (Sum of new prescriptions sold)"
     type: sum
     sql: ${new_rx} ;;
+    drill_fields: [detail*]
+  }
+  measure: number_of_new_prescriptions_last_month {
+    hidden: no
+    label: "Number of New Prescriptions Last Month"
+    group_label: "Previous Period Comparison"
+    description: "The total number of new prescriptions (Sum of new prescriptions sold) that were prescribed last month. Use with the Prescription Date, or Month."
+    type: period_over_period
+    kind: previous
+    based_on: number_of_new_prescriptions
+    based_on_time: rx_month
+    period: month
+    value_format_name: "decimal_0"
+    drill_fields: [detail*]
+  }
+  measure: number_of_new_prescriptions_last_year {
+    hidden: no
+    label: "Number of New Prescriptions Last Year"
+    group_label: "Previous Period Comparison"
+    description: "The total number of new prescriptions (Sum of new prescriptions sold) that were prescribed last year. Use with the Prescription Date, Month, Quarter or Year."
+    type: period_over_period
+    kind: previous
+    based_on: number_of_new_prescriptions
+    based_on_time: rx_year
+    period: year
+    value_format_name: "decimal_0"
+    drill_fields: [detail*]
+  }
+  measure: new_prescriptions_change_from_last_year {
+    hidden: no
+    label: "New Prescriptions Change from Last Year"
+    group_label: "Previous Period Comparison"
+    description: "The total change in the number of new prescriptions (Sum of new prescriptions sold) that were prescribed this year versus last year. Use with the Prescription Date, Month, Quarter or Year."
+    type: period_over_period
+    kind: difference
+    based_on: number_of_new_prescriptions
+    based_on_time: rx_year
+    period: year
+    value_format_name: "decimal_0"
+    drill_fields: [detail*]
+  }
+  measure: new_prescriptions_percent_change_from_last_year {
+    hidden: no
+    label: "New Prescriptions Percent Change from Last Year"
+    group_label: "Previous Period Comparison"
+    description: "The total percent change in the number of new prescriptions (Sum of new prescriptions sold) that were prescribed this year versus last year. Use with the Prescription Date, Month, Quarter or Year."
+    type: period_over_period
+    kind: relative_change
+    based_on: number_of_new_prescriptions
+    based_on_time: rx_year
+    period: year
+    value_format_name: "percent_1"
     drill_fields: [detail*]
   }
   measure: number_of_providers {
@@ -239,7 +301,7 @@ view: prescriptions {
 
   ### PERIOD COMPARISON
   filter: first_date_period {
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     description: "Use this to compare measures against two date ranges. This will filter the first period comparison measures by the selected date range."
     type: date
     suggest_dimension: rx_date
@@ -248,7 +310,7 @@ view: prescriptions {
     sql: ${is_first_period} OR ${is_second_period} ;;
   }
   filter: second_date_period {
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     description: "Use this to compare measures against two date ranges. This will filter the second period comparison measures by the selected date range."
     type: date
     suggest_dimension: rx_date
@@ -258,20 +320,20 @@ view: prescriptions {
   }
   dimension: is_first_period {
     hidden: yes
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     type: yesno
     sql: {% condition first_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
   }
   dimension: is_second_period {
     hidden: yes
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     type: yesno
     sql: {% condition second_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
   }
   measure: number_of_new_prescriptions_in_first_period {
     hidden: no
     label: "Number of New Prescriptions in First Period"
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     description: "The total number of new prescriptions in the first period selected (Sum of new prescriptions sold)"
     type: sum
     sql: ${new_rx} ;;
@@ -281,7 +343,7 @@ view: prescriptions {
   measure: number_of_new_prescriptions_in_second_period {
     hidden: no
     label: "Number of New Prescriptions in Second Period"
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     description: "The total number of new prescriptions in the second period selected (Sum of new prescriptions sold)"
     type: sum
     sql: ${new_rx} ;;
@@ -291,7 +353,7 @@ view: prescriptions {
   measure: avg_days_supply_in_first_period {
     hidden: no
     label: "Average Days of Supply in First Period"
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     type: average
     sql: ${days_supply} ;;
     filters: [is_first_period: "Yes"]
@@ -300,7 +362,7 @@ view: prescriptions {
   measure: avg_days_supply_in_second_period {
     hidden: no
     label: "Average Days of Supply in Second Period"
-    group_label: "Period Comparison"
+    group_label: "Arbitrary Period Comparison"
     type: average
     sql: ${days_supply} ;;
     filters: [is_second_period: "Yes"]
