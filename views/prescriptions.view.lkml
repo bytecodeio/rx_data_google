@@ -137,7 +137,7 @@ view: prescriptions {
   dimension_group: rx {
     label: "Prescription"
     type: time
-    timeframes: [raw, date, time, week, month, quarter, year]
+    timeframes: [raw, date, time, week, week_of_year, month, month_name, quarter, quarter_of_year, year]
     convert_tz: no
     datatype: timestamp
     sql: CAST(${TABLE}.rx_date as TIMESTAMP) ;;
