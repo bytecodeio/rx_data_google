@@ -13,19 +13,3 @@ datagroup: rx_data_google_default_datagroup {
 }
 
 persist_with: rx_data_google_default_datagroup
-
-# explore: dates {}
-
-# explore: age_groups {}
-
-# explore: ndcs {}
-
-# explore: pharmacy {}
-
-# explore: accounts {}
-
-# explore: rx_fact {}
-
-# explore: zip_codes {}
-
-# explore: spi_roots {}
