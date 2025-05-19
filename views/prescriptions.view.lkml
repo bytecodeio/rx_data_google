@@ -281,6 +281,28 @@ view: prescriptions {
     drill_fields: [detail*]
   }
 
+  measure: number_of_pharmacies_in_first_period {
+    hidden: no
+    label: "Number of Pharmacies in First Period"
+    description: "The total number of pharmacies in the first period selected"
+    type: count_distinct
+    sql: ${ncpdpid} ;;
+    value_format_name: decimal_2
+    filters: [is_first_period: "Yes"]
+    drill_fields: [detail*]
+  }
+
+  measure: number_of_pharmacies_in_second_period {
+    hidden: no
+    label: "Number of Pharmacies in Second Period"
+    description: "The total number of pharmacies in the second period selected"
+    type: count_distinct
+    sql: ${ncpdpid} ;;
+    value_format_name: decimal_2
+    filters: [is_second_period: "Yes"]
+    drill_fields: [detail*]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
