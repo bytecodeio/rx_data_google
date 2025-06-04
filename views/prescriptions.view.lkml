@@ -7,7 +7,6 @@ view: prescriptions {
     type: string
     sql: CONCAT(${account_name},${age_group},${rx_date},${ndc},${ncpdpid},${spi_root},${patient_zip}) ;;
   }
-
   parameter: pick_field_to_count {
     label: "Pick Field to Count"
     description: "Parameter that allows you to dynamically select Diseases, Brands, Vendors or Therapeutics to count"
@@ -196,7 +195,6 @@ view: prescriptions {
   }
   measure: dynamic_counter {
     hidden: no
-   # label: "Number of {% parameter pick_field_to_count %}"
     label_from_parameter: pick_field_to_count
     description: "Use this with the Pick Field to Count parameter to return a count of the selected field."
     type: count_distinct
@@ -372,14 +370,14 @@ view: prescriptions {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-  rollup_name,
-  account_name,
-  label_name,
-  generic_name,
-  vendor_name,
-  brand_name,
-  vendor_common_name
-  ]
+      rollup_name,
+      account_name,
+      label_name,
+      generic_name,
+      vendor_name,
+      brand_name,
+      vendor_common_name
+    ]
   }
 
 }

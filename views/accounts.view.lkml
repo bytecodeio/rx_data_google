@@ -1,4 +1,3 @@
-
 view: accounts {
   sql_table_name: `Rx_Data.accounts` ;;
   drill_fields: [account_pk]
@@ -10,7 +9,6 @@ view: accounts {
   }
   dimension: account_id {
     type: number
-    # hidden: yes
     sql: ${TABLE}.account_id ;;
   }
   dimension: account_name {
