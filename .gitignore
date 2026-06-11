@@ -4,3 +4,6 @@
 # Agent skills
 .agents/skills/
 agent/skills/
+
+# Project summary file
+project_context_summary.md

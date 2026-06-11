@@ -195,80 +195,117 @@ view: spi_roots {
     sql: ${TABLE}.Specialty_specialization_2023 ;;
   }
   dimension: spi_root {
+    label: "SPI Root"
+    description: "The unique Standard Provider Identifier root code for the doctor"
+    synonyms: ["provider_npi", "npi", "spi_root"]
     type: string
     sql: ${TABLE}.SPI_Root ;;
   }
   dimension: spiroot_zip_income_per_household {
+    label: "SPI Root ZIP Household Income"
+    description: "The median household income for the ZIP code of the prescriber's clinic"
+    synonyms: ["household_income", "zip_income"]
     type: string
     sql: ${TABLE}.SPIRoot_Zip_Income_Per_Household ;;
   }
   dimension: state {
     group_label: "Location"
+    label: "State"
+    description: "The US state abbreviation of the prescriber's clinic location"
+    synonyms: ["provider_state", "doctor_state"]
     type: string
     sql: ${TABLE}.State ;;
   }
   dimension: status_2020 {
     group_label: "Status"
+    label: "Status 2020"
+    description: "The prescriber's professional status in 2020"
     type: string
     sql: ${TABLE}.Status_2020 ;;
   }
   dimension: status_2021 {
     group_label: "Status"
+    label: "Status 2021"
+    description: "The prescriber's professional status in 2021"
     type: string
     sql: ${TABLE}.Status_2021 ;;
   }
   dimension: status_2022 {
     group_label: "Status"
+    label: "Status 2022"
+    description: "The prescriber's professional status in 2022"
     type: string
     sql: ${TABLE}.Status_2022 ;;
   }
   dimension: status_2023 {
     group_label: "Status"
+    label: "Status 2023"
+    description: "The prescriber's professional status in 2023"
     type: string
     sql: ${TABLE}.Status_2023 ;;
   }
   dimension: title {
     group_label: "Title"
+    label: "Title"
+    description: "The professional title or degree of the prescriber (e.g. MD, DO)"
+    synonyms: ["credentials", "degree"]
     type: string
     sql: ${TABLE}.Title ;;
   }
   dimension: title_2019 {
     group_label: "Title"
+    label: "Title 2019"
+    description: "The professional title or degree of the prescriber in 2019"
     type: string
     sql: ${TABLE}.Title_2019 ;;
   }
   dimension: title_2020 {
     group_label: "Title"
+    label: "Title 2020"
+    description: "The professional title or degree of the prescriber in 2020"
     type: string
     sql: ${TABLE}.Title_2020 ;;
   }
   dimension: title_2021 {
     group_label: "Title"
+    label: "Title 2021"
+    description: "The professional title or degree of the prescriber in 2021"
     type: string
     sql: ${TABLE}.Title_2021 ;;
   }
   dimension: title_2022 {
     group_label: "Title"
+    label: "Title 2022"
+    description: "The professional title or degree of the prescriber in 2022"
     type: string
     sql: ${TABLE}.Title_2022 ;;
   }
   dimension: title_2023 {
     group_label: "Title"
+    label: "Title 2023"
+    description: "The professional title or degree of the prescriber in 2023"
     type: string
     sql: ${TABLE}.Title_2023 ;;
   }
   dimension: zip {
     group_label: "Location"
+    label: "ZIP Code"
+    description: "The postal ZIP code of the prescriber's clinic location"
+    synonyms: ["provider_zip", "doctor_zip", "postal_code"]
     type: zipcode
     sql: ${TABLE}.Zip ;;
   }
   measure: count {
     hidden: yes
+    label: "Prescriber Count"
+    description: "The total number of prescriber records"
     type: count
     drill_fields: [spi_root_pk, primary_rollup_name, primary_common_name, primary_vendor_name]
   }
   measure: number_of_doctors {
     label: "Number of Doctors"
+    description: "The distinct count of unique doctors based on provider NPI/SPI Root"
+    synonyms: ["total_doctors", "doctor_count", "provider_count"]
     type: count_distinct
     sql: ${spi_root_pk} ;;
     value_format_name: decimal_2
