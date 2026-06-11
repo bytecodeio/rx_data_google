@@ -1,0 +1,6 @@
+# VS Code settings
+.vscode/
+
+# Agent skills
+.agents/skills/
+agent/skills/
