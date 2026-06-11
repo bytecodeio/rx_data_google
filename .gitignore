@@ -1,5 +1,7 @@
 # VS Code settings
 .vscode/
+.vscode/settings.json
+settings.json
 
 # Agent skills
 .agents/skills/
