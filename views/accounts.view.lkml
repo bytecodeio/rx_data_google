@@ -35,11 +35,11 @@ view: accounts {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-  account_pk,
-  vendor_common_name,
-  rollup_name,
-  account_name,
-  vendor_name,
+  # account_pk,
+  # vendor_common_name,
+  # rollup_name,
+  # account_name,
+  # vendor_name,
   accounts.vendor_common_name,
   accounts.rollup_name,
   accounts.account_pk,
