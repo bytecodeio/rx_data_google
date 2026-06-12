@@ -314,6 +314,13 @@ view: prescriptions {
     sql: ${new_rx} ;;
     drill_fields: [detail*]
   }
+  measure: new_rx_ratio {
+    label: "New Prescription Rate"
+    description: "The percentage of total filled prescriptions that are new starts"
+    type: number
+    sql: SAFE_DIVIDE(${number_of_new_prescriptions}, ${number_of_prescriptions}) ;;
+    value_format_name: percent_2
+  }
   measure: number_of_new_prescriptions_last_month {
     hidden: no
     label: "Number of New Prescriptions Last Month"
@@ -386,6 +393,16 @@ view: prescriptions {
     synonyms: ["total rx count", "transaction count", "prescription volume"]
     type: count_distinct
     sql: ${primary_key} ;;
+  }
+  measure: rtpb_adoption_rate {
+    label: "RTPB Adoption Rate"
+    description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
+    type: number
+    sql: SAFE_DIVIDE(
+      COUNT(CASE WHEN ${rtpb} > 0 THEN 1 END),
+      ${number_of_prescriptions}
+    ) ;;
+    value_format_name: percent_1
   }
   measure: number_of_specialties {
     hidden: no
