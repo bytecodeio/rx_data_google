@@ -153,7 +153,7 @@ view: prescriptions {
     group_label: "Pharmacy Location"
     label: "Pharmacy City"
     description: "The city where the pharmacy is located"
-    synonyms: ["pharmacy_city"]
+    synonyms: ["pharmacy city"]
     type: string
     sql: ${TABLE}.pharmacy_city ;;
   }
@@ -162,7 +162,7 @@ view: prescriptions {
     group_label: "Pharmacy Location"
     label: "Pharmacy State"
     description: "The US state where the pharmacy is located"
-    synonyms: ["pharmacy_state"]
+    synonyms: ["pharmacy state"]
     type: string
     sql: ${TABLE}.pharmacy_state ;;
   }
@@ -170,52 +170,52 @@ view: prescriptions {
     group_label: "Pharmacy Location"
     label: "Pharmacy ZIP"
     description: "The postal ZIP code for the pharmacy"
-    synonyms: ["pharmacy_zip", "pharmacy_postal_code"]
+    synonyms: ["pharmacy zip", "pharmacy postal code"]
     type: string
     sql: ${TABLE}.pharmacy_zip ;;
   }
   dimension: prescriber_type {
     label: "Prescriber Type"
     description: "The category/credential type of the prescriber (e.g. MD, NP, PA)"
-    synonyms: ["provider_type", "doctor_type"]
+    synonyms: ["provider type", "doctor type"]
     type: string
     sql: ${TABLE}.prescriber_type ;;
   }
   dimension: primary_care {
     label: "Is Primary Care Provider"
     description: "Indicates if the prescriber is a primary care physician (Yes/No)"
-    synonyms: ["pcp", "primary_care_flag"]
+    synonyms: ["pcp", "primary care flag"]
     type: yesno
     sql: ${TABLE}.primary_care ;;
   }
   dimension: rollup_name {
     label: "Rollup Name"
     description: "The parent or rollup group name for the account"
-    synonyms: ["parent_account", "rollup_group"]
+    synonyms: ["parent account", "rollup group"]
     type: string
     sql: ${TABLE}.rollup_name ;;
   }
   dimension: rtpb {
     label: "RTPB Check Flag"
     description: "Indicates whether a Real-Time Prescription Benefit check was run (values > 0)"
-    synonyms: ["real_time_benefit", "benefit_check"]
+    synonyms: ["real time benefit", "benefit check"]
     type: number
     sql: ${TABLE}.rtpb ;;
   }
   dimension_group: rx {
     label: "Prescription"
     description: "The date and time the prescription transaction occurred"
-    synonyms: ["fulfillment_date", "rx_date"]
+    synonyms: ["fulfillment date", "rx date"]
     type: time
     timeframes: [raw, date, time, week, week_of_year, month, month_name, quarter, quarter_of_year, year]
     convert_tz: no
     datatype: timestamp
-    sql: CAST(${TABLE}.rx_date as TIMESTAMP) ;;
+    sql: CAST(DATETIME_ADD(CAST(${TABLE}.rx_date AS DATETIME), INTERVAL 1 YEAR) AS TIMESTAMP) ;;
   }
   dimension: specialty {
     label: "Prescriber Specialty"
     description: "The primary medical specialty of the prescribing doctor"
-    synonyms: ["doctor_specialty", "medical_specialty"]
+    synonyms: ["doctor specialty", "medical specialty"]
     type: string
     sql: ${TABLE}.Specialty ;;
   }
@@ -223,7 +223,7 @@ view: prescriptions {
     group_label: "Prescriber Location"
     label: "Prescriber City"
     description: "The city where the prescriber's clinic is located"
-    synonyms: ["provider_city", "doctor_city"]
+    synonyms: ["provider city", "doctor city"]
     type: string
     sql: ${TABLE}.spi_city ;;
   }
@@ -231,14 +231,14 @@ view: prescriptions {
     group_label: "Prescriber Location"
     label: "Prescriber Country"
     description: "The county or country where the prescriber is located"
-    synonyms: ["provider_county", "doctor_county"]
+    synonyms: ["provider county", "doctor county"]
     type: string
     sql: ${TABLE}.spi_county ;;
   }
   dimension: spi_root {
     label: "Prescriber ID"
     description: "The unique ID (SPI root) of the prescribing provider"
-    synonyms: ["provider_npi", "npi", "spi_root"]
+    synonyms: ["provider npi", "npi", "spi root"]
     type: string
     sql: ${TABLE}.SPI_Root ;;
   }
@@ -246,7 +246,7 @@ view: prescriptions {
     group_label: "Prescriber Location"
     label: "Prescriber State"
     description: "The US state where the prescriber is licensed/located"
-    synonyms: ["provider_state", "doctor_state"]
+    synonyms: ["provider state", "doctor state"]
     type: string
     sql: ${TABLE}.spi_state ;;
   }
@@ -254,28 +254,28 @@ view: prescriptions {
     group_label: "Prescriber Location"
     label: "Prescriber ZIP"
     description: "The postal ZIP code for the prescriber's clinic location"
-    synonyms: ["provider_zip", "doctor_zip"]
+    synonyms: ["provider zip", "doctor zip"]
     type: string
     sql: ${TABLE}.spi_zip ;;
   }
   dimension: therapeutic {
     label: "Therapeutic Class"
     description: "The therapeutic category class of the drug (e.g. cardiovascular, vitamins)"
-    synonyms: ["drug_class", "pharmacological_class"]
+    synonyms: ["drug class", "pharmacological class"]
     type: string
     sql: ${TABLE}.Therapeutic ;;
   }
   dimension: vendor_common_name {
     label: "Vendor Common Name"
     description: "The common name used for the vendor manufacturer"
-    synonyms: ["manufacturer_common_name"]
+    synonyms: ["manufacturer common name"]
     type: string
     sql: ${TABLE}.vendor_common_name ;;
   }
   dimension: vendor_name {
     label: "Vendor Name"
     description: "The full legal name of the vendor manufacturer"
-    synonyms: ["manufacturer_name"]
+    synonyms: ["manufacturer name"]
     type: string
     sql: ${TABLE}.vendor_name ;;
   }
@@ -283,7 +283,7 @@ view: prescriptions {
     hidden: no
     label: "Average Days of Supply"
     description: "The average days of medication supply filled per prescription"
-    synonyms: ["mean_days_supply", "average_fill_length"]
+    synonyms: ["mean days supply", "average fill length"]
     type: average
     sql: ${days_supply} ;;
     value_format_name: decimal_2
@@ -292,7 +292,7 @@ view: prescriptions {
     hidden: no
     label_from_parameter: pick_field_to_count
     description: "Use this with the Pick Field to Count parameter to return a count of the selected field"
-    synonyms: ["dynamic_count"]
+    synonyms: ["dynamic count"]
     type: count_distinct
     sql: {% parameter pick_field_to_count %} ;;
   }
@@ -300,7 +300,7 @@ view: prescriptions {
     hidden: no
     label: "Number of Pharmacies"
     description: "The total number of pharmacies (Distinct count of NCPDPIDs)"
-    synonyms: ["total_pharmacies", "pharmacy_count"]
+    synonyms: ["total pharmacies", "pharmacy count"]
     type: count_distinct
     sql: ${ncpdpid} ;;
     value_format_name: decimal_2
@@ -309,7 +309,7 @@ view: prescriptions {
     hidden: no
     label: "Number of New Prescriptions"
     description: "The total count of new prescriptions (Sum of new prescriptions sold)"
-    synonyms: ["total_new_rx", "new_start_count"]
+    synonyms: ["total new rx", "new start count"]
     type: sum
     sql: ${new_rx} ;;
     drill_fields: [detail*]
@@ -319,7 +319,7 @@ view: prescriptions {
     label: "Number of New Prescriptions Last Month"
     group_label: "Previous Period Comparison"
     description: "The total number of new prescriptions prescribed last month. Use with the Prescription Date, or Month."
-    synonyms: ["new_rx_prior_month"]
+    synonyms: ["new rx prior month"]
     type: period_over_period
     kind: previous
     based_on: number_of_new_prescriptions
@@ -333,7 +333,7 @@ view: prescriptions {
     label: "Number of New Prescriptions Last Year"
     group_label: "Previous Period Comparison"
     description: "The total number of new prescriptions prescribed last year. Use with the Prescription Date, Month, Quarter or Year."
-    synonyms: ["new_rx_prior_year"]
+    synonyms: ["new rx prior year"]
     type: period_over_period
     kind: previous
     based_on: number_of_new_prescriptions
@@ -347,7 +347,7 @@ view: prescriptions {
     label: "New Prescriptions Change from Last Year"
     group_label: "Previous Period Comparison"
     description: "The change in the number of new prescriptions prescribed this year versus last year."
-    synonyms: ["new_rx_year_over_year_change"]
+    synonyms: ["new rx year over year change"]
     type: period_over_period
     kind: difference
     based_on: number_of_new_prescriptions
@@ -361,7 +361,7 @@ view: prescriptions {
     label: "New Prescriptions Percent Change from Last Year"
     group_label: "Previous Period Comparison"
     description: "The percentage change in the number of new prescriptions prescribed this year versus last year"
-    synonyms: ["new_rx_yoy_percent_change"]
+    synonyms: ["new rx yoy percent change"]
     type: period_over_period
     kind: relative_change
     based_on: number_of_new_prescriptions
@@ -374,7 +374,7 @@ view: prescriptions {
     hidden: no
     label: "Number of Providers"
     description: "The total number of unique prescribing doctors/providers"
-    synonyms: ["total_providers", "doctor_count", "provider_count"]
+    synonyms: ["total providers", "doctor count", "provider count"]
     type: count_distinct
     sql: ${spi_root} ;;
     drill_fields: [detail*]
@@ -383,7 +383,7 @@ view: prescriptions {
     hidden: no
     label: "Number of Prescriptions"
     description: "The total volume count of filled prescriptions"
-    synonyms: ["total_rx_count", "transaction_count", "prescription_volume"]
+    synonyms: ["total rx count", "transaction count", "prescription volume"]
     type: count_distinct
     sql: ${primary_key} ;;
   }
@@ -391,14 +391,14 @@ view: prescriptions {
     hidden: no
     label: "Number of Specialties"
     description: "The distinct count of unique prescriber medical specialties"
-    synonyms: ["total_specialties", "specialty_count"]
+    synonyms: ["total specialties", "specialty count"]
     type: count_distinct
     sql: ${specialty} ;;
   }
   measure: utilization {
     label: "Provider Utilization"
     description: "The average number of prescriptions per prescribing provider (Number of Prescriptions divided by Number of Providers)"
-    synonyms: ["utilization_rate", "rx_per_provider"]
+    synonyms: ["utilization rate", "rx per provider"]
     type: number
     sql: SAFE_DIVIDE(${number_of_prescriptions},${number_of_providers}) ;;
     value_format_name: decimal_2
@@ -447,7 +447,7 @@ view: prescriptions {
     label: "Number of New Prescriptions in First Period"
     group_label: "Arbitrary Period Comparison"
     description: "The count of new prescriptions in the first comparison period selected"
-    synonyms: ["new_rx_first_period"]
+    synonyms: ["new rx first period"]
     type: sum
     sql: ${new_rx} ;;
     filters: [is_first_period: "Yes"]
@@ -458,7 +458,7 @@ view: prescriptions {
     label: "Number of New Prescriptions in Second Period"
     group_label: "Arbitrary Period Comparison"
     description: "The count of new prescriptions in the second comparison period selected"
-    synonyms: ["new_rx_second_period"]
+    synonyms: ["new rx second period"]
     type: sum
     sql: ${new_rx} ;;
     filters: [is_second_period: "Yes"]
@@ -469,7 +469,7 @@ view: prescriptions {
     label: "Average Days of Supply in First Period"
     group_label: "Arbitrary Period Comparison"
     description: "The average days of supply for the first comparison period selected"
-    synonyms: ["mean_days_supply_first_period"]
+    synonyms: ["mean days supply first period"]
     type: average
     sql: ${days_supply} ;;
     filters: [is_first_period: "Yes"]
@@ -480,7 +480,7 @@ view: prescriptions {
     label: "Average Days of Supply in Second Period"
     group_label: "Arbitrary Period Comparison"
     description: "The average days of supply for the second comparison period selected"
-    synonyms: ["mean_days_supply_second_period"]
+    synonyms: ["mean days supply second period"]
     type: average
     sql: ${days_supply} ;;
     filters: [is_second_period: "Yes"]

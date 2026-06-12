@@ -6,54 +6,54 @@ view: dates {
     primary_key: yes
     label: "Date PK"
     description: "The unique primary key for the date"
-    synonyms: ["date_key", "pk"]
+    synonyms: ["date key", "pk"]
     type: number
     sql: ${TABLE}.dates_pk ;;
   }
   dimension_group: date {
     label: "Fulfillment"
     description: "The calendar date when the transaction occurred"
-    synonyms: ["fulfillment_date", "rx_date", "day"]
+    synonyms: ["fulfillment date", "rx date", "day"]
     type: time
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.Date ;;
+    sql: DATE_ADD(${TABLE}.Date, INTERVAL 1 YEAR) ;;
   }
   dimension: iso_week {
     label: "ISO Week"
     description: "The ISO week number of the year"
-    synonyms: ["week_number"]
+    synonyms: ["week number"]
     type: number
     sql: ${TABLE}.ISO_Week ;;
   }
   dimension: iso_year {
     label: "ISO Year"
     description: "The ISO year of the date"
-    synonyms: ["year_number"]
+    synonyms: ["year number"]
     type: number
-    sql: ${TABLE}.ISO_Year ;;
+    sql: ${TABLE}.ISO_Year + 1 ;;
   }
   dimension: mm {
     label: "Month (MM)"
     description: "The two-digit month code (e.g. 01 to 12)"
-    synonyms: ["month_code", "month_number"]
+    synonyms: ["month code", "month number"]
     type: string
     sql: ${TABLE}.MM ;;
   }
   dimension: yyyy {
     label: "Year (YYYY)"
     description: "The four-digit calendar year (e.g. 2023)"
-    synonyms: ["calendar_year"]
+    synonyms: ["calendar year"]
     type: number
-    sql: ${TABLE}.YYYY ;;
+    sql: ${TABLE}.YYYY + 1 ;;
   }
   dimension: yyyymm {
     label: "Year Month (YYYYMM)"
     description: "The concatenated year and month code (e.g. 202301)"
-    synonyms: ["year_month_code"]
+    synonyms: ["year month code"]
     type: number
-    sql: ${TABLE}.YYYYMM ;;
+    sql: ${TABLE}.YYYYMM + 100 ;;
   }
   measure: count {
     label: "Date Count"

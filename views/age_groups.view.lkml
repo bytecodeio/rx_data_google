@@ -5,14 +5,14 @@ view: age_groups {
     primary_key: yes
     label: "Age Group PK"
     description: "The unique primary key for the age group"
-    synonyms: ["age_group_key", "pk"]
+    synonyms: ["age group key", "pk"]
     type: number
     sql: ${TABLE}.age_group_pk ;;
   }
   dimension: age_group {
     label: "Age Group"
     description: "The bracketed age range (e.g. 18-24, 65+)"
-    synonyms: ["age_bracket", "age_cohort", "cohort"]
+    synonyms: ["age bracket", "age cohort", "cohort"]
     type: string
     sql: ${TABLE}.Age_Group ;;
   }
@@ -20,7 +20,7 @@ view: age_groups {
   dimension: age_group_id {
     label: "Age Group ID"
     description: "The unique ID representing the age group classification"
-    synonyms: ["age_bracket_code"]
+    synonyms: ["age bracket code"]
     type: number
     sql: ${TABLE}.Age_Group_ID ;;
   }

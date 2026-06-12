@@ -7,49 +7,49 @@ view: pharmacy {
     hidden: yes
     label: "Pharmacy PK"
     description: "The unique internal primary key for the pharmacy record"
-    synonyms: ["pharmacy_key", "pk"]
+    synonyms: ["pharmacy key", "pk"]
     type: number
     sql: ${TABLE}.pharmacy_pk ;;
   }
   dimension: city {
     label: "Pharmacy City"
     description: "The city where the pharmacy is located"
-    synonyms: ["pharmacy_city"]
+    synonyms: ["pharmacy city"]
     type: string
     sql: ${TABLE}.City ;;
   }
   dimension: dispenser_class {
     label: "Dispenser Class"
     description: "The dispenser class category (e.g. Retail, Mail Order, Specialty)"
-    synonyms: ["pharmacy_class"]
+    synonyms: ["pharmacy class"]
     type: string
     sql: ${TABLE}.Dispenser_Class ;;
   }
   dimension: dispenser_type {
     label: "Dispenser Type"
     description: "The detailed dispenser sub-type description"
-    synonyms: ["pharmacy_type"]
+    synonyms: ["pharmacy type"]
     type: string
     sql: ${TABLE}.Dispenser_Type ;;
   }
   dimension: ncpdpid {
     label: "NCPDPID"
     description: "The National Council for Prescription Drug Programs pharmacy identifier"
-    synonyms: ["pharmacy_npi", "store_id", "ncpdp"]
+    synonyms: ["pharmacy npi", "store id", "ncpdp"]
     type: string
     sql: ${TABLE}.NCPDPID ;;
   }
   dimension: state {
     label: "Pharmacy State"
     description: "The US state state abbreviation for the pharmacy location"
-    synonyms: ["pharmacy_state"]
+    synonyms: ["pharmacy state"]
     type: string
     sql: ${TABLE}.State ;;
   }
   dimension: zip {
     label: "Pharmacy ZIP"
     description: "The postal ZIP code for the pharmacy location"
-    synonyms: ["pharmacy_zip", "postal_code"]
+    synonyms: ["pharmacy zip", "postal code"]
     type: zipcode
     sql: ${TABLE}.Zip ;;
   }
@@ -63,7 +63,7 @@ view: pharmacy {
   measure: number_of_pharmacies {
     label: "Number of Pharmacies"
     description: "The distinct count of unique pharmacies based on NCPDPID"
-    synonyms: ["total_pharmacies", "distinct_stores"]
+    synonyms: ["total pharmacies", "distinct stores"]
     type: count_distinct
     sql: ${ncpdpid} ;;
     value_format_name: decimal_2
