@@ -107,7 +107,7 @@ view: pharmacy {
     label: "Selected State Value"
     description: "The state abbreviation currently selected in the parameter"
     type: string
-    sql: '{% parameter selected_state %}' ;;
+    sql: {% parameter selected_state %} ;;
   }
   dimension: state {
     label: "Pharmacy State"
