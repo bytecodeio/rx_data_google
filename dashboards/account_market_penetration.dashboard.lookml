@@ -235,7 +235,7 @@
 
   # Row 1: Payer Shares (y: 4, height: 8)
   - name: volume_by_account
-    title: Rx Flow: Account to Therapeutic Class
+    title: Rx Flow - Account to Therapeutic Class
     model: rx_data_google
     explore: rx_normalized_analytics
     type: marketplace_viz_sankey::sankey-marketplace
@@ -513,7 +513,7 @@
     listen: *standard_listen
 
   - name: avg_days_supply_by_specialty
-    title: Specialty Quadrants: Avg Days Supply vs. Rx Volume
+    title: Specialty Quadrants - Avg Days Supply vs. Rx Volume
     model: rx_data_google
     explore: rx_normalized_analytics
     type: custom_visualizations::scatter-with-quadrants
