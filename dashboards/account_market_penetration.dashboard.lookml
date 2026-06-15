@@ -238,7 +238,7 @@
     title: Top 10 Rx Volume by Account
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_bar
+    type: tables::progress-bars
     fields: [accounts.account_name, rx_fact.count]
     limit: 10
     x: 0
@@ -315,7 +315,7 @@
     title: Days Supply Tier Distribution
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_column
+    type: marketplace_viz_histogram::histogram-marketplace
     fields: [rx_fact.days_supply_tier, rx_fact.count]
     x: 0
     y: 20
@@ -339,7 +339,7 @@
     title: RTPB Adoption Rate by Age Group
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_column
+    type: marketplace_viz_bar_gauge::bar_gauge-marketplace
     fields: [age_groups.age_group, rx_fact.rtpb_adoption_rate]
     x: 16
     y: 20
@@ -377,7 +377,7 @@
     title: High-Utilization NDCs
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_grid
+    type: tables::bubble-table2
     fields: [ndcs.brand_name, ndcs.generic_name, rx_fact.count]
     x: 0
     y: 36
@@ -389,7 +389,7 @@
     title: Top Prescribers by Transaction Volume
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_grid
+    type: tables::table
     fields: [spi_roots.spi_root, spi_roots.primary_common_name, rx_fact.count]
     x: 12
     y: 36
@@ -504,7 +504,7 @@
     title: Prescribing Volume by Specialty
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_column
+    type: custom-vis-chart-blue::custom-vis-chart-blue
     fields: [spi_roots.specialty, rx_fact.count]
     x: 0
     y: 64
@@ -516,7 +516,7 @@
     title: Average Days Supply by Specialty
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_column
+    type: custom_visualizations::bar-with-goals
     fields: [spi_roots.specialty, rx_fact.average_days_supply]
     x: 12
     y: 64
@@ -554,7 +554,7 @@
     title: Volume by Pharmacy City
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_bar
+    type: tables::bubble-table
     fields: [pharmacy.selected_state_value, pharmacy.city, rx_fact.count]
     x: 0
     y: 80
