@@ -16,56 +16,63 @@ view: pharmacy {
     description: "Use this parameter to select a US State"
     type: string
     default_value: "NY"
-    allowed_value: { value: "AL" }
-    allowed_value: { value: "AK" }
-    allowed_value: { value: "AZ" }
-    allowed_value: { value: "AR" }
-    allowed_value: { value: "CA" }
-    allowed_value: { value: "CO" }
-    allowed_value: { value: "CT" }
-    allowed_value: { value: "DE" }
-    allowed_value: { value: "FL" }
-    allowed_value: { value: "GA" }
-    allowed_value: { value: "HI" }
-    allowed_value: { value: "ID" }
-    allowed_value: { value: "IL" }
-    allowed_value: { value: "IN" }
-    allowed_value: { value: "IA" }
-    allowed_value: { value: "KS" }
-    allowed_value: { value: "KY" }
-    allowed_value: { value: "LA" }
-    allowed_value: { value: "ME" }
-    allowed_value: { value: "MD" }
-    allowed_value: { value: "MA" }
-    allowed_value: { value: "MI" }
-    allowed_value: { value: "MN" }
-    allowed_value: { value: "MS" }
-    allowed_value: { value: "MO" }
-    allowed_value: { value: "MT" }
-    allowed_value: { value: "NE" }
-    allowed_value: { value: "NV" }
-    allowed_value: { value: "NH" }
-    allowed_value: { value: "NJ" }
-    allowed_value: { value: "NM" }
-    allowed_value: { value: "NY" }
-    allowed_value: { value: "NC" }
-    allowed_value: { value: "ND" }
-    allowed_value: { value: "OH" }
-    allowed_value: { value: "OK" }
-    allowed_value: { value: "OR" }
-    allowed_value: { value: "PA" }
-    allowed_value: { value: "RI" }
-    allowed_value: { value: "SC" }
-    allowed_value: { value: "SD" }
-    allowed_value: { value: "TN" }
-    allowed_value: { value: "TX" }
-    allowed_value: { value: "UT" }
-    allowed_value: { value: "VT" }
-    allowed_value: { value: "VA" }
-    allowed_value: { value: "WA" }
-    allowed_value: { value: "WV" }
-    allowed_value: { value: "WI" }
-    allowed_value: { value: "WY" }
+    allowed_value: { label: "Alabama" value: "AL" }
+    allowed_value: { label: "Alaska" value: "AK" }
+    allowed_value: { label: "Arizona" value: "AZ" }
+    allowed_value: { label: "Arkansas" value: "AR" }
+    allowed_value: { label: "Armed Forces Europe" value: "AE" }
+    allowed_value: { label: "Armed Forces Pacific" value: "AP" }
+    allowed_value: { label: "California" value: "CA" }
+    allowed_value: { label: "Colorado" value: "CO" }
+    allowed_value: { label: "Connecticut" value: "CT" }
+    allowed_value: { label: "Delaware" value: "DE" }
+    allowed_value: { label: "District of Columbia" value: "DC" }
+    allowed_value: { label: "Florida" value: "FL" }
+    allowed_value: { label: "Georgia" value: "GA" }
+    allowed_value: { label: "Guam" value: "GU" }
+    allowed_value: { label: "Hawaii" value: "HI" }
+    allowed_value: { label: "Idaho" value: "ID" }
+    allowed_value: { label: "Illinois" value: "IL" }
+    allowed_value: { label: "Indiana" value: "IN" }
+    allowed_value: { label: "Iowa" value: "IA" }
+    allowed_value: { label: "Kansas" value: "KS" }
+    allowed_value: { label: "Kentucky" value: "KY" }
+    allowed_value: { label: "Louisiana" value: "LA" }
+    allowed_value: { label: "Maine" value: "ME" }
+    allowed_value: { label: "Maryland" value: "MD" }
+    allowed_value: { label: "Massachusetts" value: "MA" }
+    allowed_value: { label: "Michigan" value: "MI" }
+    allowed_value: { label: "Minnesota" value: "MN" }
+    allowed_value: { label: "Mississippi" value: "MS" }
+    allowed_value: { label: "Missouri" value: "MO" }
+    allowed_value: { label: "Montana" value: "MT" }
+    allowed_value: { label: "Nebraska" value: "NE" }
+    allowed_value: { label: "Nevada" value: "NV" }
+    allowed_value: { label: "New Hampshire" value: "NH" }
+    allowed_value: { label: "New Jersey" value: "NJ" }
+    allowed_value: { label: "New Mexico" value: "NM" }
+    allowed_value: { label: "New York" value: "NY" }
+    allowed_value: { label: "North Carolina" value: "NC" }
+    allowed_value: { label: "North Dakota" value: "ND" }
+    allowed_value: { label: "Northern Mariana Islands" value: "MP" }
+    allowed_value: { label: "Ohio" value: "OH" }
+    allowed_value: { label: "Oklahoma" value: "OK" }
+    allowed_value: { label: "Oregon" value: "OR" }
+    allowed_value: { label: "Pennsylvania" value: "PA" }
+    allowed_value: { label: "Puerto Rico" value: "PR" }
+    allowed_value: { label: "Rhode Island" value: "RI" }
+    allowed_value: { label: "South Carolina" value: "SC" }
+    allowed_value: { label: "South Dakota" value: "SD" }
+    allowed_value: { label: "Tennessee" value: "TN" }
+    allowed_value: { label: "Texas" value: "TX" }
+    allowed_value: { label: "U.S. Virgin Islands" value: "VI" }
+    allowed_value: { label: "Utah" value: "UT" }
+    allowed_value: { label: "Vermont" value: "VT" }
+    allowed_value: { label: "Virginia" value: "VA" }
+    allowed_value: { label: "Washington" value: "WA" }
+    allowed_value: { label: "West Virginia" value: "WV" }
+    allowed_value: { label: "Wisconsin" value: "WI" }
+    allowed_value: { label: "Wyoming" value: "WY" }
   }
   dimension: city {
     label: "Pharmacy City"
