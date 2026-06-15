@@ -11,7 +11,7 @@ view: pharmacy {
     type: number
     sql: ${TABLE}.pharmacy_pk ;;
   }
-   filter: selected_state_filter {
+  filter: selected_state_filter {
     label: "Selected State"
     description: "Use this filter to select one or more US States"
     type: string
