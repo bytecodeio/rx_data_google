@@ -15,7 +15,7 @@ view: dates {
     description: "The calendar date when the transaction occurred"
     synonyms: ["fulfillment date", "rx date", "day"]
     type: time
-    timeframes: [raw, date, week, month, quarter, year]
+    timeframes: [raw, date, week, month, quarter, year, day_of_week]
     convert_tz: no
     datatype: date
     sql: DATE_ADD(${TABLE}.Date, INTERVAL 1 YEAR) ;;

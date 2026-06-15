@@ -99,6 +99,13 @@ view: rx_fact {
     type: count
     drill_fields: [pk]
   }
+  measure: average_days_supply {
+    label: "Average Days Supply"
+    description: "The average days of medication supply filled per transaction"
+    type: average
+    sql: ${days_supply} ;;
+    value_format_name: decimal_2
+  }
   measure: number_of_new_prescriptions {
     label: "Number of New Prescriptions"
     description: "The total number of new prescriptions (Sum of new prescriptions sold)"

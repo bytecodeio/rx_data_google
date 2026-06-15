@@ -44,6 +44,7 @@ view: pharmacy {
     description: "The US state state abbreviation for the pharmacy location"
     synonyms: ["pharmacy state"]
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.State ;;
   }
   dimension: zip {

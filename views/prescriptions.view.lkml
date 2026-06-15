@@ -138,6 +138,7 @@ view: prescriptions {
     description: "The US state where the patient resides"
     synonyms: ["patient_state"]
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.patient_state ;;
   }
   dimension: patient_zip {
@@ -145,7 +146,7 @@ view: prescriptions {
     label: "Patient ZIP"
     description: "The postal ZIP code where the patient resides"
     synonyms: ["patient_zip", "patient_postal_code"]
-    type: string
+    type: zipcode
     sql: ${TABLE}.patient_zip ;;
   }
   dimension: pharmacy_city {
@@ -164,6 +165,7 @@ view: prescriptions {
     description: "The US state where the pharmacy is located"
     synonyms: ["pharmacy state"]
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.pharmacy_state ;;
   }
   dimension: pharmacy_zip {
@@ -171,7 +173,7 @@ view: prescriptions {
     label: "Pharmacy ZIP"
     description: "The postal ZIP code for the pharmacy"
     synonyms: ["pharmacy zip", "pharmacy postal code"]
-    type: string
+    type: zipcode
     sql: ${TABLE}.pharmacy_zip ;;
   }
   dimension: prescriber_type {
@@ -218,6 +220,7 @@ view: prescriptions {
     synonyms: ["doctor specialty", "medical specialty"]
     type: string
     sql: ${TABLE}.Specialty ;;
+    drill_fields: [spi_root]
   }
   dimension: spi_city {
     group_label: "Prescriber Location"
@@ -248,6 +251,7 @@ view: prescriptions {
     description: "The US state where the prescriber is licensed/located"
     synonyms: ["provider state", "doctor state"]
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.spi_state ;;
   }
   dimension: spi_zip {
@@ -255,7 +259,7 @@ view: prescriptions {
     label: "Prescriber ZIP"
     description: "The postal ZIP code for the prescriber's clinic location"
     synonyms: ["provider zip", "doctor zip"]
-    type: string
+    type: zipcode
     sql: ${TABLE}.spi_zip ;;
   }
   dimension: therapeutic {

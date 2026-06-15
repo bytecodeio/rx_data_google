@@ -1,8 +1,10 @@
 # Define the database connection to be used for this model.
 connection: "sales_demo_the_look"
 
-# include explores
-include: "/explores/*.explore.lkml"
+# include explores and dashboards
+include: "/explores/rx_normalized_analytics.explore.lkml"
+include: "/explores/pharmacy.explore.lkml"
+include: "/dashboards/account_market_penetration.dashboard.lookml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.

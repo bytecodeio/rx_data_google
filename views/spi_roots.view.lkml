@@ -167,6 +167,7 @@ view: spi_roots {
     description: "The specialization category of the provider"
     type: string
     sql: ${TABLE}.Specialty ;;
+    drill_fields: [spi_root]
   }
   dimension: specialty_2018 {
     group_label: "Specialization"
@@ -300,6 +301,7 @@ view: spi_roots {
     description: "The US state abbreviation of the prescriber's clinic location"
     synonyms: ["provider state", "doctor state"]
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.State ;;
   }
   dimension: status_2022 {
