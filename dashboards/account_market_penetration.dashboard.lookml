@@ -48,14 +48,14 @@
     title: Pharmacy State
     type: field_filter
     default_value: 'NY'
-    allow_multiple_values: true
-    required: false
+    allow_multiple_values: false
+    required: true
     ui_config:
-      type: tag_list
+      type: dropdown_menu
       display: inline
     model: rx_data_google
     explore: rx_normalized_analytics
-    field: pharmacy.state
+    field: pharmacy.selected_state
 
   - name: drug_class
     title: Drug Class
@@ -164,7 +164,7 @@
       account_name: accounts.account_name
       vendor_name: accounts.vendor_name
       rollup_name: accounts.rollup_name
-      pharmacy_state: pharmacy.state
+      pharmacy_state: pharmacy.selected_state
       drug_class: ndcs.therapeutic
       fill_date: dates.date_date
       age_group: age_groups.age_group
@@ -555,7 +555,7 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_bar
-    fields: [pharmacy.selected_state, pharmacy.city, rx_fact.count]
+    fields: [pharmacy.selected_state_value, pharmacy.city, rx_fact.count]
     x: 0
     y: 80
     width: 12
@@ -567,7 +567,7 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_column
-    fields: [pharmacy.selected_state, rx_fact.zipcode, rx_fact.count]
+    fields: [pharmacy.selected_state_value, rx_fact.zipcode, rx_fact.count]
     x: 12
     y: 80
     width: 12

@@ -11,6 +11,62 @@ view: pharmacy {
     type: number
     sql: ${TABLE}.pharmacy_pk ;;
   }
+   parameter: selected_state {
+    label: "Selected State"
+    description: "Use this parameter to select a US State"
+    type: string
+    default_value: "NY"
+    allowed_value: { value: "AL" }
+    allowed_value: { value: "AK" }
+    allowed_value: { value: "AZ" }
+    allowed_value: { value: "AR" }
+    allowed_value: { value: "CA" }
+    allowed_value: { value: "CO" }
+    allowed_value: { value: "CT" }
+    allowed_value: { value: "DE" }
+    allowed_value: { value: "FL" }
+    allowed_value: { value: "GA" }
+    allowed_value: { value: "HI" }
+    allowed_value: { value: "ID" }
+    allowed_value: { value: "IL" }
+    allowed_value: { value: "IN" }
+    allowed_value: { value: "IA" }
+    allowed_value: { value: "KS" }
+    allowed_value: { value: "KY" }
+    allowed_value: { value: "LA" }
+    allowed_value: { value: "ME" }
+    allowed_value: { value: "MD" }
+    allowed_value: { value: "MA" }
+    allowed_value: { value: "MI" }
+    allowed_value: { value: "MN" }
+    allowed_value: { value: "MS" }
+    allowed_value: { value: "MO" }
+    allowed_value: { value: "MT" }
+    allowed_value: { value: "NE" }
+    allowed_value: { value: "NV" }
+    allowed_value: { value: "NH" }
+    allowed_value: { value: "NJ" }
+    allowed_value: { value: "NM" }
+    allowed_value: { value: "NY" }
+    allowed_value: { value: "NC" }
+    allowed_value: { value: "ND" }
+    allowed_value: { value: "OH" }
+    allowed_value: { value: "OK" }
+    allowed_value: { value: "OR" }
+    allowed_value: { value: "PA" }
+    allowed_value: { value: "RI" }
+    allowed_value: { value: "SC" }
+    allowed_value: { value: "SD" }
+    allowed_value: { value: "TN" }
+    allowed_value: { value: "TX" }
+    allowed_value: { value: "UT" }
+    allowed_value: { value: "VT" }
+    allowed_value: { value: "VA" }
+    allowed_value: { value: "WA" }
+    allowed_value: { value: "WV" }
+    allowed_value: { value: "WI" }
+    allowed_value: { value: "WY" }
+  }
   dimension: city {
     label: "Pharmacy City"
     description: "The city where the pharmacy is located"
@@ -39,31 +95,12 @@ view: pharmacy {
     type: string
     sql: ${TABLE}.NCPDPID ;;
   }
-  dimension: selected_state {
-    label: "Selected State"
-    description: "The state currently selected in the dashboard filter, or 'All States' if unfiltered."
+  dimension: selected_state_value {
+    label: "Selected State Value"
+    description: "The state abbreviation currently selected in the parameter"
     type: string
-    sql: {% condition state %} ${state} {% endcondition %} ;;
-    # html: {% if _filters['pharmacy.state'] != nil %}
-    #         {{ _filters['pharmacy.state'] }}
-    #       {% else %}
-    #         All States
-    #       {% endif %} ;;
+    sql: {% parameter selected_state %} ;;
   }
-  # dimension: state_volume_kpi_card {
-  #   label: "State Volume KPI Card"
-  #   description: "HTML formatted KPI card combining dynamic state name and count"
-  #   type: string
-  #   sql: '' ;;
-  #   html: <div style="text-align: center; font-family: Arial, sans-serif; padding: 10px;">
-  #           <div style="font-size: 1.2em; color: #707070; margin-bottom: 8px; font-weight: 500;">
-  #             {{ selected_state._value }} Transaction Volume
-  #           </div>
-  #           <div style="font-size: 2.5em; font-weight: bold; color: #1a73e8;">
-  #             {{ rx_fact.count._rendered_value }}
-  #           </div>
-  #         </div> ;;
-  # }
   dimension: state {
     label: "Pharmacy State"
     description: "The US state state abbreviation for the pharmacy location"
