@@ -103,10 +103,11 @@ view: pharmacy {
     sql: ${TABLE}.NCPDPID ;;
   }
   dimension: selected_state_value {
+    hidden: yes
     label: "Selected State Value"
     description: "The state abbreviation currently selected in the parameter"
     type: string
-    sql: {% parameter selected_state %} ;;
+    sql: '{% parameter selected_state %}' ;;
   }
   dimension: state {
     label: "Pharmacy State"
