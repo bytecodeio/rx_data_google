@@ -233,9 +233,9 @@
     height: 4
     listen: *standard_listen
 
-  # Row 1: Treemaps & Payer Shares (y: 4, height: 8)
+  # Row 1: Payer Shares (y: 4, height: 8)
   - name: volume_by_account
-    title: Total Rx Volume by Account
+    title: Top 10 Rx Volume by Account
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_bar
@@ -248,7 +248,7 @@
     listen: *standard_listen
 
   - name: volume_by_vendor
-    title: Total Rx Volume by Vendor
+    title: Top 10 Rx Volume by Vendor
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_pie
@@ -261,7 +261,7 @@
     listen: *standard_listen
 
   - name: volume_by_rollup
-    title: Total Rx Volume by Rollup
+    title: Top 10 Rx Volume by Rollup
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_bar
