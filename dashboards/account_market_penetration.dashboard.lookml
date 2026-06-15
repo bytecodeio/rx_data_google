@@ -47,7 +47,7 @@
   - name: pharmacy_state
     title: Pharmacy State
     type: field_filter
-    default_value: ''
+    default_value: 'NY'
     allow_multiple_values: true
     required: false
     ui_config:
@@ -240,6 +240,7 @@
     explore: rx_normalized_analytics
     type: looker_bar
     fields: [accounts.account_name, rx_fact.count]
+    limit: 10
     x: 0
     y: 4
     width: 8
@@ -252,6 +253,7 @@
     explore: rx_normalized_analytics
     type: looker_pie
     fields: [accounts.vendor_name, rx_fact.count]
+    limit: 10
     x: 8
     y: 4
     width: 8
@@ -264,6 +266,7 @@
     explore: rx_normalized_analytics
     type: looker_bar
     fields: [accounts.rollup_name, rx_fact.count]
+    limit: 10
     x: 16
     y: 4
     width: 8
@@ -408,13 +411,12 @@
     listen: *standard_listen
 
   - name: kpi_ny_volume
-    title: NY Transaction Volume
+    title: State Transaction Volume
     model: rx_data_google
     explore: rx_normalized_analytics
     type: single_value
-    fields: [rx_fact.count]
-    filters:
-      pharmacy.state: 'NY'
+    fields: [pharmacy.state_volume_kpi_card, pharmacy.selected_state, rx_fact.count]
+    show_single_value_title: false
     x: 6
     y: 44
     width: 6
@@ -553,7 +555,7 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_bar
-    fields: [pharmacy.city, rx_fact.count]
+    fields: [pharmacy.selected_state, pharmacy.city, rx_fact.count]
     x: 0
     y: 80
     width: 12
@@ -565,7 +567,7 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_column
-    fields: [rx_fact.zipcode, rx_fact.count]
+    fields: [pharmacy.selected_state, rx_fact.zipcode, rx_fact.count]
     x: 12
     y: 80
     width: 12
