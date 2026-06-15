@@ -43,7 +43,7 @@ view: pharmacy {
     label: "Selected State"
     description: "The state currently selected in the dashboard filter, or 'All States' if unfiltered."
     type: string
-    sql: CASE WHEN {% condition state %} ${state} {% endcondition %} ELSE "All States" END ;;
+    sql: {% condition state %} ${state} {% endcondition %} ;;
     # html: {% if _filters['pharmacy.state'] != nil %}
     #         {{ _filters['pharmacy.state'] }}
     #       {% else %}
