@@ -164,7 +164,7 @@
       account_name: accounts.account_name
       vendor_name: accounts.vendor_name
       rollup_name: accounts.rollup_name
-      pharmacy_state: pharmacy.selected_state
+      pharmacy_state: pharmacy.selected_state_filter
       drug_class: ndcs.therapeutic
       fill_date: dates.date_date
       age_group: age_groups.age_group

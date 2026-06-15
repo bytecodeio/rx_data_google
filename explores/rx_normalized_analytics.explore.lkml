@@ -10,7 +10,10 @@ explore: rx_normalized_analytics {
   label: "Prescription Analytics (Normalized)"
   group_label: "Google RX Project"
   view_name: rx_fact
-  sql_always_where: ${pharmacy.state} = ${pharmacy.selected_state_value} ;;
+  sql_always_where: 
+    {% condition pharmacy.selected_state_filter %} 'ALL' {% endcondition %}
+    OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state} {% endcondition %}
+  ;;
 
   join: accounts {
     view_label: "Accounts"

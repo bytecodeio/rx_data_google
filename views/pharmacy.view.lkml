@@ -11,11 +11,12 @@ view: pharmacy {
     type: number
     sql: ${TABLE}.pharmacy_pk ;;
   }
-   parameter: selected_state {
+   filter: selected_state_filter {
     label: "Selected State"
-    description: "Use this parameter to select a US State"
+    description: "Use this filter to select one or more US States"
     type: string
     default_value: "NY"
+    allowed_value: { label: "All States & Territories" value: "ALL" }
     allowed_value: { label: "Alabama" value: "AL" }
     allowed_value: { label: "Alaska" value: "AK" }
     allowed_value: { label: "Arizona" value: "AZ" }
@@ -105,9 +106,9 @@ view: pharmacy {
   dimension: selected_state_value {
     hidden: yes
     label: "Selected State Value"
-    description: "The state abbreviation currently selected in the parameter"
+    description: "The state abbreviation currently selected in the filter"
     type: string
-    sql: {% parameter selected_state %} ;;
+    sql: COALESCE(NULLIF('{{ _filters["pharmacy.selected_state_filter"] }}', ''), 'All States & Territories') ;;
   }
   dimension: state {
     label: "Pharmacy State"
