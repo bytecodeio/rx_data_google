@@ -11,8 +11,8 @@ explore: rx_normalized_analytics {
   group_label: "Google RX Project"
   view_name: rx_fact
   sql_always_where: 
-    {% condition pharmacy.selected_state_filter %} 'ALL' {% endcondition %}
-    OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state} {% endcondition %}
+    {% condition pharmacy.selected_state_filter %} 'All States & Territories' {% endcondition %}
+    OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state_full_name} {% endcondition %}
   ;;
 
   join: accounts {

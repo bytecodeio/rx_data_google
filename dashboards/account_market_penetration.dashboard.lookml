@@ -47,15 +47,15 @@
   - name: pharmacy_state
     title: Pharmacy State
     type: field_filter
-    default_value: 'NY'
-    allow_multiple_values: false
+    default_value: 'New York'
+    allow_multiple_values: true
     required: true
     ui_config:
-      type: dropdown_menu
+      type: tag_list
       display: inline
     model: rx_data_google
     explore: rx_normalized_analytics
-    field: pharmacy.selected_state
+    field: pharmacy.selected_state_filter
 
   - name: drug_class
     title: Drug Class
