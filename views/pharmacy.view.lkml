@@ -86,6 +86,7 @@ view: pharmacy {
     label: "Pharmacy City"
     description: "The city where the pharmacy is located"
     synonyms: ["pharmacy city"]
+    # map_layer_name: us_states
     type: string
     sql: ${TABLE}.City ;;
   }
