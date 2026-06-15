@@ -235,12 +235,12 @@
 
   # Row 1: Payer Shares (y: 4, height: 8)
   - name: volume_by_account
-    title: Top 10 Rx Volume by Account
+    title: Rx Flow: Account to Therapeutic Class
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: tables::progress-bars
-    fields: [accounts.account_name, rx_fact.count]
-    limit: 10
+    type: marketplace_viz_sankey::sankey-marketplace
+    fields: [accounts.account_name, ndcs.therapeutic, rx_fact.count]
+    limit: 50
     x: 0
     y: 4
     width: 8
@@ -513,11 +513,11 @@
     listen: *standard_listen
 
   - name: avg_days_supply_by_specialty
-    title: Average Days Supply by Specialty
+    title: Specialty Quadrants: Avg Days Supply vs. Rx Volume
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: custom_visualizations::bar-with-goals
-    fields: [spi_roots.specialty, rx_fact.average_days_supply]
+    type: custom_visualizations::scatter-with-quadrants
+    fields: [spi_roots.specialty, rx_fact.average_days_supply, rx_fact.count]
     x: 12
     y: 64
     width: 12
