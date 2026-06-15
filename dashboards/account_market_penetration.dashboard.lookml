@@ -415,7 +415,7 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: single_value
-    fields: [pharmacy.state_volume_kpi_card, pharmacy.selected_state, rx_fact.count]
+    fields: [pharmacy.selected_state, rx_fact.count]
     show_single_value_title: false
     x: 6
     y: 44
