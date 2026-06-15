@@ -39,6 +39,31 @@ view: pharmacy {
     type: string
     sql: ${TABLE}.NCPDPID ;;
   }
+  dimension: selected_state {
+    label: "Selected State"
+    description: "The state currently selected in the dashboard filter, or 'All States' if unfiltered."
+    type: string
+    sql: 'State' ;;
+    html: {% if _filters['pharmacy.state'] != nil %}
+            {{ _filters['pharmacy.state'] }}
+          {% else %}
+            All States
+          {% endif %} ;;
+  }
+  dimension: state_volume_kpi_card {
+    label: "State Volume KPI Card"
+    description: "HTML formatted KPI card combining dynamic state name and count"
+    type: string
+    sql: '' ;;
+    html: <div style="text-align: center; font-family: Arial, sans-serif; padding: 10px;">
+            <div style="font-size: 1.2em; color: #707070; margin-bottom: 8px; font-weight: 500;">
+              {{ selected_state._value }} Transaction Volume
+            </div>
+            <div style="font-size: 2.5em; font-weight: bold; color: #1a73e8;">
+              {{ rx_fact.count._rendered_value }}
+            </div>
+          </div> ;;
+  }
   dimension: state {
     label: "Pharmacy State"
     description: "The US state state abbreviation for the pharmacy location"
