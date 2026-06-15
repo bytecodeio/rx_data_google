@@ -238,7 +238,7 @@
     title: Total Rx Volume by Account
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_treemap
+    type: treemap
     fields: [accounts.account_name, rx_fact.count]
     x: 0
     y: 4
@@ -250,7 +250,7 @@
     title: Total Rx Volume by Vendor
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_treemap
+    type: treemap
     fields: [accounts.vendor_name, rx_fact.count]
     x: 8
     y: 4
@@ -262,7 +262,7 @@
     title: Total Rx Volume by Rollup
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_treemap
+    type: treemap
     fields: [accounts.rollup_name, rx_fact.count]
     x: 16
     y: 4
