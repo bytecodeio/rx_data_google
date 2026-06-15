@@ -4,6 +4,11 @@ connection: "sales_demo_the_look"
 # include explores and dashboards
 include: "/explores/rx_normalized_analytics.explore.lkml"
 include: "/explores/pharmacy.explore.lkml"
+include: "/explores/ndcs.explore.lkml"
+include: "/explores/prescriptions.explore.lkml"
+include: "/explores/spi_roots.explore.lkml"
+
+
 include: "/dashboards/account_market_penetration.dashboard.lookml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
