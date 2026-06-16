@@ -17,6 +17,8 @@ view: pharmacy {
     type: string
     default_value: "NY"
     suggestions: ["All States & Territories", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "Puerto Rico", "U.S. Virgin Islands", "Guam", "Northern Mariana Islands", "Armed Forces Europe", "Armed Forces Pacific"]
+    sql:  {% condition pharmacy.selected_state_filter %} 'All States & Territories' {% endcondition %}
+          OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state_full_name} {% endcondition %} ;;
   }
   dimension: state_full_name {
     hidden: yes
@@ -114,11 +116,10 @@ view: pharmacy {
   dimension: selected_state_value {
     hidden: yes
     label: "Selected State Value"
-    description: "The state abbreviation currently selected in the filter"
+    description: "The full state name currently selected in the filter"
     type: string
-    sql: {% condition pharmacy.selected_state_filter %} 'All States & Territories' {% endcondition %}
-    OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state_full_name} {% endcondition %} ;;
-    # html: {% if _filters['pharmacy.selected_state_filter'] != '' %}{{ _filters['pharmacy.selected_state_filter'] }}{% else %}All States & Territories{% endif %} ;;
+    sql: ${pharmacy.state_full_name} ;;
+   # html: {% if _filters['pharmacy.selected_state_filter'] != '' %}{{ _filters['pharmacy.selected_state_filter'] }}{% else %}All States & Territories{% endif %} ;;
   }
   dimension: state {
     label: "Pharmacy State"
