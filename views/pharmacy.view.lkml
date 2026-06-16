@@ -116,9 +116,8 @@ view: pharmacy {
     label: "Selected State Value"
     description: "The state abbreviation currently selected in the filter"
     type: string
-    sql: {% condition pharmacy.selected_state_filter %} 'All States & Territories' {% endcondition %}
-    OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state_full_name} {% endcondition %} ;;
-    # html: {% if _filters['pharmacy.selected_state_filter'] != '' %}{{ _filters['pharmacy.selected_state_filter'] }}{% else %}All States & Territories{% endif %} ;;
+    sql: '1' ;;
+    html: {% if _filters['pharmacy.selected_state_filter'] != '' %}{{ _filters['pharmacy.selected_state_filter'] }}{% else %}All States & Territories{% endif %} ;;
   }
   dimension: state {
     label: "Pharmacy State"
