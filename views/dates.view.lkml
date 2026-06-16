@@ -15,45 +15,48 @@ view: dates {
     description: "The calendar date when the transaction occurred"
     synonyms: ["fulfillment date", "rx date", "day"]
     type: time
-    timeframes: [raw, date, week, month, quarter, year, day_of_week]
+    timeframes: [raw, date, week, month, month_name, quarter, year, day_of_week]
     convert_tz: no
     datatype: date
-    sql: DATE_ADD(${TABLE}.Date, INTERVAL 1 YEAR) ;;
+    sql: TIMESTAMP_ADD(${TABLE}.Date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-31'),DAY) DAY) ;;
   }
   dimension: iso_week {
     label: "ISO Week"
     description: "The ISO week number of the year"
     synonyms: ["week number"]
-    type: number
-    sql: ${TABLE}.ISO_Week ;;
+    type: date_week_of_year
+    hidden: yes
+    sql: ${date_raw} ;;
   }
   dimension: iso_year {
     label: "ISO Year"
     description: "The ISO year of the date"
     synonyms: ["year number"]
-    type: number
-    sql: ${TABLE}.ISO_Year + 1 ;;
+    type: date_year
+    hidden: yes
+    sql: ${date_raw} ;;
   }
   dimension: mm {
     label: "Month (MM)"
     description: "The two-digit month code (e.g. 01 to 12)"
     synonyms: ["month code", "month number"]
-    type: string
-    sql: ${TABLE}.MM ;;
+    type: date_month_num
+    convert_tz: no
+    sql: ${date_raw} ;;
   }
   dimension: yyyy {
     label: "Year (YYYY)"
     description: "The four-digit calendar year (e.g. 2023)"
     synonyms: ["calendar year"]
-    type: number
-    sql: ${TABLE}.YYYY + 1 ;;
+    type: date_year
+    sql: ${date_raw} ;;
   }
   dimension: yyyymm {
     label: "Year Month (YYYYMM)"
     description: "The concatenated year and month code (e.g. 202301)"
     synonyms: ["year month code"]
-    type: number
-    sql: ${TABLE}.YYYYMM + 100 ;;
+    type: string
+    sql: DATE_FORMAT('%Y%m', ${date_raw}) ;;
   }
   measure: count {
     label: "Date Count"

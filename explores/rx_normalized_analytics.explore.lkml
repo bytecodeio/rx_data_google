@@ -1,5 +1,5 @@
 include: "/views/rx_fact.view.lkml"
-include: "/views/accounts.view.lkml"  
+include: "/views/accounts.view.lkml"
 include: "/views/age_groups.view.lkml"
 include: "/views/dates.view.lkml"
 include: "/views/spi_roots.view.lkml"
@@ -10,10 +10,10 @@ explore: rx_normalized_analytics {
   label: "Prescription Analytics (Normalized)"
   group_label: "Google RX Project"
   view_name: rx_fact
-  sql_always_where: 
-    {% condition pharmacy.selected_state_filter %} 'All States & Territories' {% endcondition %}
-    OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state_full_name} {% endcondition %}
-  ;;
+  # sql_always_where:
+  #   {% condition pharmacy.selected_state_filter %} 'All States & Territories' {% endcondition %}
+  #   OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state_full_name} {% endcondition %}
+  # ;;
 
   join: accounts {
     view_label: "Accounts"
@@ -57,4 +57,3 @@ explore: rx_normalized_analytics {
     sql_on: ${rx_fact.doctor} = ${spi_roots.spi_root_pk} ;;
   }
 }
-
