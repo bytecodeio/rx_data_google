@@ -45,7 +45,7 @@
     row: 0
     col: 12
     width: 6
-    height: 2
+    height: 4
     tab_name: KPIs
   - title: Average Days Supply
     name: Average Days Supply
@@ -70,7 +70,7 @@
     row: 0
     col: 18
     width: 6
-    height: 2
+    height: 4
     tab_name: KPIs
   - title: Monthly Volume Trend
     name: Monthly Volume Trend
@@ -138,7 +138,7 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 2
+    row: 4
     col: 12
     width: 12
     height: 8
@@ -207,7 +207,7 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 10
+    row: 12
     col: 12
     width: 12
     height: 10
@@ -220,20 +220,22 @@
     fields: [rx_fact.number_of_new_prescriptions, dates.date_year]
     pivots: [dates.date_year]
     fill_fields: [dates.date_year]
+    filters:
+      dates.date_date: 2 years
     sorts: [dates.date_year desc]
     limit: 5000
     column_limit: 50
     custom_color_enabled: true
-    show_single_value_title: false
+    show_single_value_title: true
     show_comparison: true
-    comparison_type: progress
+    comparison_type: progress_percentage
     comparison_reverse_colors: false
     show_comparison_label: true
     enable_conditional_formatting: false
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     smart_single_value_size: true
-    comparison_label: New Prescriptions Compared to Previous Year
+    comparison_label: Last Year
     x: 0
     "y": 44
     defaults_version: 1
@@ -249,34 +251,40 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-      Fulfillment Date: dates.date_date
     row: 0
     col: 0
     width: 6
-    height: 2
+    height: 4
     tab_name: KPIs
   - title: RTPB Check Volume
     name: RTPB Check Volume
     model: rx_data_google
     explore: rx_normalized_analytics
     type: single_value
-    fields: [rx_fact.count]
+    fields: [rx_fact.count, dates.date_year]
+    pivots: [dates.date_year]
+    fill_fields: [dates.date_year]
     filters:
       rx_fact.rtpb: ">0"
+      dates.date_date: 2 years
+    sorts: [dates.date_year desc]
     limit: 5000
     column_limit: 50
     custom_color_enabled: true
     show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
+    show_comparison: true
+    comparison_type: progress_percentage
     comparison_reverse_colors: false
     show_comparison_label: true
     enable_conditional_formatting: false
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
+    smart_single_value_size: true
+    comparison_label: Last Year
     x: 12
     "y": 44
     defaults_version: 1
+    hidden_pivots: {}
     listen:
       Days Supply: rx_fact.days_supply
       Dispenser Type: pharmacy.dispenser_type
@@ -288,21 +296,18 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-      Fulfillment Date: dates.date_date
     row: 0
     col: 6
     width: 6
-    height: 2
+    height: 4
     tab_name: KPIs
   - title: Volume Distribution by Day of Week
     name: Volume Distribution by Day of Week
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_column
-    fields: [dates.date_day_of_week, rx_fact.count, dates.date_year]
-    pivots: [dates.date_year]
-    fill_fields: [dates.date_year]
-    sorts: [dates.date_year, dates.date_day_of_week]
+    fields: [dates.date_day_of_week, rx_fact.count]
+    sorts: [dates.date_day_of_week]
     limit: 5000
     column_limit: 50
     x_axis_gridlines: false
@@ -352,16 +357,17 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 10
+      Fulfillment Date: dates.date_date
+    row: 12
     col: 0
     width: 12
     height: 10
     tab_name: KPIs
-  - title: 180 Day Volume Lookback
-    name: 180 Day Volume Lookback
+  - title: Daily Volume Lookback
+    name: Daily Volume Lookback
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_line
+    type: looker_area
     fields: [rx_fact.count, dates.date_date, rx_fact.new_rx]
     pivots: [rx_fact.new_rx]
     sorts: [rx_fact.new_rx, dates.date_date desc]
@@ -391,6 +397,9 @@
     y_axis_combined: true
     show_null_points: false
     interpolation: linear
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
     y_axes: [{label: '', orientation: left, series: [{axisId: rx_fact.count, id: 1
               - rx_fact.count, name: '1'}, {axisId: rx_fact.count, id: 2 - rx_fact.count,
             name: '2'}, {axisId: rx_fact.count, id: 3 - rx_fact.count, name: '3'}],
@@ -413,9 +422,6 @@
     "y": 72
     ordering: none
     show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
     defaults_version: 1
     hidden_fields: []
     hidden_points_if_no: []
@@ -470,7 +476,8 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 2
+      Fulfillment Date: dates.date_date
+    row: 4
     col: 0
     width: 12
     height: 8
@@ -658,8 +665,8 @@
     width: 10
     height: 7
     tab_name: Account & Prescriber Performance
-  - title: Specialty Quadrants - Avg Days Supply vs Rx Volume
-    name: Specialty Quadrants - Avg Days Supply vs Rx Volume
+  - title: Avg Days Supply vs Rx Volume
+    name: Avg Days Supply vs Rx Volume
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_scatter
@@ -2543,19 +2550,6 @@
     height: 12
     tab_name: Detailed Tables
   filters:
-  - name: Pharmacy State
-    title: Pharmacy State
-    type: field_filter
-    default_value: ''
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: tag_list
-      display: popover
-    model: rx_data_google
-    explore: rx_normalized_analytics
-    listens_to_filters: []
-    field: pharmacy.selected_state_filter
   - name: Fulfillment Date
     title: Fulfillment Date
     type: field_filter
@@ -2582,6 +2576,19 @@
     explore: rx_normalized_analytics
     listens_to_filters: []
     field: ndcs.brand_name
+  - name: Pharmacy State
+    title: Pharmacy State
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: tag_list
+      display: popover
+    model: rx_data_google
+    explore: rx_normalized_analytics
+    listens_to_filters: []
+    field: pharmacy.selected_state_filter
   - name: Dispenser Type
     title: Dispenser Type
     type: field_filter
