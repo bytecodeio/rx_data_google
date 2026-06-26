@@ -15,7 +15,7 @@ view: county_census_dt {
       c.male_85_and_over,
       --- GEOGRAPHIC PROFILE ---
       c.geo_id,
-      INITCAP(g.county_name) AS clean_county_name,
+      UPPER(g.county_name) AS clean_county_name,
       g.county_geom,
       g.int_point_lat,
       g.int_point_lon,
@@ -28,6 +28,8 @@ view: county_census_dt {
       c.income_per_capita,
       c.gini_index,
       c.households_public_asst_or_food_stamps,
+      c.unemployeed_pop,
+      c.poverty,
       --- LANGUAGE BARRIER ---
       c.speak_spanish_at_home_low_english,
       --- ACCESS, MOBILITY, & HOUSING INDICATORS ---
@@ -44,8 +46,32 @@ view: county_census_dt {
       c.asian_pop,
       c.hispanic_pop,
       --- EDUCATION & HEALTH LITERACY INDICATORS ---
+      c.less_than_high_school_graduate,
+      c.high_school_diploma_including_ged,
+      c.associates_degree,
+      c.bachelors_degree,
+      c.bachelors_degree_2,
       c.graduate_professional_degree,
-      c.less_than_high_school_graduate
+      --- CALCULATED FIELDS
+      SAFE_DIVIDE(c.poverty, c.total_pop) AS poverty_rate,
+      CASE
+        WHEN SAFE_DIVIDE(c.poverty, c.total_pop) < 0.10 THEN 'Low Poverty (<10%)'
+        WHEN SAFE_DIVIDE(c.poverty, c.total_pop) >= 0.10 AND SAFE_DIVIDE(c.poverty, c.total_pop) < 0.20 THEN 'Moderate Poverty (10-20%)'
+        WHEN SAFE_DIVIDE(c.poverty, c.total_pop) >= 0.20 THEN 'High Poverty (20%+)'
+        ELSE 'Unknown'
+      END AS poverty_tier,
+      SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) AS unemployment_rate,
+      CASE
+        WHEN SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) < 0.04 THEN 'Low Unemployment (<4%)'
+        WHEN SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) >= 0.04 AND SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) < 0.08 THEN 'Moderate Unemployment (4-8%)'
+        WHEN SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) >= 0.08 THEN 'High Unemployment (8%+)'
+        ELSE 'Unknown'
+      END AS unemployment_tier,
+      SAFE_DIVIDE(c.less_than_high_school_graduate, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS less_than_high_school_pct,
+      SAFE_DIVIDE(c.high_school_diploma_including_ged, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS high_school_diploma_pct,
+      SAFE_DIVIDE(c.associates_degree, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS associates_degree_pct,
+      SAFE_DIVIDE((c.bachelors_degree + c.bachelors_degree_2), (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS bachelors_degree_pct,
+      SAFE_DIVIDE(c.graduate_professional_degree, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS graduate_professional_pct
     FROM `bigquery-public-data.census_bureau_acs.county_2020_5yr` c
     LEFT JOIN `bigquery-public-data.geo_us_boundaries.counties` g
       ON c.geo_id = g.geo_id
@@ -89,6 +115,7 @@ view: county_census_dt {
     label: "State Abbreviation"
     description: "Two-letter state postal abbreviation."
     sql: ${TABLE}.state ;;
+    map_layer_name: us_states
   }
 
   dimension: state_name {
@@ -96,6 +123,7 @@ view: county_census_dt {
     label: "State Name"
     description: "Full name of the state."
     sql: ${TABLE}.state_name ;;
+    map_layer_name: us_states
   }
 
   dimension: cbsa_fips_code {
@@ -190,6 +218,12 @@ view: county_census_dt {
     sql: ${TABLE}.households_public_asst_or_food_stamps ;;
   }
 
+  dimension: poverty {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.poverty ;;
+  }
+
   dimension: speak_spanish_at_home_low_english_raw {
     type: number
     hidden: yes
@@ -274,6 +308,75 @@ view: county_census_dt {
     sql: ${TABLE}.less_than_high_school_graduate ;;
   }
 
+  # =========================================================================
+  # DESCRIPTIVE DIMENSIONS
+  # =========================================================================
+
+  dimension: income_tier {
+    type: tier
+    label: "Income Tier"
+    tiers: [35000, 65000, 100000, 150000]
+    style: classic
+    description: "Tiers of median household income at the county level (Under 35k, 35k-65k, 65k-100k, 100k-150k, 150k+)."
+    sql: ${median_income_raw} ;;
+  }
+
+  dimension: unemployment_tier {
+    type: string
+    label: "Unemployment Tier"
+    description: "Tier of unemployment as described by measuring the unemployment rate (unemployeed_pop/total_pop)."
+    sql: ${TABLE}.unemployment_tier ;;
+  }
+
+  dimension: poverty_rate {
+    type: number
+    value_format_name: percent_1
+    label: "Poverty Rate"
+    description: "The percentage of the county population living below the poverty line."
+    sql: ${TABLE}.poverty_rate ;;
+  }
+
+  dimension: poverty_tier {
+    type: string
+    label: "Poverty Tier"
+    description: "Tier of poverty as described by measuring the poverty rate."
+    sql: ${TABLE}.poverty_tier ;;
+  }
+
+  dimension: less_than_high_school_pct {
+    type: number
+    sql: ${TABLE}.less_than_high_school_pct ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with less than a High School education."
+  }
+
+  dimension: high_school_diploma_pct {
+    type: number
+    sql: ${TABLE}.high_school_diploma_pct ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with a High School diploma/GED as their highest level."
+  }
+
+  dimension: associates_degree_pct {
+    type: number
+    sql: ${TABLE}.associates_degree_pct ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with an Associate's degree as their highest level."
+  }
+
+  dimension: bachelors_degree_pct {
+    type: number
+    sql: ${TABLE}.bachelors_degree_pct ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with a Bachelor's degree as their highest level."
+  }
+
+  dimension: graduate_professional_pct {
+    type: number
+    sql: ${TABLE}.graduate_professional_pct ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with a Graduate or Professional degree."
+  }
   # =========================================================================
   # AGGREGATE MEASURES
   # =========================================================================
@@ -370,6 +473,30 @@ view: county_census_dt {
     value_format_name: decimal_0
     description: "Total households receiving public assistance or food stamps. Acts as a proxy for Medicaid prescribing patterns."
     sql: ${households_public_asst_or_food_stamps_raw} ;;
+  }
+
+  measure: total_poverty {
+    type: sum
+    label: "Total Households in Poverty"
+    value_format_name: decimal_0
+    description: "Total households classified as in poverty. Is both a descriptive number and part of a calculation."
+    sql: ${poverty} ;;
+  }
+
+  measure: average_poverty_rate {
+    type: number
+    label: "Avg Poverty Rate"
+    value_format_name: percent_1
+    description: "Average percentage of population living below the poverty line (poverty / total population)."
+    sql: ${poverty_rate} ;;
+  }
+
+  measure: total_poverty_rate {
+    type: number
+    label: "Total Poverty Rate"
+    value_format_name: percent_1
+    description: "The poverty rate as calculated from the total aggregated pop divided by the total aggregated poverty pop."
+    sql:  SAFE_DIVIDE(${total_poverty}/${total_population});;
   }
 
   measure: total_spanish_speakers_low_english {
@@ -478,5 +605,40 @@ view: county_census_dt {
     value_format_name: decimal_0
     description: "Total population without a high school diploma. Serves as a risk indicator for low health literacy."
     sql: ${less_than_high_school_graduate_raw} ;;
+  }
+
+  measure: avg_less_than_high_school_pct {
+    type: average
+    sql: ${less_than_high_school_pct} ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with less than a High School education."
+  }
+
+  measure: avg_high_school_diploma_pct {
+    type: average
+    sql: ${high_school_diploma_pct} ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with a High School diploma/GED as their highest level."
+  }
+
+  measure: avg_associates_degree_pct {
+    type: average
+    sql: ${associates_degree_pct} ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with an Associate's degree as their highest level."
+  }
+
+  measure: avg_bachelors_degree_pct {
+    type: average
+    sql: ${bachelors_degree_pct} ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with a Bachelor's degree as their highest level."
+  }
+
+  measure: avg_graduate_professional_pct {
+    type: average
+    sql: ${graduate_professional_pct} ;;
+    value_format_name: percent_1
+    description: "Percentage of the educated adult population with a Graduate or Professional degree."
   }
 }

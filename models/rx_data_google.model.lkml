@@ -9,7 +9,7 @@ include: "/explores/prescriptions.explore.lkml"
 include: "/explores/spi_roots.explore.lkml"
 
 
-include: "/dashboards/account_market_penetration.dashboard.lookml"
+include: "/dashboards/itc_vs_sei.dashboard.lookml"
 include: "/dashboards/prescribed_medication_brand_and_market_insights.dashboard.lookml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
