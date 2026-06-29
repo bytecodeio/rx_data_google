@@ -32,7 +32,7 @@ explore: prescriptions {
   join: county_census_dt {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${prescriptions.patient_county} = ${county_census_dt.clean_county_name}
+    sql_on: UPPER(${prescriptions.patient_county}) = ${county_census_dt.clean_county_name}
       AND ${prescriptions.patient_state} = ${county_census_dt.state} ;;
   }
 

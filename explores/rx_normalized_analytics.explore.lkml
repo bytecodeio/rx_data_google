@@ -62,7 +62,7 @@ explore: rx_normalized_analytics {
   join: county_census_dt {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${spi_roots.county} = ${county_census_dt.clean_county_name}
+    sql_on: UPPER(${spi_roots.county}) = ${county_census_dt.clean_county_name}
         AND ${spi_roots.state} = ${county_census_dt.state} ;;
   }
 }

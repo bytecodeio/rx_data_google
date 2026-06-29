@@ -28,7 +28,7 @@ view: county_census_dt {
       c.income_per_capita,
       c.gini_index,
       c.households_public_asst_or_food_stamps,
-      c.unemployeed_pop,
+      c.unemployed_pop,
       c.poverty,
       --- LANGUAGE BARRIER ---
       c.speak_spanish_at_home_low_english,
@@ -47,7 +47,7 @@ view: county_census_dt {
       c.hispanic_pop,
       --- EDUCATION & HEALTH LITERACY INDICATORS ---
       c.less_than_high_school_graduate,
-      c.high_school_diploma_including_ged,
+      c.high_school_including_ged,
       c.associates_degree,
       c.bachelors_degree,
       c.bachelors_degree_2,
@@ -60,23 +60,23 @@ view: county_census_dt {
         WHEN SAFE_DIVIDE(c.poverty, c.total_pop) >= 0.20 THEN 'High Poverty (20%+)'
         ELSE 'Unknown'
       END AS poverty_tier,
-      SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) AS unemployment_rate,
+      SAFE_DIVIDE(c.unemployed_pop, c.total_pop) AS unemployment_rate,
       CASE
-        WHEN SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) < 0.04 THEN 'Low Unemployment (<4%)'
-        WHEN SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) >= 0.04 AND SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) < 0.08 THEN 'Moderate Unemployment (4-8%)'
-        WHEN SAFE_DIVIDE(c.unemployeed_pop, c.total_pop) >= 0.08 THEN 'High Unemployment (8%+)'
+        WHEN SAFE_DIVIDE(c.unemployed_pop, c.total_pop) < 0.04 THEN 'Low Unemployment (<4%)'
+        WHEN SAFE_DIVIDE(c.unemployed_pop, c.total_pop) >= 0.04 AND SAFE_DIVIDE(c.unemployed_pop, c.total_pop) < 0.08 THEN 'Moderate Unemployment (4-8%)'
+        WHEN SAFE_DIVIDE(c.unemployed_pop, c.total_pop) >= 0.08 THEN 'High Unemployment (8%+)'
         ELSE 'Unknown'
       END AS unemployment_tier,
-      SAFE_DIVIDE(c.less_than_high_school_graduate, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS less_than_high_school_pct,
-      SAFE_DIVIDE(c.high_school_diploma_including_ged, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS high_school_diploma_pct,
-      SAFE_DIVIDE(c.associates_degree, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS associates_degree_pct,
-      SAFE_DIVIDE((c.bachelors_degree + c.bachelors_degree_2), (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS bachelors_degree_pct,
-      SAFE_DIVIDE(c.graduate_professional_degree, (c.less_than_high_school_graduate + c.high_school_diploma_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS graduate_professional_pct
+      SAFE_DIVIDE(c.less_than_high_school_graduate, (c.less_than_high_school_graduate + c.high_school_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS less_than_high_school_pct,
+      SAFE_DIVIDE(c.high_school_including_ged, (c.less_than_high_school_graduate + c.high_school_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS high_school_diploma_pct,
+      SAFE_DIVIDE(c.associates_degree, (c.less_than_high_school_graduate + c.high_school_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS associates_degree_pct,
+      SAFE_DIVIDE((c.bachelors_degree + c.bachelors_degree_2), (c.less_than_high_school_graduate + c.high_school_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS bachelors_degree_pct,
+      SAFE_DIVIDE(c.graduate_professional_degree, (c.less_than_high_school_graduate + c.high_school_including_ged + c.associates_degree + c.bachelors_degree + c.bachelors_degree_2 + c.graduate_professional_degree)) AS graduate_professional_pct
     FROM `bigquery-public-data.census_bureau_acs.county_2020_5yr` c
     LEFT JOIN `bigquery-public-data.geo_us_boundaries.counties` g
       ON c.geo_id = g.geo_id
     LEFT JOIN `bigquery-public-data.geo_us_boundaries.states` s
-      ON g.geo_id = s.geo_id
+      ON SUBSTR(c.geo_id, 1, 2) = s.geo_id
     ;;
   }
 
@@ -224,6 +224,12 @@ view: county_census_dt {
     sql: ${TABLE}.poverty ;;
   }
 
+  dimension: unemployed_pop_raw {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.unemployed_pop ;;
+  }
+
   dimension: speak_spanish_at_home_low_english_raw {
     type: number
     hidden: yes
@@ -324,7 +330,7 @@ view: county_census_dt {
   dimension: unemployment_tier {
     type: string
     label: "Unemployment Tier"
-    description: "Tier of unemployment as described by measuring the unemployment rate (unemployeed_pop/total_pop)."
+    description: "Tier of unemployment as described by measuring the unemployment rate (unemployed_pop/total_pop)."
     sql: ${TABLE}.unemployment_tier ;;
   }
 
@@ -485,7 +491,7 @@ view: county_census_dt {
 
   measure: average_poverty_rate {
     type: number
-    label: "Avg Poverty Rate"
+    label: "Average Poverty Rate"
     value_format_name: percent_1
     description: "Average percentage of population living below the poverty line (poverty / total population)."
     sql: ${poverty_rate} ;;
@@ -497,6 +503,20 @@ view: county_census_dt {
     value_format_name: percent_1
     description: "The poverty rate as calculated from the total aggregated pop divided by the total aggregated poverty pop."
     sql:  SAFE_DIVIDE(${total_poverty}/${total_population});;
+  }
+
+  measure: total_unemployed_pop {
+    type: sum
+    label: "Total Unemployed Population"
+    value_format_name: decimal_0
+    sql: ${unemployed_pop_raw} ;;
+  }
+
+  measure: average_unemployed_pop {
+    type: average
+    label: "Average Unemployed Population"
+    value_format_name: decimal_1
+    sql: ${unemployed_pop_raw} ;;
   }
 
   measure: total_spanish_speakers_low_english {
