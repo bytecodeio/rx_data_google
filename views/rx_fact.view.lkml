@@ -9,6 +9,7 @@ view: rx_fact {
     synonyms: ["fact key", "pk"]
     type: number
     sql: ${TABLE}.pk ;;
+    value_format_name: id
   }
   dimension: account {
     label: "Account Key"
@@ -16,6 +17,7 @@ view: rx_fact {
     synonyms: ["account key"]
     type: number
     sql: ${TABLE}.account ;;
+    value_format_name: id
   }
   dimension: age_group {
     label: "Age Group Key"
@@ -23,6 +25,7 @@ view: rx_fact {
     synonyms: ["age group key"]
     type: number
     sql: ${TABLE}.age_group ;;
+    value_format_name: id
   }
   dimension: date_key {
     label: "Date Key"
@@ -43,7 +46,7 @@ view: rx_fact {
     description: "Groups prescription fills into Short-term, Standard, and Maintenance lengths"
     synonyms: ["days supply group"]
     type: string
-    sql: CASE 
+    sql: CASE
       WHEN ${days_supply} <= 15 THEN "1. Short-term Acute (<=15 Days)"
       WHEN ${days_supply} <= 30 THEN "2. Standard Retail (16-30 Days)"
       WHEN ${days_supply} <= 60 THEN "3. Intermediate (31-60 Days)"
@@ -56,6 +59,7 @@ view: rx_fact {
     synonyms: ["spi root key", "provider key"]
     type: number
     sql: ${TABLE}.doctor ;;
+    value_format_name: id
   }
   dimension: ndc {
     label: "NDC Key"
@@ -63,6 +67,7 @@ view: rx_fact {
     synonyms: ["ndc key"]
     type: number
     sql: ${TABLE}.ndc ;;
+    value_format_name: id
   }
   dimension: new_rx {
     label: "New Prescriptions Flag"
@@ -77,6 +82,7 @@ view: rx_fact {
     synonyms: ["pharmacy key", "store key"]
     type: number
     sql: ${TABLE}.pharmacy ;;
+    value_format_name: id
   }
   dimension: rtpb {
     label: "RTPB Check Flag"

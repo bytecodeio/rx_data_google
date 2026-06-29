@@ -5,6 +5,7 @@ include: "/views/dates.view.lkml"
 include: "/views/spi_roots.view.lkml"
 include: "/views/ndcs.view.lkml"
 include: "/views/pharmacy.view.lkml"
+include: "/views/county_census_dt.view.lkml"
 
 explore: rx_normalized_analytics {
   label: "Prescription Analytics (Normalized)"
@@ -55,5 +56,13 @@ explore: rx_normalized_analytics {
     type: left_outer
     relationship: many_to_one
     sql_on: ${rx_fact.doctor} = ${spi_roots.spi_root_pk} ;;
+  }
+
+  # Join the County Census DT on the Prescriber's (Doctor's) County and State
+  join: county_census_dt {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: UPPER(${spi_roots.county}) = ${county_census_dt.clean_county_name}
+        AND ${spi_roots.state} = ${county_census_dt.state} ;;
   }
 }

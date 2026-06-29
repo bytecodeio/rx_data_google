@@ -2,6 +2,7 @@ include: "/views/prescriptions.view.lkml"
 include: "/views/pharmacy.view.lkml"
 include: "/views/ndcs.view.lkml"
 include: "/views/spi_roots.view.lkml"
+include: "/views/county_census_dt.view.lkml"
 
 explore: prescriptions {
   group_label: "Google RX Project"
@@ -26,6 +27,13 @@ explore: prescriptions {
     type: left_outer
     relationship: many_to_one
     sql_on: ${prescriptions.spi_root} = ${spi_roots.spi_root} ;;
+  }
+
+  join: county_census_dt {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: UPPER(${prescriptions.patient_county}) = ${county_census_dt.clean_county_name}
+      AND ${prescriptions.patient_state} = ${county_census_dt.state} ;;
   }
 
 
