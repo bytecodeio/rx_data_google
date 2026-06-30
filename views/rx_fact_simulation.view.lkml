@@ -45,48 +45,50 @@ view: rx_fact_simulation {
   dimension: rtpb {
     type: number
     sql:
-    CASE
-      -- High-decile prescribers in High-Income counties (85% adoption)
-      WHEN ${spi_roots.decile_routing} IN ('08', '09', '10')
-           AND ${county_census_dt.income_tier} = '150k+'
-        THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 100) < 85 THEN 1 ELSE 0 END
-      -- Low-decile or Low-Income counties (rural/financial barriers - 25% adoption)
-      WHEN ${spi_roots.decile_routing} IN ('01', '02', '03')
-           OR ${county_census_dt.income_tier} = 'Under 35K'
-        THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 100) < 25 THEN 1 ELSE 0 END
-      -- Default general adoption rate (55%)
-      ELSE CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 100) < 55 THEN 1 ELSE 0 END
-    END ;;
+      CASE
+        -- High-decile prescribers in High-Income counties (85% adoption)
+        WHEN ${spi_roots.decile_routing} IN ('08', '09', '10')
+             AND ${county_census_dt.income_tier} = '150k+'
+          THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 100) < 85 THEN 1 ELSE 0 END
+        -- Low-decile or Low-Income counties (rural/financial barriers - 25% adoption)
+        WHEN ${spi_roots.decile_routing} IN ('01', '02', '03')
+             OR ${county_census_dt.income_tier} = 'Under 35K'
+          THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 100) < 25 THEN 1 ELSE 0 END
+        -- Default general adoption rate (55%)
+        ELSE CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 100) < 55 THEN 1 ELSE 0 END
+      END ;;
+    html: {% if value == 1 %} True {% elsif value == 0 %} False {% else %} {{rendered_value}} {% endif %} ;;
   }
 
   # New Rx flag simulation based on ATC Therapeutic Classes
   dimension: new_rx {
     type: number
     sql:
-    CASE
-      -- Acute classes are 90% new starts
-      WHEN ${ndcs.therapeutic} IN (
-        'ANTIBACTERIALS FOR SYSTEMIC USE',
-        'ANALGESICS',
-        'COUGH AND COLD PREPARATIONS',
-        'ANTIVIRALS FOR SYSTEMIC USE'
-      )
-        THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 10) < 9 THEN 1 ELSE 0 END
-      -- Maintenance classes are 15% new starts (85% refills)
-      WHEN ${ndcs.therapeutic} IN (
-        'CARDIAC THERAPY',
-        'ANTIHYPERTENSIVES',
-        'DRUGS USED IN DIABETES',
-        'LIPID MODIFYING AGENTS',
-        'THYROID THERAPY'
-      )
-        THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 10) < 2 THEN 1 ELSE 0 END
-      -- Baseline (30%)
-      ELSE CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 10) < 3 THEN 1 ELSE 0 END
-    END ;;
+      CASE
+        -- Acute classes are 90% new starts
+        WHEN ${ndcs.therapeutic} IN (
+          'ANTIBACTERIALS FOR SYSTEMIC USE',
+          'ANALGESICS',
+          'COUGH AND COLD PREPARATIONS',
+          'ANTIVIRALS FOR SYSTEMIC USE'
+        )
+          THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 10) < 9 THEN 1 ELSE 0 END
+        -- Maintenance classes are 15% new starts (85% refills)
+        WHEN ${ndcs.therapeutic} IN (
+          'CARDIAC THERAPY',
+          'ANTIHYPERTENSIVES',
+          'DRUGS USED IN DIABETES',
+          'LIPID MODIFYING AGENTS',
+          'THYROID THERAPY'
+        )
+          THEN CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 10) < 2 THEN 1 ELSE 0 END
+        -- Baseline (30%)
+        ELSE CASE WHEN MOD(ABS(FARM_FINGERPRINT(CAST(${pk} AS STRING))), 10) < 3 THEN 1 ELSE 0 END
+      END ;;
+    html: {% if value == 1 %} True {% elsif value == 0 %} False {% else %} {{rendered_value}} {% endif %} ;;
   }
 
-   # Seasonal Volume count measure referencing the dates.date_date column
+  # Seasonal Volume count measure referencing the dates.date_date column
   measure: count {
     label: "Prescription Transaction Count"
     description: "The total number of prescription transactions filled"
@@ -101,6 +103,7 @@ view: rx_fact_simulation {
       ELSE 1.0
     END ;;
     drill_fields: [pk]
+    value_format_name: decimal_0
   }
   measure: average_days_supply {
     label: "Average Days Supply"
@@ -124,17 +127,51 @@ view: rx_fact_simulation {
     sql: SAFE_DIVIDE(${number_of_new_prescriptions}, ${count}) ;;
     value_format_name: percent_2
   }
-  measure: rtpb_adoption {
-    type: sum
-    sql: ${rtpb} ;;
-    hidden: yes
+  # measure: rtpb_adoption {
+  #   type: sum
+  #   sql: ${rtpb} ;;
+  #   hidden: yes
+  # }
+  dimension: rtpb_baseline {
+    description: "Baseline adoption used for simulation of a realistic rtpb rate."
+    type: number
+    sql:
+      CASE ${spi_roots.decile_routing}
+            WHEN '00' THEN 0.12
+            WHEN '01' THEN 0.15
+            WHEN '02' THEN 0.22
+            WHEN '03' THEN 0.30
+            WHEN '04' THEN 0.38
+            WHEN '05' THEN 0.46
+            WHEN '06' THEN 0.54
+            WHEN '07' THEN 0.62
+            WHEN '08' THEN 0.70
+            WHEN '09' THEN 0.76
+            WHEN '10' THEN 0.82
+            ELSE 0.45
+          END
+    ;;
+  }
+  dimension: income_modifier {
+    type: number
+    description: "Income modifier used for simulated rtpb calculation, (Lower Income = Higher RTPB)"
+    sql:
+      CASE ${county_census_dt.income_tier}
+        WHEN 'Under 35k'   THEN  0.07
+        WHEN '35k-65k'     THEN  0.035
+        WHEN '65k-100k'    THEN  0.00
+        WHEN '100k-150k'   THEN -0.03
+        ELSE -0.015
+      END
+    ;;
   }
   measure: rtpb_adoption_rate {
     label: "RTPB Adoption Rate"
     description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
     synonyms: ["rtpb utilization"]
     type: number
-    sql: SAFE_DIVIDE(${rtpb_adoption},${count}) ;;
+    # sql: SAFE_DIVIDE(${rtpb_adoption},${count}) ;;
+    sql: AVG(LEAST(GREATEST(${rtpb_baseline} + ${income_modifier} + (RAND() * 0.02 - 0.01), 0.0), 1.0)) ;;
     value_format_name: percent_1
   }
 

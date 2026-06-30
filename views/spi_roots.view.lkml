@@ -96,8 +96,9 @@ view: spi_roots {
     label: "Is EPA Activated (Jan {{ 'now' | date: '%Y' }})"
     description: "Indicates whether Electronic Prior Authorization was active as of January {{ 'now' | date: '%Y' }}"
     synonyms: ["electronic prior auth activated"]
-    type: string
-    sql: ${TABLE}.Is_EPA_Activated_202301 ;;
+    type: yesno
+    sql: (${TABLE}.Is_EPA_Activated_202301) = '1' ;;
+    # html: {% if value == 1 %} True {% elsif value == 0 %} False {% else %} {{rendered_value}} {% endif %} ;;
   }
   dimension: is_physician {
     group_label: "Is Physician"
@@ -402,6 +403,6 @@ view: spi_roots {
     synonyms: ["total doctors", "doctor count", "provider count"]
     type: count_distinct
     sql: ${spi_root_pk} ;;
-    value_format_name: decimal_2
+    value_format_name: decimal_0
   }
 }
