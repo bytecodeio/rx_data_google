@@ -48,8 +48,8 @@ view: rx_fact {
     type: string
     sql: CASE
       WHEN ${days_supply} <= 15 THEN "1. Short-term Acute (<=15 Days)"
-      WHEN ${days_supply} <= 30 THEN "2. Standard Retail (16-30 Days)"
-      WHEN ${days_supply} <= 60 THEN "3. Intermediate (31-60 Days)"
+      WHEN ${days_supply} > 15 AND ${days_supply} <= 30 THEN "2. Standard Retail (16-30 Days)"
+      WHEN ${days_supply} > 30 AND ${days_supply} <= 60 THEN "3. Intermediate (31-60 Days)"
       ELSE "4. Maintenance (61+ Days)"
     END ;;
   }

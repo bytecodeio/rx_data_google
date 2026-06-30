@@ -397,6 +397,7 @@ view: prescriptions {
     synonyms: ["total rx count", "transaction count", "prescription volume"]
     type: count_distinct
     sql: ${primary_key} ;;
+    value_format_name: decimal_0
   }
   # measure: rtpb_adoption_rate {
   #   label: "RTPB Adoption Rate"
