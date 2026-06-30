@@ -720,9 +720,39 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_column
-    fields: [spi_roots.decile_routing, county_census_dt.income_tier, rx_fact.rtpb_adoption_rate]
+    fields: [county_census_dt.income_tier, rx_fact.rtpb_adoption_rate, spi_roots.decile_routing]
     pivots: [county_census_dt.income_tier]
-    sorts: [spi_roots.decile_routing asc]
+    sorts: [county_census_dt.income_tier, spi_roots.decile_routing]
+    limit: 5000
+    column_limit: 50
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 1
     listen:
       Fulfillment Date: dates.date_date
       Patient State: county_census_dt.state
@@ -821,10 +851,15 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_pie
-    fields: [spi_roots.is_epa_activated_current_jan, rx_fact.count]
+    fields: [rx_fact.count, spi_roots.is_epa_activated_current_jan]
     filters:
-      county_census_dt.income_tier: Low
+      county_census_dt.income_tier: Under 35k
     sorts: [rx_fact.count desc]
+    limit: 5000
+    column_limit: 50
+    value_labels: legend
+    label_type: labPer
+    defaults_version: 1
     listen:
       Fulfillment Date: dates.date_date
       Patient State: county_census_dt.state
@@ -936,7 +971,37 @@
     type: looker_column
     fields: [age_groups.age_group, county_census_dt.poverty_tier, rx_fact.rtpb_adoption_rate]
     pivots: [county_census_dt.poverty_tier]
-    sorts: [age_groups.age_group asc]
+    sorts: [county_census_dt.poverty_tier, age_groups.age_group]
+    limit: 5000
+    column_limit: 50
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 1
     listen:
       Fulfillment Date: dates.date_date
       Patient State: county_census_dt.state
