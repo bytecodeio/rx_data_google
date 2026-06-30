@@ -345,22 +345,22 @@ view: county_census_dt {
       }
       else: "Undefined"
     }
-    order_by_field: income_tier_sort_order
+    # order_by_field: income_tier_sort_order
   }
 
-  dimension: income_tier_sort_order {
-    type: number
-    hidden: yes
-    sql:
-    CASE
-      WHEN ${median_income_raw} < 35000 THEN 1
-      WHEN ${median_income_raw} >= 35000 AND ${median_income_raw} < 65000 THEN 2
-      WHEN ${median_income_raw} >= 65000 AND ${median_income_raw} < 100000 THEN 3
-      WHEN ${median_income_raw} >= 100000 AND ${median_income_raw} < 150000 THEN 4
-      WHEN ${median_income_raw} >= 150000 THEN 5
-      ELSE 6
-    END ;;
-  }
+  # dimension: income_tier_sort_order {
+  #   type: number
+  #   hidden: yes
+  #   sql:
+  #   CASE
+  #     WHEN ${median_income_raw} < 35000 THEN 1
+  #     WHEN ${median_income_raw} >= 35000 AND ${median_income_raw} < 65000 THEN 2
+  #     WHEN ${median_income_raw} >= 65000 AND ${median_income_raw} < 100000 THEN 3
+  #     WHEN ${median_income_raw} >= 100000 AND ${median_income_raw} < 150000 THEN 4
+  #     WHEN ${median_income_raw} >= 150000 THEN 5
+  #     ELSE 6
+  #   END ;;
+  # }
 
   dimension: unemployment_tier {
     type: string
