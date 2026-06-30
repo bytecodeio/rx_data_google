@@ -77,6 +77,7 @@ view: county_census_dt {
       ON c.geo_id = g.geo_id
     LEFT JOIN `bigquery-public-data.geo_us_boundaries.states` s
       ON SUBSTR(c.geo_id, 1, 2) = s.geo_id
+    WHERE c.median_income > 0
     ;;
   }
 
@@ -319,12 +320,46 @@ view: county_census_dt {
   # =========================================================================
 
   dimension: income_tier {
-    type: tier
     label: "Income Tier"
-    tiers: [35000, 65000, 100000, 150000]
-    style: classic
-    description: "Tiers of median household income at the county level (Under 35k, 35k-65k, 65k-100k, 100k-150k, 150k+)."
-    sql: ${median_income_raw} ;;
+    description: "Tiers of median household income at the county level (Under 35k, 35k-65k, 65k-100k, 100k-150k, 150k+)"
+    case: {
+      when: {
+        sql: ${median_income_raw} < 35000 ;;
+        label: "Under 35k"
+      }
+      when: {
+        sql: ${median_income_raw} >= 35000 AND ${median_income_raw} < 65000 ;;
+        label: "35k-65k"
+      }
+      when: {
+        sql: ${median_income_raw} >= 65000 AND ${median_income_raw} < 100000 ;;
+        label: "65k-100k"
+      }
+      when: {
+        sql: ${median_income_raw} >= 100000 AND ${median_income_raw} < 150000 ;;
+        label: "100k-150k"
+      }
+      when: {
+        sql: ${median_income_raw} >= 150000 ;;
+        label: "150k+"
+      }
+      else: "Undefined"
+    }
+    order_by_field: income_tier_sort_order
+  }
+
+  dimension: income_tier_sort_order {
+    type: number
+    hidden: yes
+    sql:
+    CASE
+      WHEN ${median_income_raw} < 35000 THEN 1
+      WHEN ${median_income_raw} >= 35000 AND ${median_income_raw} < 65000 THEN 2
+      WHEN ${median_income_raw} >= 65000 AND ${median_income_raw} < 100000 THEN 3
+      WHEN ${median_income_raw} >= 100000 AND ${median_income_raw} < 150000 THEN 4
+      WHEN ${median_income_raw} >= 150000 THEN 5
+      ELSE 6
+    END ;;
   }
 
   dimension: unemployment_tier {

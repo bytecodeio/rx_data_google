@@ -119,7 +119,6 @@ view: pharmacy {
     description: "The full state name currently selected in the filter"
     type: string
     sql: ${pharmacy.state_full_name} ;;
-   # html: {% if _filters['pharmacy.selected_state_filter'] != '' %}{{ _filters['pharmacy.selected_state_filter'] }}{% else %}All States & Territories{% endif %} ;;
   }
   dimension: state {
     label: "Pharmacy State"

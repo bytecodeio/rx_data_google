@@ -1,5 +1,5 @@
 include: "/views/pharmacy.view.lkml"
-include: "/views/prescriptions.view.lkml"
+include: "/views/self_contained_prescriptions_sim.view.lkml"
 
 explore: pharmacy {
   label: "Pharmacy Explore"
@@ -15,6 +15,7 @@ explore: pharmacy {
     }
   }
   join: prescriptions {
+    from: self_contained_prescriptions_sim
     type: left_outer
     relationship: one_to_many
     sql_on: ${pharmacy.ncpdpid} = ${prescriptions.ncpdpid} ;;

@@ -720,9 +720,9 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_column
-    fields: [spi_roots.decile_routing_2025, county_census_dt.income_tier, rx_fact.rtpb_adoption_rate]
+    fields: [spi_roots.decile_routing, county_census_dt.income_tier, rx_fact.rtpb_adoption_rate]
     pivots: [county_census_dt.income_tier]
-    sorts: [spi_roots.decile_routing_2025 asc]
+    sorts: [spi_roots.decile_routing asc]
     listen:
       Fulfillment Date: dates.date_date
       Patient State: county_census_dt.state
@@ -821,7 +821,7 @@
     model: rx_data_google
     explore: rx_normalized_analytics
     type: looker_pie
-    fields: [spi_roots.is_epa_activated_202501, rx_fact.count]
+    fields: [spi_roots.is_epa_activated_current_jan, rx_fact.count]
     filters:
       county_census_dt.income_tier: Low
     sorts: [rx_fact.count desc]

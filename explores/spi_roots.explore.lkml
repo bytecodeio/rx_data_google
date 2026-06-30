@@ -1,4 +1,4 @@
-include: "/views/prescriptions.view.lkml"
+include: "/views/self_contained_prescriptions_sim.view.lkml"
 include: "/views/spi_roots.view.lkml"
 include: "/views/county_census_dt.view.lkml"
 
@@ -7,6 +7,7 @@ explore: spi_roots {
   group_label: "Google RX Project"
   view_label: "Doctors"
   join: prescriptions {
+    from: self_contained_prescriptions_sim
     type: left_outer
     relationship: one_to_many
     sql_on: ${spi_roots.spi_root} = ${prescriptions.spi_root} ;;
