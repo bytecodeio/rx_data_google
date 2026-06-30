@@ -1,10 +1,11 @@
-include: "/views/prescriptions.view.lkml"
+include: "/views/prescriptions_simulation.view.lkml"
 include: "/views/pharmacy.view.lkml"
 include: "/views/ndcs.view.lkml"
 include: "/views/spi_roots.view.lkml"
 include: "/views/county_census_dt.view.lkml"
 
 explore: prescriptions {
+  from:  prescriptions_simulation
   group_label: "Google RX Project"
   label: "Prescriptions"
 

@@ -211,8 +211,8 @@ view: prescriptions {
     type: time
     timeframes: [raw, date, time, week, week_of_year, month, month_name, quarter, quarter_of_year, year]
     convert_tz: no
-    datatype: timestamp
-    sql: CAST(DATETIME_ADD(CAST(${TABLE}.rx_date AS DATETIME), INTERVAL 1 YEAR) AS TIMESTAMP) ;;
+    datatype: date
+    sql: TIMESTAMP_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY) ;;
   }
   dimension: specialty {
     label: "Prescriber Specialty"
@@ -283,15 +283,15 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.vendor_name ;;
   }
-  measure: avg_days_supply {
-    hidden: no
-    label: "Average Days of Supply"
-    description: "The average days of medication supply filled per prescription"
-    synonyms: ["mean days supply", "average fill length"]
-    type: average
-    sql: ${days_supply} ;;
-    value_format_name: decimal_2
-  }
+  # measure: avg_days_supply {
+  #   hidden: no
+  #   label: "Average Days of Supply"
+  #   description: "The average days of medication supply filled per prescription"
+  #   synonyms: ["mean days supply", "average fill length"]
+  #   type: average
+  #   sql: ${days_supply} ;;
+  #   value_format_name: decimal_2
+  # }
   measure: dynamic_counter {
     hidden: no
     label_from_parameter: pick_field_to_count
@@ -309,78 +309,78 @@ view: prescriptions {
     sql: ${ncpdpid} ;;
     value_format_name: decimal_2
   }
-  measure: number_of_new_prescriptions {
-    hidden: no
-    label: "Number of New Prescriptions"
-    description: "The total count of new prescriptions (Sum of new prescriptions sold)"
-    synonyms: ["total new rx", "new start count"]
-    type: sum
-    sql: ${new_rx} ;;
-    drill_fields: [detail*]
-  }
-  measure: new_rx_ratio {
-    label: "New Prescription Rate"
-    description: "The percentage of total filled prescriptions that are new starts"
-    type: number
-    sql: SAFE_DIVIDE(${number_of_new_prescriptions}, ${number_of_prescriptions}) ;;
-    value_format_name: percent_2
-  }
-  measure: number_of_new_prescriptions_last_month {
-    hidden: no
-    label: "Number of New Prescriptions Last Month"
-    group_label: "Previous Period Comparison"
-    description: "The total number of new prescriptions prescribed last month. Use with the Prescription Date, or Month."
-    synonyms: ["new rx prior month"]
-    type: period_over_period
-    kind: previous
-    based_on: number_of_new_prescriptions
-    based_on_time: rx_month
-    period: month
-    value_format_name: "decimal_0"
-    drill_fields: [detail*]
-  }
-  measure: number_of_new_prescriptions_last_year {
-    hidden: no
-    label: "Number of New Prescriptions Last Year"
-    group_label: "Previous Period Comparison"
-    description: "The total number of new prescriptions prescribed last year. Use with the Prescription Date, Month, Quarter or Year."
-    synonyms: ["new rx prior year"]
-    type: period_over_period
-    kind: previous
-    based_on: number_of_new_prescriptions
-    based_on_time: rx_year
-    period: year
-    value_format_name: "decimal_0"
-    drill_fields: [detail*]
-  }
-  measure: new_prescriptions_change_from_last_year {
-    hidden: no
-    label: "New Prescriptions Change from Last Year"
-    group_label: "Previous Period Comparison"
-    description: "The change in the number of new prescriptions prescribed this year versus last year."
-    synonyms: ["new rx year over year change"]
-    type: period_over_period
-    kind: difference
-    based_on: number_of_new_prescriptions
-    based_on_time: rx_year
-    period: year
-    value_format_name: "decimal_0"
-    drill_fields: [detail*]
-  }
-  measure: new_prescriptions_percent_change_from_last_year {
-    hidden: no
-    label: "New Prescriptions Percent Change from Last Year"
-    group_label: "Previous Period Comparison"
-    description: "The percentage change in the number of new prescriptions prescribed this year versus last year"
-    synonyms: ["new rx yoy percent change"]
-    type: period_over_period
-    kind: relative_change
-    based_on: number_of_new_prescriptions
-    based_on_time: rx_year
-    period: year
-    value_format_name: "percent_1"
-    drill_fields: [detail*]
-  }
+  # measure: number_of_new_prescriptions {
+  #   hidden: no
+  #   label: "Number of New Prescriptions"
+  #   description: "The total count of new prescriptions (Sum of new prescriptions sold)"
+  #   synonyms: ["total new rx", "new start count"]
+  #   type: sum
+  #   sql: ${new_rx} ;;
+  #   drill_fields: [detail*]
+  # }
+  # measure: new_rx_ratio {
+  #   label: "New Prescription Rate"
+  #   description: "The percentage of total filled prescriptions that are new starts"
+  #   type: number
+  #   sql: SAFE_DIVIDE(${number_of_new_prescriptions}, ${number_of_prescriptions}) ;;
+  #   value_format_name: percent_2
+  # }
+  # measure: number_of_new_prescriptions_last_month {
+  #   hidden: no
+  #   label: "Number of New Prescriptions Last Month"
+  #   group_label: "Previous Period Comparison"
+  #   description: "The total number of new prescriptions prescribed last month. Use with the Prescription Date, or Month."
+  #   synonyms: ["new rx prior month"]
+  #   type: period_over_period
+  #   kind: previous
+  #   based_on: number_of_new_prescriptions
+  #   based_on_time: rx_month
+  #   period: month
+  #   value_format_name: "decimal_0"
+  #   drill_fields: [detail*]
+  # }
+  # measure: number_of_new_prescriptions_last_year {
+  #   hidden: no
+  #   label: "Number of New Prescriptions Last Year"
+  #   group_label: "Previous Period Comparison"
+  #   description: "The total number of new prescriptions prescribed last year. Use with the Prescription Date, Month, Quarter or Year."
+  #   synonyms: ["new rx prior year"]
+  #   type: period_over_period
+  #   kind: previous
+  #   based_on: number_of_new_prescriptions
+  #   based_on_time: rx_year
+  #   period: year
+  #   value_format_name: "decimal_0"
+  #   drill_fields: [detail*]
+  # }
+  # measure: new_prescriptions_change_from_last_year {
+  #   hidden: no
+  #   label: "New Prescriptions Change from Last Year"
+  #   group_label: "Previous Period Comparison"
+  #   description: "The change in the number of new prescriptions prescribed this year versus last year."
+  #   synonyms: ["new rx year over year change"]
+  #   type: period_over_period
+  #   kind: difference
+  #   based_on: number_of_new_prescriptions
+  #   based_on_time: rx_year
+  #   period: year
+  #   value_format_name: "decimal_0"
+  #   drill_fields: [detail*]
+  # }
+  # measure: new_prescriptions_percent_change_from_last_year {
+  #   hidden: no
+  #   label: "New Prescriptions Percent Change from Last Year"
+  #   group_label: "Previous Period Comparison"
+  #   description: "The percentage change in the number of new prescriptions prescribed this year versus last year"
+  #   synonyms: ["new rx yoy percent change"]
+  #   type: period_over_period
+  #   kind: relative_change
+  #   based_on: number_of_new_prescriptions
+  #   based_on_time: rx_year
+  #   period: year
+  #   value_format_name: "percent_1"
+  #   drill_fields: [detail*]
+  # }
   measure: number_of_providers {
     hidden: no
     label: "Number of Providers"
@@ -398,16 +398,16 @@ view: prescriptions {
     type: count_distinct
     sql: ${primary_key} ;;
   }
-  measure: rtpb_adoption_rate {
-    label: "RTPB Adoption Rate"
-    description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
-    type: number
-    sql: SAFE_DIVIDE(
-      COUNT(CASE WHEN ${rtpb} > 0 THEN 1 END),
-      ${number_of_prescriptions}
-    ) ;;
-    value_format_name: percent_1
-  }
+  # measure: rtpb_adoption_rate {
+  #   label: "RTPB Adoption Rate"
+  #   description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
+  #   type: number
+  #   sql: SAFE_DIVIDE(
+  #     COUNT(CASE WHEN ${rtpb} > 0 THEN 1 END),
+  #     ${number_of_prescriptions}
+  #   ) ;;
+  #   value_format_name: percent_1
+  # }
   measure: number_of_specialties {
     hidden: no
     label: "Number of Specialties"
@@ -463,50 +463,50 @@ view: prescriptions {
     type: yesno
     sql: {% condition second_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
   }
-  measure: number_of_new_prescriptions_in_first_period {
-    hidden: no
-    label: "Number of New Prescriptions in First Period"
-    group_label: "Arbitrary Period Comparison"
-    description: "The count of new prescriptions in the first comparison period selected"
-    synonyms: ["new rx first period"]
-    type: sum
-    sql: ${new_rx} ;;
-    filters: [is_first_period: "Yes"]
-    drill_fields: [detail*]
-  }
-  measure: number_of_new_prescriptions_in_second_period {
-    hidden: no
-    label: "Number of New Prescriptions in Second Period"
-    group_label: "Arbitrary Period Comparison"
-    description: "The count of new prescriptions in the second comparison period selected"
-    synonyms: ["new rx second period"]
-    type: sum
-    sql: ${new_rx} ;;
-    filters: [is_second_period: "Yes"]
-    drill_fields: [detail*]
-  }
-  measure: avg_days_supply_in_first_period {
-    hidden: no
-    label: "Average Days of Supply in First Period"
-    group_label: "Arbitrary Period Comparison"
-    description: "The average days of supply for the first comparison period selected"
-    synonyms: ["mean days supply first period"]
-    type: average
-    sql: ${days_supply} ;;
-    filters: [is_first_period: "Yes"]
-    value_format_name: decimal_2
-  }
-  measure: avg_days_supply_in_second_period {
-    hidden: no
-    label: "Average Days of Supply in Second Period"
-    group_label: "Arbitrary Period Comparison"
-    description: "The average days of supply for the second comparison period selected"
-    synonyms: ["mean days supply second period"]
-    type: average
-    sql: ${days_supply} ;;
-    filters: [is_second_period: "Yes"]
-    value_format_name: decimal_2
-  }
+  # measure: number_of_new_prescriptions_in_first_period {
+  #   hidden: no
+  #   label: "Number of New Prescriptions in First Period"
+  #   group_label: "Arbitrary Period Comparison"
+  #   description: "The count of new prescriptions in the first comparison period selected"
+  #   synonyms: ["new rx first period"]
+  #   type: sum
+  #   sql: ${new_rx} ;;
+  #   filters: [is_first_period: "Yes"]
+  #   drill_fields: [detail*]
+  # }
+  # measure: number_of_new_prescriptions_in_second_period {
+  #   hidden: no
+  #   label: "Number of New Prescriptions in Second Period"
+  #   group_label: "Arbitrary Period Comparison"
+  #   description: "The count of new prescriptions in the second comparison period selected"
+  #   synonyms: ["new rx second period"]
+  #   type: sum
+  #   sql: ${new_rx} ;;
+  #   filters: [is_second_period: "Yes"]
+  #   drill_fields: [detail*]
+  # }
+  # measure: avg_days_supply_in_first_period {
+  #   hidden: no
+  #   label: "Average Days of Supply in First Period"
+  #   group_label: "Arbitrary Period Comparison"
+  #   description: "The average days of supply for the first comparison period selected"
+  #   synonyms: ["mean days supply first period"]
+  #   type: average
+  #   sql: ${days_supply} ;;
+  #   filters: [is_first_period: "Yes"]
+  #   value_format_name: decimal_2
+  # }
+  # measure: avg_days_supply_in_second_period {
+  #   hidden: no
+  #   label: "Average Days of Supply in Second Period"
+  #   group_label: "Arbitrary Period Comparison"
+  #   description: "The average days of supply for the second comparison period selected"
+  #   synonyms: ["mean days supply second period"]
+  #   type: average
+  #   sql: ${days_supply} ;;
+  #   filters: [is_second_period: "Yes"]
+  #   value_format_name: decimal_2
+  # }
 
 
   # ----- Sets of fields for drilling ------

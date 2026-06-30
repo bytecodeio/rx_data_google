@@ -1,4 +1,4 @@
-include: "/views/rx_fact.view.lkml"
+include: "/views/rx_fact_simulation.view.lkml"
 include: "/views/accounts.view.lkml"
 include: "/views/age_groups.view.lkml"
 include: "/views/dates.view.lkml"
@@ -8,13 +8,10 @@ include: "/views/pharmacy.view.lkml"
 include: "/views/county_census_dt.view.lkml"
 
 explore: rx_normalized_analytics {
+  from: rx_fact_simulation
   label: "Prescription Analytics (Normalized)"
   group_label: "Google RX Project"
   view_name: rx_fact
-  # sql_always_where:
-  #   {% condition pharmacy.selected_state_filter %} 'All States & Territories' {% endcondition %}
-  #   OR {% condition pharmacy.selected_state_filter %} ${pharmacy.state_full_name} {% endcondition %}
-  # ;;
 
   join: accounts {
     view_label: "Accounts"

@@ -98,44 +98,44 @@ view: rx_fact {
     type: zipcode
     sql: ${TABLE}.zipcode ;;
   }
-  measure: count {
-    label: "Prescription Transaction Count"
-    description: "The total number of prescription transactions filled"
-    synonyms: ["total rx count", "transaction count"]
-    type: count
-    drill_fields: [pk]
-  }
-  measure: average_days_supply {
-    label: "Average Days Supply"
-    description: "The average days of medication supply filled per transaction"
-    type: average
-    sql: ${days_supply} ;;
-    value_format_name: decimal_2
-  }
-  measure: number_of_new_prescriptions {
-    label: "Number of New Prescriptions"
-    description: "The total number of new prescriptions (Sum of new prescriptions sold)"
-    synonyms: ["total new rx"]
-    type: sum
-    sql: ${new_rx} ;;
-  }
-  measure: new_rx_ratio {
-    label: "New Prescription Rate"
-    description: "The percentage of total filled prescriptions that are new starts"
-    synonyms: ["new rx percentage"]
-    type: number
-    sql: SAFE_DIVIDE(${number_of_new_prescriptions}, ${count}) ;;
-    value_format_name: percent_2
-  }
-  measure: rtpb_adoption_rate {
-    label: "RTPB Adoption Rate"
-    description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
-    synonyms: ["rtpb utilization"]
-    type: number
-    sql: SAFE_DIVIDE(
-      COUNT(CASE WHEN ${rtpb} > 0 THEN 1 END),
-      ${count}
-    ) ;;
-    value_format_name: percent_1
-  }
+  # measure: count {
+  #   label: "Prescription Transaction Count"
+  #   description: "The total number of prescription transactions filled"
+  #   synonyms: ["total rx count", "transaction count"]
+  #   type: count
+  #   drill_fields: [pk]
+  # }
+  # measure: average_days_supply {
+  #   label: "Average Days Supply"
+  #   description: "The average days of medication supply filled per transaction"
+  #   type: average
+  #   sql: ${days_supply} ;;
+  #   value_format_name: decimal_2
+  # }
+  # measure: number_of_new_prescriptions {
+  #   label: "Number of New Prescriptions"
+  #   description: "The total number of new prescriptions (Sum of new prescriptions sold)"
+  #   synonyms: ["total new rx"]
+  #   type: sum
+  #   sql: ${new_rx} ;;
+  # }
+  # measure: new_rx_ratio {
+  #   label: "New Prescription Rate"
+  #   description: "The percentage of total filled prescriptions that are new starts"
+  #   synonyms: ["new rx percentage"]
+  #   type: number
+  #   sql: SAFE_DIVIDE(${number_of_new_prescriptions}, ${count}) ;;
+  #   value_format_name: percent_2
+  # }
+  # measure: rtpb_adoption_rate {
+  #   label: "RTPB Adoption Rate"
+  #   description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
+  #   synonyms: ["rtpb utilization"]
+  #   type: number
+  #   sql: SAFE_DIVIDE(
+  #     COUNT(CASE WHEN ${rtpb} > 0 THEN 1 END),
+  #     ${count}
+  #   ) ;;
+  #   value_format_name: percent_1
+  # }
 }
