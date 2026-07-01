@@ -299,7 +299,7 @@ view: spi_roots {
     label: "SPI Root ZIP Household Income"
     description: "The median household income for the ZIP code of the prescriber's clinic"
     synonyms: ["household income", "zip income"]
-    type: string
+    type: number
     sql: ${TABLE}.SPIRoot_Zip_Income_Per_Household ;;
   }
   dimension: state {

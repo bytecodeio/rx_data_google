@@ -111,7 +111,7 @@ view: prescriptions {
   }
   dimension: new_rx {
     label: "New Prescriptions Flag"
-    description: "Indicator of whether the prescription is a new fill"
+    description: "Indicator of whether the prescription is a new fill, using values 1,2,3."
     synonyms: ["first_fill", "new_start"]
     type: number
     sql: ${TABLE}.new_rx ;;
@@ -199,8 +199,8 @@ view: prescriptions {
   }
   dimension: rtpb {
     label: "RTPB Check Flag"
-    description: "Indicates whether a Real-Time Prescription Benefit check was run (values > 0)"
-    synonyms: ["real time benefit", "benefit check"]
+    description: "Typically idicates the drug's cost tier for insurance, with the lowest number(1) being the cheapest tier and highest number(3) being the most expensive."
+    synonyms: ["real time benefit", "benefit check", "insurance formulary tier"]
     type: number
     sql: ${TABLE}.rtpb ;;
   }
@@ -314,8 +314,9 @@ view: prescriptions {
     label: "Number of New Prescriptions"
     description: "The total count of new prescriptions (Sum of new prescriptions sold)"
     synonyms: ["total new rx", "new start count"]
-    type: sum
-    sql: ${new_rx} ;;
+    type: count_distinct
+    sql: ${primary_key} ;;
+    filters: [new_rx: "1"]
     drill_fields: [detail*]
   }
   measure: new_rx_ratio {
@@ -343,12 +344,32 @@ view: prescriptions {
     sql: ${primary_key} ;;
     value_format_name: decimal_0
   }
-  measure: rtpb_adoption_rate {
-    label: "RTPB Adoption Rate"
-    description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
+  measure: rtpb1_rate {
+    label: "RTPB Tier 1 Rate"
+    description: "The percentage of prescription transactions where a tier 1 (least expensive) drug was used."
     type: number
     sql: SAFE_DIVIDE(
-      COUNT(CASE WHEN ${rtpb} > 0 THEN 1 END),
+      COUNT(CASE WHEN ${rtpb} = 1 THEN 1 END),
+      ${number_of_prescriptions}
+    ) ;;
+    value_format_name: percent_1
+  }
+  measure: rtpb2_rate {
+    label: "RTPB Tier 2 Rate"
+    description: "The percentage of prescription transactions where a tier 2 (moderate price) drug was used."
+    type: number
+    sql: SAFE_DIVIDE(
+      COUNT(CASE WHEN ${rtpb} = 2 THEN 1 END),
+      ${number_of_prescriptions}
+    ) ;;
+    value_format_name: percent_1
+  }
+  measure: rtpb3_rate {
+    label: "RTPB Tier 3 Rate"
+    description: "The percentage of prescription transactions where a tier 3 (more expensive) drug was used."
+    type: number
+    sql: SAFE_DIVIDE(
+      COUNT(CASE WHEN ${rtpb} = 3 THEN 1 END),
       ${number_of_prescriptions}
     ) ;;
     value_format_name: percent_1

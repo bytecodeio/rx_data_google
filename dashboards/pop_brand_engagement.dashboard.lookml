@@ -328,7 +328,7 @@
     model: rx_data_google
     explore: prescriptions
     type: looker_scatter
-    fields: [county_census_dt.clean_county_name, county_census_dt.poverty, prescriptions.rtpb_adoption_rate]
+    fields: [county_census_dt.clean_county_name, county_census_dt.poverty, prescriptions.rtpb1_rate]
     sorts: [county_census_dt.poverty desc]
     listen:
       census_county: county_census_dt.clean_county_name
@@ -468,7 +468,7 @@
     model: rx_data_google
     explore: prescriptions
     type: looker_area
-    fields: [prescriptions.rx_month, prescriptions.rtpb_adoption_rate]
+    fields: [prescriptions.rx_month, prescriptions.rtpb1_rate]
     sorts: [prescriptions.rx_month asc]
     listen:
       date_range: prescriptions.rx_date
