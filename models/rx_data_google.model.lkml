@@ -11,6 +11,7 @@ include: "/explores/spi_roots.explore.lkml"
 
 include: "/dashboards/itc_vs_sei.dashboard.lookml"
 include: "/dashboards/prescribed_medication_brand_and_market_insights.dashboard.lookml"
+include: "/dashboards/pop_brand_engagement.dashboard.lookml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.

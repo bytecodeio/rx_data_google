@@ -81,6 +81,6 @@ view: ndcs {
     synonyms: ["distinct drugs", "total medications"]
     type: count_distinct
     sql: ${ndc} ;;
-    value_format_name: decimal_2
+    value_format_name: decimal_0
   }
 }

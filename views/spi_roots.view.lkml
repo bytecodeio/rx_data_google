@@ -405,4 +405,13 @@ view: spi_roots {
     sql: ${spi_root_pk} ;;
     value_format_name: decimal_0
   }
+
+  # Categorical tiering based on prescriber household income compiled by the Looker Expert Assistant agent
+  dimension: zip_income_tier {
+    description: "Household income tier of the provider practice zip code"
+    type: tier
+    tiers: [25000, 50000, 75000, 100000, 150000]
+    style: classic
+    sql: ${spiroot_zip_income_per_household} ;;
+  }
 }

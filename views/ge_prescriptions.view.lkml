@@ -1,4 +1,5 @@
-view: prescriptions {
+view: ge_prescriptions {
+# this file was compile by the looker expert assistant agent in bytecode GE using the existing 'prescriptions' view code
   sql_table_name: `Rx_Data.rx_denorm_fact_1` ;;
 
   dimension: primary_key {
@@ -10,6 +11,7 @@ view: prescriptions {
     type: string
     sql: CONCAT(${account_name},${age_group},${rx_date},${ndc},${ncpdpid},${spi_root},${patient_zip}) ;;
   }
+
   parameter: pick_field_to_count {
     label: "Pick Field to Count"
     description: "Parameter that allows you to dynamically select Diseases, Brands, Vendors or Therapeutics to count"
@@ -32,6 +34,7 @@ view: prescriptions {
       value: "therapeutic"
     }
   }
+
   dimension: account_name {
     label: "Account Name"
     description: "The name of the account organization associated with the prescription"
@@ -39,6 +42,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.account_name ;;
   }
+
   dimension: age_group {
     label: "Age Group"
     description: "The age range group bracket of the patient"
@@ -46,6 +50,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.age_group ;;
   }
+
   dimension: brand_name {
     label: "Brand Name"
     description: "The brand/proprietary name of the prescribed medication"
@@ -53,6 +58,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.Brand_Name ;;
   }
+
   dimension: days_supply {
     label: "Days Supply"
     description: "The number of days of medication supplied"
@@ -60,6 +66,7 @@ view: prescriptions {
     type: number
     sql: ${TABLE}.days_supply ;;
   }
+
   dimension: disease {
     label: "Disease Target"
     description: "The condition or disease target for the prescription"
@@ -67,6 +74,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.Disease ;;
   }
+
   dimension: dispenser_class {
     label: "Dispenser Class"
     description: "The general class of dispenser (e.g. Retail, Mail Order, Specialty)"
@@ -74,6 +82,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.Dispenser_Class ;;
   }
+
   dimension: dispenser_type {
     label: "Dispenser Type"
     description: "The detailed dispenser sub-type description"
@@ -81,6 +90,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.Dispenser_Type ;;
   }
+
   dimension: generic_name {
     label: "Generic Name"
     description: "The established short generic name of the active drug ingredient"
@@ -88,6 +98,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.Generic_Name ;;
   }
+
   dimension: label_name {
     label: "Label Name"
     description: "The printed product label name of the drug package"
@@ -95,6 +106,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.Label_Name ;;
   }
+
   dimension: ncpdpid {
     label: "Pharmacy ID"
     description: "The National Council for Prescription Drug Programs pharmacy identifier"
@@ -102,6 +114,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.NCPDPID ;;
   }
+
   dimension: ndc {
     label: "NDC Code"
     description: "National Drug Code standard identifier"
@@ -109,6 +122,7 @@ view: prescriptions {
     type: number
     sql: ${TABLE}.NDC ;;
   }
+
   dimension: new_rx {
     label: "New Prescriptions Flag"
     description: "Indicator of whether the prescription is a new fill"
@@ -116,6 +130,7 @@ view: prescriptions {
     type: number
     sql: ${TABLE}.new_rx ;;
   }
+
   dimension: patient_city {
     group_label: "Patient Location"
     label: "Patient City"
@@ -124,6 +139,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.patient_city ;;
   }
+
   dimension: patient_county {
     group_label: "Patient Location"
     label: "Patient County"
@@ -132,6 +148,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.patient_county ;;
   }
+
   dimension: patient_state {
     group_label: "Patient Location"
     label: "Patient State"
@@ -141,6 +158,7 @@ view: prescriptions {
     map_layer_name: us_states
     sql: ${TABLE}.patient_state ;;
   }
+
   dimension: patient_zip {
     group_label: "Patient Location"
     label: "Patient ZIP"
@@ -149,6 +167,7 @@ view: prescriptions {
     type: zipcode
     sql: ${TABLE}.patient_zip ;;
   }
+
   dimension: pharmacy_city {
     hidden: no
     group_label: "Pharmacy Location"
@@ -158,6 +177,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.pharmacy_city ;;
   }
+
   dimension: pharmacy_state {
     hidden: no
     group_label: "Pharmacy Location"
@@ -168,6 +188,7 @@ view: prescriptions {
     map_layer_name: us_states
     sql: ${TABLE}.pharmacy_state ;;
   }
+
   dimension: pharmacy_zip {
     group_label: "Pharmacy Location"
     label: "Pharmacy ZIP"
@@ -176,6 +197,7 @@ view: prescriptions {
     type: zipcode
     sql: ${TABLE}.pharmacy_zip ;;
   }
+
   dimension: prescriber_type {
     label: "Prescriber Type"
     description: "The category/credential type of the prescriber (e.g. MD, NP, PA)"
@@ -183,6 +205,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.prescriber_type ;;
   }
+
   dimension: primary_care {
     label: "Is Primary Care Provider"
     description: "Indicates if the prescriber is a primary care physician (Yes/No)"
@@ -190,6 +213,7 @@ view: prescriptions {
     type: yesno
     sql: ${TABLE}.primary_care ;;
   }
+
   dimension: rollup_name {
     label: "Rollup Name"
     description: "The parent or rollup group name for the account"
@@ -197,6 +221,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.rollup_name ;;
   }
+
   dimension: rtpb {
     label: "RTPB Check Flag"
     description: "Indicates whether a Real-Time Prescription Benefit check was run (values > 0)"
@@ -204,6 +229,7 @@ view: prescriptions {
     type: number
     sql: ${TABLE}.rtpb ;;
   }
+
   dimension_group: rx {
     label: "Prescription"
     description: "The date and time the prescription transaction occurred"
@@ -214,6 +240,30 @@ view: prescriptions {
     datatype: date
     sql: TIMESTAMP_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY) ;;
   }
+
+  # =========================================================================
+  # ADDED: TIMELINE DIMENSIONS
+  # Matches the dynamic shifted date syntax in dimension_group: rx
+  # =========================================================================
+
+  dimension: treatment_start_date {
+    group_label: "Treatment Timeline"
+    label: "Treatment Start Date"
+    description: "Shifted therapy start date to match current date windowing"
+    type: date
+    sql: DATE(TIMESTAMP_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY)) ;;
+  }
+
+  dimension: treatment_end_date {
+    group_label: "Treatment Timeline"
+    label: "Treatment End Date"
+    description: "Shifted therapy end date calculated based on days supply duration"
+    type: date
+    sql: DATE_ADD(DATE(TIMESTAMP_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY)), INTERVAL ${TABLE}.days_supply DAY) ;;
+  }
+
+  # =========================================================================
+
   dimension: specialty {
     label: "Prescriber Specialty"
     description: "The primary medical specialty of the prescribing doctor"
@@ -222,6 +272,7 @@ view: prescriptions {
     sql: ${TABLE}.Specialty ;;
     drill_fields: [spi_root]
   }
+
   dimension: spi_city {
     group_label: "Prescriber Location"
     label: "Prescriber City"
@@ -230,6 +281,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.spi_city ;;
   }
+
   dimension: spi_county {
     group_label: "Prescriber Location"
     label: "Prescriber Country"
@@ -238,6 +290,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.spi_county ;;
   }
+
   dimension: spi_root {
     label: "Prescriber ID"
     description: "The unique ID (SPI root) of the prescribing provider"
@@ -245,6 +298,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.SPI_Root ;;
   }
+
   dimension: spi_state {
     group_label: "Prescriber Location"
     label: "Prescriber State"
@@ -254,6 +308,7 @@ view: prescriptions {
     map_layer_name: us_states
     sql: ${TABLE}.spi_state ;;
   }
+
   dimension: spi_zip {
     group_label: "Prescriber Location"
     label: "Prescriber ZIP"
@@ -262,6 +317,7 @@ view: prescriptions {
     type: zipcode
     sql: ${TABLE}.spi_zip ;;
   }
+
   dimension: therapeutic {
     label: "Therapeutic Class"
     description: "The therapeutic category class of the drug (e.g. cardiovascular, vitamins)"
@@ -269,6 +325,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.Therapeutic ;;
   }
+
   dimension: vendor_common_name {
     label: "Vendor Common Name"
     description: "The common name used for the vendor manufacturer"
@@ -276,6 +333,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.vendor_common_name ;;
   }
+
   dimension: vendor_name {
     label: "Vendor Name"
     description: "The full legal name of the vendor manufacturer"
@@ -283,6 +341,7 @@ view: prescriptions {
     type: string
     sql: ${TABLE}.vendor_name ;;
   }
+
   measure: avg_days_supply {
     hidden: no
     label: "Average Days of Supply"
@@ -292,6 +351,59 @@ view: prescriptions {
     sql: ${days_supply} ;;
     value_format_name: decimal_2
   }
+
+  # =========================================================================
+  # ADDED: DAYS SUPPLY PERCENTILES (BOX PLOT TILES)
+  # Computes percentile distributions across days supply limits
+  # =========================================================================
+
+  measure: days_supply_p5 {
+    label: "Days Supply 5th Percentile"
+    group_label: "Days Supply Percentiles"
+    description: "5th percentile value of filled medication days supply"
+    type: percentile
+    percentile: 5
+    sql: ${days_supply} ;;
+  }
+
+  measure: days_supply_p25 {
+    label: "Days Supply 25th Percentile"
+    group_label: "Days Supply Percentiles"
+    description: "25th percentile value of filled medication days supply"
+    type: percentile
+    percentile: 25
+    sql: ${days_supply} ;;
+  }
+
+  measure: days_supply_p50 {
+    label: "Days Supply Median (50th Percentile)"
+    group_label: "Days Supply Percentiles"
+    description: "Median (50th percentile) value of filled medication days supply"
+    type: percentile
+    percentile: 50
+    sql: ${days_supply} ;;
+  }
+
+  measure: days_supply_p75 {
+    label: "Days Supply 75th Percentile"
+    group_label: "Days Supply Percentiles"
+    description: "75th percentile value of filled medication days supply"
+    type: percentile
+    percentile: 75
+    sql: ${days_supply} ;;
+  }
+
+  measure: days_supply_p95 {
+    label: "Days Supply 95th Percentile"
+    group_label: "Days Supply Percentiles"
+    description: "95th percentile value of filled medication days supply"
+    type: percentile
+    percentile: 95
+    sql: ${days_supply} ;;
+  }
+
+  # =========================================================================
+
   measure: dynamic_counter {
     hidden: no
     label_from_parameter: pick_field_to_count
@@ -300,6 +412,7 @@ view: prescriptions {
     type: count_distinct
     sql: {% parameter pick_field_to_count %} ;;
   }
+
   measure: number_of_pharmacies {
     hidden: no
     label: "Number of Pharmacies"
@@ -309,6 +422,7 @@ view: prescriptions {
     sql: ${ncpdpid} ;;
     value_format_name: decimal_2
   }
+
   measure: number_of_new_prescriptions {
     hidden: no
     label: "Number of New Prescriptions"
@@ -318,6 +432,7 @@ view: prescriptions {
     sql: ${new_rx} ;;
     drill_fields: [detail*]
   }
+
   measure: new_rx_ratio {
     label: "New Prescription Rate"
     description: "The percentage of total filled prescriptions that are new starts"
@@ -325,6 +440,7 @@ view: prescriptions {
     sql: SAFE_DIVIDE(${number_of_new_prescriptions}, ${number_of_prescriptions}) ;;
     value_format_name: percent_2
   }
+
   measure: number_of_providers {
     hidden: no
     label: "Number of Providers"
@@ -334,6 +450,7 @@ view: prescriptions {
     sql: ${spi_root} ;;
     drill_fields: [detail*]
   }
+
   measure: number_of_prescriptions {
     hidden: no
     label: "Number of Prescriptions"
@@ -343,6 +460,7 @@ view: prescriptions {
     sql: ${primary_key} ;;
     value_format_name: decimal_0
   }
+
   measure: rtpb_adoption_rate {
     label: "RTPB Adoption Rate"
     description: "The percentage of prescription transactions where a Real-Time Prescription Benefit check was performed"
@@ -353,6 +471,7 @@ view: prescriptions {
     ) ;;
     value_format_name: percent_1
   }
+
   measure: number_of_specialties {
     hidden: no
     label: "Number of Specialties"
@@ -361,6 +480,7 @@ view: prescriptions {
     type: count_distinct
     sql: ${specialty} ;;
   }
+
   measure: utilization {
     label: "Provider Utilization"
     description: "The average number of prescriptions per prescribing provider (Number of Prescriptions divided by Number of Providers)"
@@ -372,6 +492,7 @@ view: prescriptions {
   }
 
   ### PERIOD COMPARISON
+
   filter: first_date_period {
     group_label: "Arbitrary Period Comparison"
     label: "First Date Period Filter"
@@ -382,6 +503,7 @@ view: prescriptions {
     default_value: "2023"
     sql: ${is_first_period} OR ${is_second_period} ;;
   }
+
   filter: second_date_period {
     group_label: "Arbitrary Period Comparison"
     label: "Second Date Period Filter"
@@ -392,6 +514,7 @@ view: prescriptions {
     default_value: "2022"
     sql: ${is_first_period} OR ${is_second_period} ;;
   }
+
   dimension: is_first_period {
     hidden: yes
     label: "Is First Period"
@@ -400,6 +523,7 @@ view: prescriptions {
     type: yesno
     sql: {% condition first_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
   }
+
   dimension: is_second_period {
     hidden: yes
     label: "Is Second Period"
@@ -408,7 +532,9 @@ view: prescriptions {
     type: yesno
     sql: {% condition second_date_period %} CAST(${rx_raw} as TIMESTAMP) {% endcondition %} ;;
   }
+
   ### NATIVE POP MEASURES
+
   measure: number_of_new_prescriptions_in_first_period {
     hidden: no
     label: "Number of New Prescriptions in First Period"
@@ -420,6 +546,7 @@ view: prescriptions {
     filters: [is_first_period: "Yes"]
     drill_fields: [detail*]
   }
+
   measure: number_of_new_prescriptions_in_second_period {
     hidden: no
     label: "Number of New Prescriptions in Second Period"
@@ -431,6 +558,7 @@ view: prescriptions {
     filters: [is_second_period: "Yes"]
     drill_fields: [detail*]
   }
+
   measure: avg_days_supply_in_first_period {
     hidden: no
     label: "Average Days of Supply in First Period"
@@ -442,6 +570,7 @@ view: prescriptions {
     filters: [is_first_period: "Yes"]
     value_format_name: decimal_2
   }
+
   measure: avg_days_supply_in_second_period {
     hidden: no
     label: "Average Days of Supply in Second Period"
@@ -453,6 +582,7 @@ view: prescriptions {
     filters: [is_second_period: "Yes"]
     value_format_name: decimal_2
   }
+
   measure: number_of_new_prescriptions_last_month {
     hidden: no
     label: "Number of New Prescriptions Last Month"
@@ -467,6 +597,7 @@ view: prescriptions {
     value_format_name: "decimal_0"
     drill_fields: [detail*]
   }
+
   measure: number_of_new_prescriptions_last_year {
     hidden: no
     label: "Number of New Prescriptions Last Year"
@@ -481,6 +612,7 @@ view: prescriptions {
     value_format_name: "decimal_0"
     drill_fields: [detail*]
   }
+
   measure: new_prescriptions_change_from_last_year {
     hidden: no
     label: "New Prescriptions Change from Last Year"
@@ -495,6 +627,7 @@ view: prescriptions {
     value_format_name: "decimal_0"
     drill_fields: [detail*]
   }
+
   measure: new_prescriptions_percent_change_from_last_year {
     hidden: no
     label: "New Prescriptions Percent Change from Last Year"
@@ -510,8 +643,67 @@ view: prescriptions {
     drill_fields: [detail*]
   }
 
+  # =========================================================================
+  # ADDED: TARGET POP MEASURES REFERENCED BY DASHBOARD TILES
+  # Native period_over_period metrics supporting prior periods and delta percentages
+  # =========================================================================
+
+  measure: prescriptions_prior_period {
+    label: "Prescriptions Prior Period"
+    group_label: "Previous Period Comparison"
+    description: "Prescription volume filled in the comparable prior month period. Requires rx_month in the query."
+    type: period_over_period
+    kind: previous
+    based_on: number_of_prescriptions
+    based_on_time: rx_month
+    period: month
+    value_format_name: "decimal_0"
+    drill_fields: [detail*]
+  }
+
+  measure: prescriptions_pop_change_pct {
+    label: "Prescriptions PoP Change Percent"
+    group_label: "Previous Period Comparison"
+    description: "Percentage volume shift compared to the prior month period. Requires rx_month in the query."
+    type: period_over_period
+    kind: relative_change
+    based_on: number_of_prescriptions
+    based_on_time: rx_month
+    period: month
+    value_format_name: "percent_2"
+    drill_fields: [detail*]
+  }
+
+  measure: new_prescriptions_prior_period {
+    label: "New Prescriptions Prior Period"
+    group_label: "Previous Period Comparison"
+    description: "New prescriptions filled in the comparable prior month period. Requires rx_month in the query."
+    type: period_over_period
+    kind: previous
+    based_on: number_of_new_prescriptions
+    based_on_time: rx_month
+    period: month
+    value_format_name: "decimal_0"
+    drill_fields: [detail*]
+  }
+
+  measure: new_prescriptions_pop_pct_change {
+    label: "New Prescriptions PoP Percent Change"
+    group_label: "Previous Period Comparison"
+    description: "Percentage shift in new treatment starts compared to the prior month period. Requires rx_month in the query."
+    type: period_over_period
+    kind: relative_change
+    based_on: number_of_new_prescriptions
+    based_on_time: rx_month
+    period: month
+    value_format_name: "percent_2"
+    drill_fields: [detail*]
+  }
+
+  # =========================================================================
 
   # ----- Sets of fields for drilling ------
+
   set: detail {
     fields: [
       rollup_name,

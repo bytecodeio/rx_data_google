@@ -57,7 +57,8 @@ view: county_census_dt {
       CASE
         WHEN SAFE_DIVIDE(c.poverty, c.total_pop) < 0.10 THEN 'Low Poverty (<10%)'
         WHEN SAFE_DIVIDE(c.poverty, c.total_pop) >= 0.10 AND SAFE_DIVIDE(c.poverty, c.total_pop) < 0.20 THEN 'Moderate Poverty (10-20%)'
-        WHEN SAFE_DIVIDE(c.poverty, c.total_pop) >= 0.20 THEN 'High Poverty (20%+)'
+        WHEN SAFE_DIVIDE(c.poverty, c.total_pop) >= 0.20 AND SAFE_DIVIDE(c.poverty, c.total_pop) < 0.40 THEN 'High Poverty (20-40%)'
+        WHEN SAFE_DIVIDE(c.poverty, c.total_pop) >= 0.40 THEN 'Extreme Poverty (40%+)'
         ELSE 'Unknown'
       END AS poverty_tier,
       SAFE_DIVIDE(c.unemployed_pop, c.total_pop) AS unemployment_rate,
@@ -377,6 +378,13 @@ view: county_census_dt {
     sql: ${TABLE}.poverty_rate ;;
   }
 
+  dimension: unemployement_rate {
+    type: number
+    value_format_name: percent_1
+    label: "Unemployement Rate"
+    sql: ${TABLE}.uneployement_rate ;;
+  }
+
   dimension: poverty_tier {
     type: string
     label: "Poverty Tier"
@@ -525,11 +533,18 @@ view: county_census_dt {
   }
 
   measure: average_poverty_rate {
-    type: number
+    type: average
     label: "Average Poverty Rate"
     value_format_name: percent_1
     description: "Average percentage of population living below the poverty line (poverty / total population)."
     sql: ${poverty_rate} ;;
+  }
+
+  measure: average_unemployement_rate {
+    type: average
+    label: "Average Unemployement Rate"
+    value_format_name: percent_1
+    sql: ${unemployement_rate} ;;
   }
 
   measure: total_poverty_rate {
