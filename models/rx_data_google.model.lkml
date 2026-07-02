@@ -7,6 +7,7 @@ include: "/explores/pharmacy.explore.lkml"
 include: "/explores/ndcs.explore.lkml"
 include: "/explores/prescriptions.explore.lkml"
 include: "/explores/spi_roots.explore.lkml"
+include: "/explores/county_census.explore.lkml"
 
 
 include: "/dashboards/itc_vs_sei.dashboard.lookml"
