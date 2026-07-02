@@ -835,6 +835,194 @@
     width: 24
     height: 2
     tab_name: ''
+  - title: State New Prescription Rate Correlation to Poverty Rate
+    name: State New Prescription Rate Correlation to Poverty Rate
+    merged_queries:
+    - model: rx_data_google
+      explore: prescriptions
+      type: looker_area
+      fields: [prescriptions.rx_month, prescriptions.new_rx_ratio, pharmacy.state]
+      filters:
+        prescriptions.rx_date: 30 days
+        prescriptions.pick_field_to_count: brand^_name
+      sorts: [prescriptions.rx_month, prescriptions.new_rx_ratio desc]
+      limit: 5000
+      column_limit: 50
+      x_axis_gridlines: false
+      y_axis_gridlines: true
+      show_view_names: false
+      show_y_axis_labels: true
+      show_y_axis_ticks: true
+      y_axis_tick_density: default
+      y_axis_tick_density_custom: 5
+      show_x_axis_label: true
+      show_x_axis_ticks: true
+      y_axis_scale_mode: linear
+      x_axis_reversed: false
+      y_axis_reversed: false
+      plot_size_by_field: false
+      trellis: ''
+      stacking: ''
+      limit_displayed_rows: false
+      legend_position: center
+      point_style: none
+      show_value_labels: false
+      label_density: 25
+      x_axis_scale: auto
+      y_axis_combined: true
+      show_null_points: true
+      interpolation: linear
+      show_totals_labels: false
+      show_silhouette: false
+      totals_color: "#808080"
+      defaults_version: 1
+      hidden_pivots: {}
+    - model: rx_data_google
+      explore: county_census_dt
+      type: table
+      fields: [county_census_dt.state, county_census_dt.average_poverty_rate]
+      sorts: [county_census_dt.average_poverty_rate desc 0]
+      limit: 500
+      column_limit: 50
+      query_timezone: America/Los_Angeles
+      join_fields:
+      - field_name: county_census_dt.state
+        source_field_name: pharmacy.state
+    hidden_pivots: {}
+    type: table
+    pivots: [prescriptions.rx_month]
+    sorts: [prescriptions.rx_month]
+    listen:
+    - Pick Field to Count: prescriptions.pick_field_to_count
+    -
+    row: 80
+    col: 0
+    width: 8
+    height: 6
+    tab_name: ''
+  - name: Doctor vs Population Distribution by State
+    title: Doctor vs Population Distribution by State
+    merged_queries:
+    - model: rx_data_google
+      explore: prescriptions
+      type: looker_scatter
+      fields: [spi_roots.state, spi_roots.number_of_doctors]
+      filters:
+        prescriptions.rx_date: 30 days
+        prescriptions.pick_field_to_count: brand^_name
+      sorts: [spi_roots.number_of_doctors desc 0]
+      limit: 5000
+      column_limit: 50
+      x_axis_gridlines: false
+      y_axis_gridlines: true
+      show_view_names: false
+      show_y_axis_labels: true
+      show_y_axis_ticks: true
+      y_axis_tick_density: default
+      y_axis_tick_density_custom: 5
+      show_x_axis_label: true
+      show_x_axis_ticks: true
+      y_axis_scale_mode: linear
+      x_axis_reversed: false
+      y_axis_reversed: false
+      plot_size_by_field: false
+      trellis: ''
+      stacking: ''
+      limit_displayed_rows: false
+      legend_position: center
+      point_style: none
+      show_value_labels: false
+      label_density: 25
+      x_axis_scale: auto
+      y_axis_combined: true
+      show_null_points: true
+      hidden_fields: []
+      hidden_points_if_no: []
+      series_labels: {}
+      interpolation: linear
+      show_totals_labels: false
+      show_silhouette: false
+      totals_color: "#808080"
+      defaults_version: 1
+      hidden_pivots: {}
+      ordering: none
+      show_null_labels: false
+    - model: rx_data_google
+      explore: county_census_dt
+      type: table
+      fields: [county_census_dt.state, county_census_dt.total_households, county_census_dt.total_population]
+      sorts: [county_census_dt.total_households desc 0]
+      limit: 500
+      column_limit: 50
+      query_timezone: America/Los_Angeles
+      hidden_pivots: {}
+      join_fields:
+      - field_name: county_census_dt.state
+        source_field_name: spi_roots.state
+    hidden_fields: []
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    y_axes: [{label: '', orientation: left, series: [{axisId: county_census_dt.total_households,
+            id: county_census_dt.total_households, name: Total Households}, {axisId: county_census_dt.total_population,
+            id: county_census_dt.total_population, name: Total Population}], showLabels: true,
+        showValues: true, tickDensity: default, type: linear, unpinAxis: false}, {
+        label: !!null '', orientation: right, series: [{axisId: spi_roots.number_of_doctors,
+            id: spi_roots.number_of_doctors, name: Number of Doctors}], showLabels: true,
+        showValues: true, tickDensity: default, type: linear, unpinAxis: false}]
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    x_axis_zoom: true
+    y_axis_zoom: true
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    series_types: {}
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: true
+    cluster_points: false
+    quadrants_enabled: false
+    quadrant_properties:
+      '0':
+        color: ''
+        label: Quadrant 1
+      '1':
+        color: ''
+        label: Quadrant 2
+      '2':
+        color: ''
+        label: Quadrant 3
+      '3':
+        color: ''
+        label: Quadrant 4
+    custom_quadrant_point_x: 5
+    custom_quadrant_point_y: 5
+    custom_x_column: ''
+    custom_y_column: ''
+    custom_value_label_column: ''
+    hidden_pivots: {}
+    type: looker_scatter
+    listen:
+    - Pick Field to Count: prescriptions.pick_field_to_count
+    -
+    row: 80
+    col: 0
+    width: 8
+    height: 6
+    tab_name: ''
 
   # - name: tile_28_merged_prescriber_census
   #   title: "Prescriber Census Overlay"
