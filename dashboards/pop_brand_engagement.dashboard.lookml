@@ -1,6 +1,6 @@
 ---
-- dashboard: brand_performance_pop_udd
-  title: Brand Performance PoP UDD
+- dashboard: brand_performance_pop_cc
+  title: Brand Performance and Provider Period-over-Period Engagement Command Center
   preferred_viewer: dashboards-next
   description: Executive Marketing Dashboard displaying native PoP metrics across
     patient journeys and provider targeting explores
