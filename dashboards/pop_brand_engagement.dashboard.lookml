@@ -1,10 +1,10 @@
 ---
-- dashboard: brand_performance_pop_cc
+- dashboard: brand_performance_and_provider_periodoverperiod_engagement_command_center
   title: Brand Performance and Provider Period-over-Period Engagement Command Center
   preferred_viewer: dashboards-next
   description: Executive Marketing Dashboard displaying native PoP metrics across
     patient journeys and provider targeting explores
-  preferred_slug: Dk5Ocsv8ZlYwI5mKhlomaN
+  preferred_slug: h2Utsd14fiHLcc7qoFn3Cq
   theme_name: ''
   embed_style:
     background_color: "#f8f9fa"
@@ -20,7 +20,6 @@
   - name: Executive KPI Summary - Native Period-over-Period Performance
     type: text
     title_text: Executive KPI Summary - Native Period-over-Period Performance
-    subtitle_text: ''
     body_text: High level summary of prescription volumes and new treatment starts
       compared against previous monthly boundaries.
     row: 0
@@ -127,7 +126,6 @@
   - name: Brand Performance and Market Share Analytics
     type: text
     title_text: Brand Performance and Market Share Analytics
-    subtitle_text: ''
     body_text: Visual breakdown of drug brand volumes and therapeutic class distributions
       over time
     row: 6
@@ -420,7 +418,6 @@
   - name: Geographic and Socioeconomic Targeting - Census Overlay
     type: text
     title_text: Geographic and Socioeconomic Targeting - Census Overlay
-    subtitle_text: ''
     body_text: Targeting high growth territories by overlaying patient demographics
       and county level socioeconomic indices
     row: 22
@@ -560,7 +557,6 @@
     type: text
     title_text: Specialty Visualizations - Funnels Timelines and Distribution Box
       Plots
-    subtitle_text: ''
     body_text: Tracking doctor engagement progression, therapy durations, and medication
       supply distributions
     row: 38
@@ -736,7 +732,6 @@
   - name: Provider and Pharmacy Deep-Dive Performance
     type: text
     title_text: Provider and Pharmacy Deep-Dive Performance
-    subtitle_text: ''
     body_text: Analyzing high performing pharmacies and top prescribing physicians
       across marketing targets
     row: 54
@@ -827,7 +822,6 @@
   - name: Merged Query Tiles and Advanced Campaign Analysis
     type: text
     title_text: Merged Query Tiles and Advanced Campaign Analysis
-    subtitle_text: ''
     body_text: Combining multidimensional explore datasets for targeted territory
       mapping and brand growth walk analysis
     row: 70
@@ -835,12 +829,12 @@
     width: 24
     height: 2
     tab_name: ''
-  - title: State New Prescription Rate Correlation to Poverty Rate
-    name: State New Prescription Rate Correlation to Poverty Rate
+  - name: State New Prescription Rate Correlation to Poverty Rate
+    title: State New Prescription Rate Correlation to Poverty Rate
     merged_queries:
     - model: rx_data_google
       explore: prescriptions
-      type: looker_area
+      type: table
       fields: [prescriptions.rx_month, prescriptions.new_rx_ratio, pharmacy.state]
       filters:
         prescriptions.rx_date: 30 days
@@ -848,35 +842,7 @@
       sorts: [prescriptions.rx_month, prescriptions.new_rx_ratio desc]
       limit: 5000
       column_limit: 50
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      hidden_pivots: {}
+      join_fields: []
     - model: rx_data_google
       explore: county_census_dt
       type: table
@@ -892,12 +858,13 @@
     type: table
     pivots: [prescriptions.rx_month]
     sorts: [prescriptions.rx_month]
+    column_limit: 50
     listen:
     - Pick Field to Count: prescriptions.pick_field_to_count
     -
     row: 80
     col: 0
-    width: 8
+    width: 12
     height: 6
     tab_name: ''
   - name: Doctor vs Population Distribution by State
@@ -905,7 +872,7 @@
     merged_queries:
     - model: rx_data_google
       explore: prescriptions
-      type: looker_scatter
+      type: table
       fields: [spi_roots.state, spi_roots.number_of_doctors]
       filters:
         prescriptions.rx_date: 30 days
@@ -913,40 +880,7 @@
       sorts: [spi_roots.number_of_doctors desc 0]
       limit: 5000
       column_limit: 50
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      hidden_fields: []
-      hidden_points_if_no: []
-      series_labels: {}
-      interpolation: linear
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      hidden_pivots: {}
-      ordering: none
-      show_null_labels: false
+      join_fields: []
     - model: rx_data_google
       explore: county_census_dt
       type: table
@@ -955,7 +889,6 @@
       limit: 500
       column_limit: 50
       query_timezone: America/Los_Angeles
-      hidden_pivots: {}
       join_fields:
       - field_name: county_census_dt.state
         source_field_name: spi_roots.state
@@ -1015,60 +948,15 @@
     custom_value_label_column: ''
     hidden_pivots: {}
     type: looker_scatter
+    column_limit: 50
     listen:
     - Pick Field to Count: prescriptions.pick_field_to_count
     -
     row: 80
-    col: 0
-    width: 8
+    col: 12
+    width: 12
     height: 6
     tab_name: ''
-
-  # - name: tile_28_merged_prescriber_census
-  #   title: "Prescriber Census Overlay"
-  #   type: table
-  #   merged_queries:
-  #   - model: rx_data_google
-  #     explore: spi_roots
-  #     fields: [spi_roots.state, spi_roots.number_of_doctors]
-  #     sorts: [spi_roots.number_of_doctors desc]
-  #   - model: rx_data_google
-  #     explore: county_census_dt
-  #     fields: [prescriptions.patient_zip, prescriptions.patient_state, prescriptions.number_of_prescriptions, county_census_dt.average_median_income]
-  #     sorts: [prescriptions.number_of_prescriptions desc]
-  #     join_fields:
-  #       - field_name: spi_roots.state
-  #         source_field_name: county_census_dt.state
-
-  #   row: 72
-  #   col: 0
-  #   width: 12
-  #   height: 6
-
-  # - name: tile_29_merged_med_pharmacy
-  #   title: "Medication and Pharmacy Co-occurrence"
-  #   type: merged_results
-  #   query_mapping:
-  #     - field_name: merged_state
-  #       join_fields:
-  #         - field_name: prescriptions.patient_state
-  #           source_field_name: query_ndc_sales
-  #         - field_name: pharmacy.state
-  #           source_field_name: query_pharm_reach
-  #   merged_queries:
-  #     - name: query_ndc_sales
-  #       model: rx_data_google
-  #       explore: ndcs
-  #       fields: [prescriptions.patient_state, ndcs.therapeutic, ndcs.number_of_medications]
-  #     - name: query_pharm_reach
-  #       model: rx_data_google
-  #       explore: pharmacy
-  #       fields: [pharmacy.state, pharmacy.dispenser_type, pharmacy.number_of_pharmacies]
-  #   row: 72
-  #   col: 12
-  #   width: 12
-  #   height: 6
-
   - title: Brand Share vs Socioeconomic Indicators Trend
     name: Brand Share vs Socioeconomic Indicators Trend
     model: rx_data_google
@@ -1084,7 +972,6 @@
     width: 24
     height: 8
     tab_name: ''
-
   filters:
   - name: date_range
     title: Prescription Date Range
