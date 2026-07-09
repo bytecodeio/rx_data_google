@@ -416,10 +416,7 @@ view: spi_roots {
     label: "ePA Activation Rate"
     description: "The percentage of doctors with electronic prior authorization activated"
     type: number
-    sql: SAFE_DIVIDE(
-      COUNT(CASE WHEN ${is_epa_activated_current_jan} = yes THEN 1 END),
-      ${number_of_doctors}
-    ) ;;
+    sql: SAFE_DIVIDE(${count_doctors_with_epa_activated}, ${number_of_doctors}) ;;
     value_format_name: percent_1
   }
   measure: number_of_doctors {

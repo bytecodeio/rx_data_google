@@ -496,7 +496,7 @@
     name: Long-Term Care Share by Therapeutic Class and County Income Tier
     model: rx_data_google
     explore: rx_normalized_analytics
-    type: looker_pie
+    type: looker_column
     fields: [ndcs.therapeutic, county_census_dt.income_tier, rx_fact.count]
     pivots: [county_census_dt.income_tier]
     filters:
@@ -504,6 +504,8 @@
     sorts: [rx_fact.count desc]
     limit: 8
     column_limit: 50
+    stacking: percent
+    show_value_labels: true
     listen:
       Fulfillment Date: dates.date_date
       Patient State: county_census_dt.state
