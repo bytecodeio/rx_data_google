@@ -390,12 +390,37 @@ view: spi_roots {
     type: zipcode
     sql: ${TABLE}.Zip ;;
   }
+# Categorical tiering based on prescriber household income compiled by the Looker Expert Assistant agent
+  dimension: zip_income_tier {
+    description: "Household income tier of the provider practice zip code"
+    type: tier
+    tiers: [25000, 50000, 75000, 100000, 150000]
+    style: classic
+    sql: ${spiroot_zip_income_per_household} ;;
+  }
   measure: count {
     hidden: yes
     label: "Prescriber Count"
     description: "The total number of prescriber records"
     type: count
     drill_fields: [spi_root_pk, primary_rollup_name, primary_common_name, primary_vendor_name]
+  }
+  measure: count_doctors_with_epa_activated {
+    label: "Count of Doctors with ePA Activated"
+    description: "The total number of unique doctors who have electronic prior authorization (ePA) activated. Count. [Example: 942]"
+    type: count_distinct
+    sql: ${spi_root_pk} ;;
+    filters: [is_epa_activated_current_jan: "yes"]
+  }
+  measure: epa_activation_rate {
+    label: "ePA Activation Rate"
+    description: "The percentage of doctors with electronic prior authorization activated"
+    type: number
+    sql: SAFE_DIVIDE(
+      COUNT(CASE WHEN ${is_epa_activated_current_jan} = yes THEN 1 END),
+      ${number_of_doctors}
+    ) ;;
+    value_format_name: percent_1
   }
   measure: number_of_doctors {
     label: "Number of Doctors"
@@ -404,14 +429,5 @@ view: spi_roots {
     type: count_distinct
     sql: ${spi_root_pk} ;;
     value_format_name: decimal_0
-  }
-
-  # Categorical tiering based on prescriber household income compiled by the Looker Expert Assistant agent
-  dimension: zip_income_tier {
-    description: "Household income tier of the provider practice zip code"
-    type: tier
-    tiers: [25000, 50000, 75000, 100000, 150000]
-    style: classic
-    sql: ${spiroot_zip_income_per_household} ;;
   }
 }
