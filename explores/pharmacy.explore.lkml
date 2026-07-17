@@ -3,6 +3,7 @@ include: "/views/self_contained_prescriptions_sim.view.lkml"
 
 explore: pharmacy {
   label: "Pharmacy Explore"
+  description: "This explore provides insight into the pharmacies, including location (state, zip), dispenser class and type."
   group_label: "Google RX Project"
   aggregate_table: pharmacy_monthly_summary {
     query: {

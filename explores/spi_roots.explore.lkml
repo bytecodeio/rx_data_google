@@ -4,6 +4,7 @@ include: "/views/county_census_dt.view.lkml"
 
 explore: spi_roots {
   label: "Doctors Explore"
+  description: "This explore focuses on the prescribers' or doctors' grain and contains details regarding their national ID, clinic location (state, zip), category and specialization of practice, along with statuses on certifications."
   group_label: "Google RX Project"
   view_label: "Doctors"
   join: prescriptions {

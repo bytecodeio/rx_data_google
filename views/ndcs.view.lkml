@@ -67,6 +67,23 @@ view: ndcs {
     type: string
     sql: ${TABLE}.Therapeutic ;;
   }
+  dimension: weather_sensitive_disease_cohort {
+    type: string
+    label: "Weather-Sensitive Disease Cohort"
+    description: "Groups medications into climate-reactive categories based on their therapeutic target and clinical indication."
+    sql:
+    CASE
+      WHEN ${therapeutic} IN ('COUGH AND COLD PREPARATIONS', 'ANTIBACTERIALS FOR SYSTEMIC USE', 'ANTIVIRALS FOR SYSTEMIC USE')
+        THEN 'Respiratory Infections (Cold/Flu Surge)'
+      WHEN ${therapeutic} IN ('ANTIHYPERTENSIVES', 'CARDIAC THERAPY', 'BETA BLOCKING AGENTS', 'DIURETICS', 'CALCIUM CHANNEL BLOCKERS')
+        THEN 'Cardiovascular (Heat/Cold Extremes)'
+      WHEN ${disease} LIKE '%ASTHMA%' OR ${disease} LIKE '%COPD%' OR ${therapeutic} = 'RESPIRATORY SYSTEM'
+        THEN 'Chronic Respiratory (Asthma/COPD)'
+      WHEN ${therapeutic} LIKE '%ANTIHISTAMINE%' OR ${disease} LIKE '%ALLERGY%' OR ${disease} LIKE '%ALLERGIC%'
+        THEN 'Allergic Rhinitis (Seasonal Pollen/Spring)'
+      ELSE 'Non-Weather Sensitive / Baseline Chronic'
+    END ;;
+  }
   measure: count {
     hidden: yes
     label: "NDC Row Count"

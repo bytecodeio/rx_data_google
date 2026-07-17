@@ -1,8 +1,4 @@
 view: county_census_dt {
-
-  # =========================================================================
-  # DERIVED TABLE SOURCE CONFIGURATION
-  # =========================================================================
   derived_table: {
     sql:
     SELECT
@@ -362,6 +358,22 @@ view: county_census_dt {
   #     ELSE 6
   #   END ;;
   # }
+
+  dimension: geographic_vulnerability_index {
+    type: string
+    label: "Geographic Vulnerability Band"
+    description: "Classifies counties into social/mobility vulnerability classes based on poverty rate and zero-vehicle households."
+    sql:
+    CASE
+      WHEN ${poverty_rate} >= 0.20 AND (${households_no_cars_raw} / NULLIF(${households_raw}, 0)) >= 0.15
+        THEN 'High Social & Mobility Vulnerability'
+      WHEN ${poverty_rate} >= 0.20
+        THEN 'High Poverty Vulnerability'
+      WHEN (${households_no_cars_raw} / NULLIF(${households_raw}, 0)) >= 0.15
+        THEN 'High Mobility Barriers'
+      ELSE 'Standard Vulnerability Profile'
+    END ;;
+  }
 
   dimension: unemployment_tier {
     type: string

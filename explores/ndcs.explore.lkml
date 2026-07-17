@@ -3,6 +3,7 @@ include: "/views/self_contained_prescriptions_sim.view.lkml"
 
 explore: ndcs {
   label: "Medication Explore"
+  description: "This explore digs into the details for medications themselves, looking at things like dosage, supply amount, brand, targeted disease, etc."
   group_label: "Google RX Project"
   view_label: "Medications"
   join: prescriptions {

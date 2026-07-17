@@ -6,10 +6,13 @@ include: "/views/spi_roots.view.lkml"
 include: "/views/ndcs.view.lkml"
 include: "/views/pharmacy.view.lkml"
 include: "/views/county_census_dt.view.lkml"
+include: "/views/station_mapping_dt.view.lkml"
+include: "/views/weather_dt.view.lkml"
 
 explore: rx_normalized_analytics {
   from: rx_fact_simulation
   label: "Prescription Analytics (Normalized)"
+  description: "Normalized view looking over all prescription, prescriber, and pharmacy data."
   group_label: "Google RX Project"
   view_name: rx_fact
 
@@ -62,4 +65,5 @@ explore: rx_normalized_analytics {
     sql_on: UPPER(${spi_roots.county}) = ${county_census_dt.clean_county_name}
         AND ${spi_roots.state} = ${county_census_dt.state} ;;
   }
+
 }

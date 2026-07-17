@@ -1,5 +1,6 @@
 view: station_mapping_dt {
   derived_table: {
+    datagroup_trigger: weather_daily_datagroup
     sql:
       WITH zip_centroids AS (
         SELECT
@@ -57,7 +58,7 @@ view: station_mapping_dt {
 
       -- Select only the single closest weather station for each ZIP code
       SELECT --count( distinct station_name)
-        (usaf||wban) AS station_key,
+        CONCAT(usaf,wban) AS station_key,
         zip_code,
         state_code,
         usaf,
@@ -70,13 +71,12 @@ view: station_mapping_dt {
         distance_matrix
       WHERE
         rank_closest = 1
-
       ;;
   }
 
   dimension: cpk {
     type: string
-    description: "Unique identifier combining the station's unique identifier and the zip code closest to it."
+    description: "Unique row identifier combining the station's unique identifier and the zip code closest to it."
     primary_key: yes
     hidden: yes
     sql: ${station_key}||${zip_code};;
@@ -89,8 +89,9 @@ view: station_mapping_dt {
   }
 
   dimension: zip_code {
-    type: zipcode
     label: "Zipcode"
+    description: "This is the zip code field that will be used to join to the RX data allowing the weather data to be attributed to the closest station determined by distance between their geo points."
+    type: zipcode
     sql: ${TABLE}.zip_code ;;
     map_layer_name: us_zipcode_tabulation_areas
   }
@@ -148,7 +149,7 @@ view: station_mapping_dt {
   }
 
   measure: station_count {
-    type: count
+    type: count_distinct
     label: "Count of Stations"
     description: "The count of stations"
     sql: ${station_key} ;;

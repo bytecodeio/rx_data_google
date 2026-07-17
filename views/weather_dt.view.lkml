@@ -1,7 +1,8 @@
 view: weather_dt {
   derived_table: {
+    datagroup_trigger: weather_daily_datagroup
     sql:
-WITH zip_centroids AS (
+      WITH zip_centroids AS (
         SELECT
           zip_code,
           state_code,
@@ -58,7 +59,7 @@ WITH zip_centroids AS (
           state_code,
           usaf,
           wban,
-          (usaf||wban) AS station_key,
+          CONCAT(usaf,wban) AS station_key,
           station_name,
           distance_meters
         FROM
@@ -86,7 +87,7 @@ WITH zip_centroids AS (
       FROM `bigquery-public-data.noaa_gsod.gsod*` w
       JOIN station_mapping s
         ON w.stn = s.usaf AND w.wban = s.wban
-      WHERE w._TABLE_SUFFIX BETWEEN '2016' AND '2025'
+      WHERE w._TABLE_SUFFIX BETWEEN '2016' AND '2023'
       -- GROUP BY 1
     ;;
   }
@@ -102,7 +103,7 @@ WITH zip_centroids AS (
     primary_key: yes
     hidden: yes
     description: "Compound key unique for each row, combining the unique station identifier and the date"
-    sql: ${station_key}||${weather_record_raw} ;;
+    sql: CONCAT(${station_key},'-',CAST(${weather_record_raw} AS STRING)) ;;
   }
 
   dimension: station_key {
@@ -116,7 +117,7 @@ WITH zip_centroids AS (
     datatype: date
     label: "Weather Recorded"
     timeframes: [raw, date, day_of_week, week, month, quarter, year]
-    sql: ${TABLE}.weather_date ;;
+    sql: TIMESTAMP_ADD(${TABLE}.weather_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY)  ;;
   }
 
   dimension: daily_mean_temp_raw {
@@ -124,6 +125,19 @@ WITH zip_centroids AS (
     description: "Raw daily mean temperature recorded at a station."
     hidden: yes
     sql: ${TABLE}.mean_temp ;;
+  }
+
+  dimension: temperature_tier {
+    label: "Temperature Tier"
+    type: string
+    description: "Categorizes the daily mean temp recorded into weather bands."
+    sql: CASE
+          WHEN ${daily_mean_temp_raw} <= 32 THEN 'Extreme Cold (<= 32°F)'
+          WHEN ${daily_mean_temp_raw} > 32 AND ${daily_mean_temp_raw} <= 50 THEN 'Cold (33°F - 50°F)'
+          WHEN ${daily_mean_temp_raw} > 50 AND ${daily_mean_temp_raw} <= 72 THEN 'Moderate (51°F - 72°F)'
+          WHEN ${daily_mean_temp_raw} > 72 AND ${daily_mean_temp_raw} <= 90 THEN 'Warm/Hot (73°F - 90°F)'
+          WHEN ${daily_mean_temp_raw} > 90 THEN 'Extreme Heat (> 90°F)'
+         END;;
   }
 
   dimension: daily_max_temp_raw {
@@ -154,7 +168,7 @@ WITH zip_centroids AS (
     sql: ${TABLE}.precipitation_flag ;;
   }
 
-  dimension: precipitation_reported {
+  dimension: was_precipitation_reported {
     type: yesno
     label: "Was Precipitation Reported"
     description: "Flag field used to identify if there was a report/record of precipitation on a given date/timeframe."
@@ -198,7 +212,7 @@ WITH zip_centroids AS (
     sql: ${TABLE}.fog_flag ;;
   }
 
-  dimension: fog_reported {
+  dimension: was_fog_reported {
     type: yesno
     label: "Was Fog Reported"
     description: "Flag field used to identify if there was a report/record of fog on a given date/timeframe."
@@ -219,7 +233,7 @@ WITH zip_centroids AS (
     sql: ${TABLE}.snow_ice_flag ;;
   }
 
-  dimension: freeze_reported {
+  dimension: was_freeze_reported {
     type: yesno
     label: "Was Snow or Ice Reported"
     description: "Flag field used to identify if there were any report/record of snow or ice on a given date/timeframe."
@@ -233,7 +247,7 @@ WITH zip_centroids AS (
     sql: ${TABLE}.hail_flag ;;
   }
 
-  dimension: hail_reported {
+  dimension: was_hail_reported {
     type: yesno
     label: "Was Hail Reported"
     description: "Flag field used to identify if there were any report/record of hail on a given date/timeframe."
@@ -247,7 +261,7 @@ WITH zip_centroids AS (
     sql: ${TABLE}.thunder_flag ;;
   }
 
-  dimension: thunder_reported {
+  dimension: was_thunder_reported {
     type: yesno
     label: "Was Thunder Reported"
     description: "Flag field used to identify if there were any report/record of thunder on a given date/timeframe."
@@ -261,11 +275,25 @@ WITH zip_centroids AS (
     sql: ${TABLE}.tornado_flag ;;
   }
 
-  dimension: tornado_reported {
+  dimension: was_tornado_reported {
     type: yesno
     label: "Was a Tornado or Funnel Cloud Reported"
     description: "Flag field used to identify if there were any report/record of tornadoes or funnel clouds on a given date/timeframe."
     sql: ${tornado_flag} = 1 ;;
+  }
+
+  dimension: weather_severity_category {
+    type: string
+    label: "Weather Severity Category"
+    description: "Categorizes the severity of the daily weather based on recorded flags. Determined by hierarchical evaluation of severe weather occurrences. Unit: Text. Example: Inclement Weather (Frozen/Hail)."
+    sql:
+      CASE
+        WHEN ${tornado_flag} = 1 THEN 'Extreme Weather (Tornado)'
+        WHEN ${hail_flag} = 1 OR ${snow_ice_flag} = 1 THEN 'Inclement Weather (Frozen/Hail)'
+        WHEN ${thunder_flag} = 1 THEN 'Moderately Bad Weather (Thunder)'
+        WHEN ${daily_prcp_flag} = 1 OR ${fog_flag} = 1 THEN 'Poor Weather (Rain/Fog)'
+        ELSE 'Clear/No Severe Weather Recorded'
+      END ;;
   }
 
   measure: count {
@@ -323,7 +351,7 @@ WITH zip_centroids AS (
     description: "The count of days in the timeframe marked by the flag for having an occurrence of precipitation."
     type: count_distinct
     sql: ${cpk} ;;
-    filters: [precipitation_reported: "Yes"]
+    filters: [was_precipitation_reported: "Yes"]
   }
 
   measure: foggy_days_count {
@@ -331,7 +359,7 @@ WITH zip_centroids AS (
     description: "The count of days in the timeframe marked by the flag for having an occurrence of fog."
     type: count_distinct
     sql: ${cpk} ;;
-    filters: [fog_reported: "Yes"]
+    filters: [was_fog_reported: "Yes"]
   }
 
   measure: snowy_days_count {
@@ -339,10 +367,8 @@ WITH zip_centroids AS (
     description: "The count of days in the timeframe marked by the flag for having an occurrence of snow or ice pellets."
     type: count_distinct
     sql: ${cpk} ;;
-    filters: [freeze_reported: "Yes"]
+    filters: [was_freeze_reported: "Yes"]
   }
-
-  # measure:  {}
 
   set: detail {
     fields: [
@@ -352,15 +378,15 @@ WITH zip_centroids AS (
       max_temp,
       min_temp,
       total_precipitation,
-      precipitation_reported,
       daily_prcp_note,
       median_visibility,
-      fog_reported,
       median_snow_depth,
-      freeze_reported,
-      hail_reported,
-      thunder_reported,
-      tornado_reported
+      was_fog_reported,
+      was_precipitation_reported,
+      was_freeze_reported,
+      was_hail_reported,
+      was_thunder_reported,
+      was_tornado_reported
     ]
   }
 }

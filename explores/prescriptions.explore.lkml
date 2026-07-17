@@ -3,9 +3,13 @@ include: "/views/pharmacy.view.lkml"
 include: "/views/ndcs.view.lkml"
 include: "/views/spi_roots.view.lkml"
 include: "/views/county_census_dt.view.lkml"
+include: "/views/station_mapping_dt.view.lkml"
+include: "/views/weather_dt.view.lkml"
+
 
 explore: prescriptions {
   from:  ge_prescriptions
+   description: "Unified epidemiological explore linking patient prescription patterns to localized, daily NOAA GSOD weather metrics."
   group_label: "Google RX Project"
   label: "Prescriptions"
 
@@ -37,28 +41,22 @@ explore: prescriptions {
       AND ${prescriptions.patient_state} = ${county_census_dt.state} ;;
   }
 
+  # --- NOAA WEATHER GEOGRAPHIC JOIN ---
+  # Maps each patient's residency ZIP code to their single closest weather station node
+  join: station_mapping_dt {
+    view_label: "Weather Station Mapping"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${prescriptions.patient_zip} = ${station_mapping_dt.zip_code} ;;
+  }
 
-
-  # aggregate_table: rollup_agg_brand_age_date {
-  #   query: {
-  #     dimensions: [prescriptions.brand_name, prescriptions.rx_date, prescriptions.age_group ]
-  #     measures: [prescriptions.number_of_new_prescriptions]
-  #     timezone: America/Los_Angeles
-  #   }
-  #   materialization: {
-  #     sql_trigger_value: SELECT EXTRACT(Year FROM CURRENT_TIMESTAMP())  ;;
-  #   }
-  # }
-
-  # aggregate_table: rollup_agg_specialty_brand_month {
-  #   query: {
-  #     dimensions: [prescriptions.brand_name, prescriptions.specialty, prescriptions.rx_month]
-  #     measures: [prescriptions.number_of_new_prescriptions]
-  #     timezone: America/Los_Angeles
-  #   }
-  #   materialization: {
-  #     sql_trigger_value: SELECT EXTRACT(Year FROM CURRENT_TIMESTAMP())  ;;
-  #   }
-  # }
-
+  # --- NOAA WEATHER TEMPORAL JOIN ---
+  # Links daily weather observations recorded at that station on the exact day of prescription fulfillment
+  join: weather_dt {
+    view_label: "Daily Weather Records"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${station_mapping_dt.station_key} = ${weather_dt.station_key}
+      AND ${prescriptions.rx_date} = ${weather_dt.weather_record_date} ;;
+  }
 }
