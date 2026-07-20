@@ -1363,12 +1363,12 @@
     width: 71
     height: 24
     tab_name: ''
-  - title: Household Income vs Practicing Doctor Density
-    name: Household Income vs Practicing Doctor Density
+  - title: Practicing Doctor Density
+    name: Practicing Doctor Density
     model: rx_data_google
     explore: spi_roots
     type: looker_scatter
-    fields: [spi_roots.city, spi_roots.spiroot_zip_income_per_household, spi_roots.number_of_doctors]
+    fields: [spi_roots.city, spi_roots.number_of_doctors]
     filters:
       spi_roots.state: NY
       spi_roots.spiroot_zip_income_per_household: NOT NULL
