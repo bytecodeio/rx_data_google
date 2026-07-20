@@ -132,11 +132,11 @@ view: weather_dt {
     type: string
     description: "Categorizes the daily mean temp recorded into weather bands."
     sql: CASE
-          WHEN ${daily_mean_temp_raw} <= 32 THEN 'Extreme Cold (<= 32°F)'
-          WHEN ${daily_mean_temp_raw} > 32 AND ${daily_mean_temp_raw} <= 50 THEN 'Cold (33°F - 50°F)'
-          WHEN ${daily_mean_temp_raw} > 50 AND ${daily_mean_temp_raw} <= 72 THEN 'Moderate (51°F - 72°F)'
-          WHEN ${daily_mean_temp_raw} > 72 AND ${daily_mean_temp_raw} <= 90 THEN 'Warm/Hot (73°F - 90°F)'
-          WHEN ${daily_mean_temp_raw} > 90 THEN 'Extreme Heat (> 90°F)'
+          WHEN ${daily_mean_temp_raw} <= 32 THEN '1. Extreme Cold (<= 32°F)'
+          WHEN ${daily_mean_temp_raw} > 32 AND ${daily_mean_temp_raw} <= 50 THEN '2. Cold (33°F - 50°F)'
+          WHEN ${daily_mean_temp_raw} > 50 AND ${daily_mean_temp_raw} <= 72 THEN '3. Moderate (51°F - 72°F)'
+          WHEN ${daily_mean_temp_raw} > 72 AND ${daily_mean_temp_raw} <= 90 THEN '4. Warm/Hot (73°F - 90°F)'
+          WHEN ${daily_mean_temp_raw} > 90 THEN '5. Extreme Heat (> 90°F)'
          END;;
   }
 
