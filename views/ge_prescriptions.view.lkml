@@ -246,20 +246,24 @@ view: ge_prescriptions {
   # Matches the dynamic shifted date syntax in dimension_group: rx
   # =========================================================================
 
-  dimension: treatment_start_date {
+  dimension_group: treatment_start {
     group_label: "Treatment Timeline"
     label: "Treatment Start Date"
     description: "Shifted therapy start date to match current date windowing"
-    type: date
-    sql: DATE(TIMESTAMP_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY)) ;;
+    type: time
+    datatype: date
+    timeframes: [raw, date, time, week, week_of_year, month, month_name, quarter, quarter_of_year, year]
+    sql: DATE_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY) ;;
   }
 
-  dimension: treatment_end_date {
+  dimension_group: treatment_end {
     group_label: "Treatment Timeline"
     label: "Treatment End Date"
     description: "Shifted therapy end date calculated based on days supply duration"
-    type: date
-    sql: DATE_ADD(DATE(TIMESTAMP_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY)), INTERVAL ${TABLE}.days_supply DAY) ;;
+    type: time
+    datatype: date
+    timeframes: [raw, date, time, week, week_of_year, month, month_name, quarter, quarter_of_year, year]
+    sql: DATE_ADD(DATE(TIMESTAMP_ADD(${TABLE}.rx_date, INTERVAL DATE_DIFF(CURRENT_DATE(), DATE('2023-12-30'),DAY) DAY)), INTERVAL ${days_supply} DAY) ;;
   }
 
   # =========================================================================
