@@ -7,8 +7,9 @@
     performance, brand utilization, and market access metrics like Real-Time Prescription
     Benefit (RTPB) adoption. It enables deep-dive analytics to help align and optimize
     strategies.
-  preferred_slug: mmYQXvNHGMmEslvrCEc207
+  preferred_slug: Zy1gbDRj1Zd8Q4AImOXMmV
   theme_name: ''
+  layout_granularity: granular
   layout: newspaper
   tabs:
   - name: KPIs
@@ -43,9 +44,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 12
-    width: 6
-    height: 2
+    col: 36
+    width: 18
+    height: 4
     tab_name: KPIs
   - title: Average Days Supply
     name: Average Days Supply
@@ -68,9 +69,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 18
-    width: 6
-    height: 2
+    col: 54
+    width: 18
+    height: 4
     tab_name: KPIs
   - title: Monthly Volume Trend
     name: Monthly Volume Trend
@@ -138,10 +139,10 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 2
-    col: 12
-    width: 12
-    height: 8
+    row: 4
+    col: 36
+    width: 36
+    height: 16
     tab_name: KPIs
   - title: Monthly New Rx Rate Trend
     name: Monthly New Rx Rate Trend
@@ -207,25 +208,22 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 10
-    col: 12
-    width: 12
-    height: 10
+    row: 20
+    col: 36
+    width: 36
+    height: 20
     tab_name: KPIs
   - title: New Prescriptions
     name: New Prescriptions
     model: rx_data_google
     explore: rx_normalized_analytics
     type: single_value
-    fields: [rx_fact.number_of_new_prescriptions, dates.date_year]
-    pivots: [dates.date_year]
-    fill_fields: [dates.date_year]
-    sorts: [dates.date_year desc]
+    fields: [rx_fact.number_of_new_prescriptions]
     limit: 5000
     column_limit: 50
     custom_color_enabled: true
-    show_single_value_title: false
-    show_comparison: true
+    show_single_value_title: true
+    show_comparison: false
     comparison_type: progress
     comparison_reverse_colors: false
     show_comparison_label: true
@@ -252,8 +250,8 @@
       Fulfillment Date: dates.date_date
     row: 0
     col: 0
-    width: 6
-    height: 2
+    width: 18
+    height: 4
     tab_name: KPIs
   - title: RTPB Check Volume
     name: RTPB Check Volume
@@ -290,9 +288,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 6
-    width: 6
-    height: 2
+    col: 18
+    width: 18
+    height: 4
     tab_name: KPIs
   - title: Volume Distribution by Day of Week
     name: Volume Distribution by Day of Week
@@ -352,10 +350,10 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 10
+    row: 20
     col: 0
-    width: 12
-    height: 10
+    width: 36
+    height: 20
     tab_name: KPIs
   - title: 180 Day Volume Lookback
     name: 180 Day Volume Lookback
@@ -470,10 +468,10 @@
       Brand Name: ndcs.brand_name
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
-    row: 2
+    row: 4
     col: 0
-    width: 12
-    height: 8
+    width: 36
+    height: 16
     tab_name: KPIs
   - title: Accounts
     name: Accounts
@@ -481,8 +479,6 @@
     explore: rx_normalized_analytics
     type: single_value
     fields: [accounts.count]
-    limit: 5000
-    column_limit: 50
     x: 16
     "y": 0
     listen:
@@ -499,8 +495,8 @@
       Fulfillment Date: dates.date_date
     row: 0
     col: 0
-    width: 2
-    height: 7
+    width: 6
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Top 10 Vendors
     name: Top 10 Vendors
@@ -528,10 +524,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 7
-    col: 2
-    width: 10
-    height: 7
+    row: 14
+    col: 6
+    width: 30
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Top 10 Accounts
     name: Top 10 Accounts
@@ -590,9 +586,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 2
-    width: 10
-    height: 7
+    col: 6
+    width: 30
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Top 10 Prescribers
     name: Top 10 Prescribers
@@ -653,10 +649,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 16
-    col: 2
-    width: 10
-    height: 7
+    row: 32
+    col: 6
+    width: 30
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Specialty Quadrants - Avg Days Supply vs Rx Volume
     name: Specialty Quadrants - Avg Days Supply vs Rx Volume
@@ -742,21 +738,20 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 30
+    row: 60
     col: 0
-    width: 24
-    height: 10
+    width: 72
+    height: 20
     tab_name: Account & Prescriber Performance
   - name: " (Copy 3)"
     type: text
     title_text: " (Copy 3)"
-    subtitle_text: ''
     body_text: '[{"type":"h1","children":[{"text":"Prescribers"}],"align":"center"}]'
     rich_content_json: '{"format":"slate"}'
-    row: 14
+    row: 28
     col: 0
-    width: 24
-    height: 2
+    width: 72
+    height: 4
     tab_name: Account & Prescriber Performance
   - title: Prescribers
     name: Prescribers
@@ -790,10 +785,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 16
+    row: 32
     col: 0
-    width: 2
-    height: 7
+    width: 6
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Top 10 Specialties
     name: Top 10 Specialties
@@ -857,10 +852,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 23
-    col: 2
-    width: 10
-    height: 7
+    row: 46
+    col: 6
+    width: 30
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Bottom 10 Accounts
     name: Bottom 10 Accounts
@@ -921,9 +916,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 12
-    width: 12
-    height: 7
+    col: 36
+    width: 36
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Bottom 10 Vendors
     name: Bottom 10 Vendors
@@ -985,10 +980,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 7
-    col: 12
-    width: 12
-    height: 7
+    row: 14
+    col: 36
+    width: 36
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Vendors
     name: Vendors
@@ -1031,10 +1026,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 7
+    row: 14
     col: 0
-    width: 2
-    height: 7
+    width: 6
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Specialties
     name: Specialties
@@ -1076,10 +1071,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 23
+    row: 46
     col: 0
-    width: 2
-    height: 7
+    width: 6
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Botton 10 Prescribers
     name: Botton 10 Prescribers
@@ -1142,10 +1137,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 16
-    col: 12
-    width: 12
-    height: 7
+    row: 32
+    col: 36
+    width: 36
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Bottom 10 Specialties
     name: Bottom 10 Specialties
@@ -1209,10 +1204,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 23
-    col: 12
-    width: 12
-    height: 7
+    row: 46
+    col: 36
+    width: 36
+    height: 14
     tab_name: Account & Prescriber Performance
   - title: Geographic Volume Heatmap
     name: Geographic Volume Heatmap
@@ -1234,10 +1229,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 10
+    row: 20
     col: 0
-    width: 12
-    height: 8
+    width: 36
+    height: 16
     tab_name: Pharmacy & Patient Demographics
   - title: Volume by Dispenser Class
     name: Volume by Dispenser Class
@@ -1344,10 +1339,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 10
-    col: 12
-    width: 12
-    height: 8
+    row: 20
+    col: 36
+    width: 36
+    height: 16
     tab_name: Pharmacy & Patient Demographics
   - title: Volume by Dispenser Type
     name: Volume by Dispenser Type
@@ -1427,10 +1422,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 18
+    row: 36
     col: 0
-    width: 24
-    height: 8
+    width: 72
+    height: 16
     tab_name: Pharmacy & Patient Demographics
   - title: Patient Volume by Age Group
     name: Patient Volume by Age Group
@@ -1488,10 +1483,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 28
+    row: 56
     col: 0
-    width: 12
-    height: 8
+    width: 36
+    height: 16
     tab_name: Pharmacy & Patient Demographics
   - title: RTPB Adoption Rate by Age Group
     name: RTPB Adoption Rate by Age Group
@@ -1600,10 +1595,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 28
-    col: 12
-    width: 12
-    height: 8
+    row: 56
+    col: 36
+    width: 36
+    height: 16
     tab_name: Pharmacy & Patient Demographics
   - title: Total Dispatch Pharmacies
     name: Total Dispatch Pharmacies
@@ -1625,10 +1620,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 2
+    row: 4
     col: 0
-    width: 12
-    height: 2
+    width: 36
+    height: 4
     tab_name: Pharmacy & Patient Demographics
   - title: Top 10 Pharmacy Cities
     name: Top 10 Pharmacy Cities
@@ -1689,10 +1684,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 4
+    row: 8
     col: 0
-    width: 12
-    height: 6
+    width: 36
+    height: 12
     tab_name: Pharmacy & Patient Demographics
   - title: National Market Scale
     name: National Market Scale
@@ -1748,32 +1743,30 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 2
-    col: 12
-    width: 12
-    height: 8
+    row: 4
+    col: 36
+    width: 36
+    height: 16
     tab_name: Pharmacy & Patient Demographics
   - name: " (Copy 2)"
     type: text
     title_text: " (Copy 2)"
-    subtitle_text: ''
     body_text: '[{"type":"h1","children":[{"text":"Pharmacy Demographics"}],"align":"center"}]'
     rich_content_json: '{"format":"slate"}'
     row: 0
     col: 0
-    width: 24
-    height: 2
+    width: 72
+    height: 4
     tab_name: Pharmacy & Patient Demographics
   - name: ''
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: '[{"type":"h1","children":[{"text":"Patient Demographics"}],"align":"center"}]'
     rich_content_json: '{"format":"slate"}'
-    row: 26
+    row: 52
     col: 0
-    width: 24
-    height: 2
+    width: 72
+    height: 4
     tab_name: Pharmacy & Patient Demographics
   - title: Medications
     name: Medications
@@ -1781,8 +1774,6 @@
     explore: rx_normalized_analytics
     type: single_value
     fields: [ndcs.number_of_medications]
-    limit: 5000
-    column_limit: 50
     x: 20
     "y": 0
     listen:
@@ -1799,8 +1790,8 @@
       Fulfillment Date: dates.date_date
     row: 0
     col: 0
-    width: 6
-    height: 2
+    width: 18
+    height: 4
     tab_name: Medications
   - title: Rx Flow - Therapeutic Class to State
     name: Rx Flow - Therapeutic Class to State
@@ -1834,10 +1825,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 28
+    row: 56
     col: 0
-    width: 24
-    height: 8
+    width: 72
+    height: 16
     tab_name: Medications
   - title: Days Supply Tier Distribution
     name: Days Supply Tier Distribution
@@ -1944,10 +1935,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 18
-    col: 12
-    width: 12
-    height: 10
+    row: 36
+    col: 36
+    width: 36
+    height: 20
     tab_name: Medications
   - title: High-Utilization NDCs
     name: High-Utilization NDCs
@@ -2016,10 +2007,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 10
-    col: 12
-    width: 12
-    height: 8
+    row: 20
+    col: 36
+    width: 36
+    height: 16
     tab_name: Medications
   - title: Top 10 Therapeutic Classes
     name: Top 10 Therapeutic Classes
@@ -2079,10 +2070,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 2
-    col: 12
-    width: 12
-    height: 8
+    row: 4
+    col: 36
+    width: 36
+    height: 16
     tab_name: Medications
   - title: Top 20 Targeted Diseases
     name: Top 20 Targeted Diseases
@@ -2140,10 +2131,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 10
+    row: 20
     col: 0
-    width: 12
-    height: 8
+    width: 36
+    height: 16
     tab_name: Medications
   - title: Prescribing Volume by Specialty
     name: Prescribing Volume by Specialty
@@ -2165,10 +2156,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 18
+    row: 36
     col: 0
-    width: 12
-    height: 10
+    width: 36
+    height: 20
     tab_name: Medications
   - title: Therapeutic Classes
     name: Therapeutic Classes
@@ -2211,9 +2202,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 12
-    width: 6
-    height: 2
+    col: 36
+    width: 18
+    height: 4
     tab_name: Medications
   - title: Diseases
     name: Diseases
@@ -2263,9 +2254,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 18
-    width: 6
-    height: 2
+    col: 54
+    width: 18
+    height: 4
     tab_name: Medications
   - title: Top 10 Brands
     name: Top 10 Brands
@@ -2322,10 +2313,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 2
+    row: 4
     col: 0
-    width: 12
-    height: 8
+    width: 36
+    height: 16
     tab_name: Medications
   - title: Brands
     name: Brands
@@ -2375,9 +2366,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 6
-    width: 6
-    height: 2
+    col: 18
+    width: 18
+    height: 4
     tab_name: Medications
   - title: Top Providers by RTPB Adoption
     name: Top Providers by RTPB Adoption
@@ -2445,8 +2436,8 @@
       Fulfillment Date: dates.date_date
     row: 0
     col: 0
-    width: 12
-    height: 8
+    width: 36
+    height: 16
     tab_name: Detailed Tables
   - title: Top Providers by Avg Days Supply
     name: Top Providers by Avg Days Supply
@@ -2469,9 +2460,9 @@
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
     row: 0
-    col: 12
-    width: 12
-    height: 8
+    col: 36
+    width: 36
+    height: 16
     tab_name: Detailed Tables
   - title: Payer NDC Transaction Audit
     name: Payer NDC Transaction Audit
@@ -2512,10 +2503,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 8
+    row: 16
     col: 0
-    width: 24
-    height: 12
+    width: 72
+    height: 24
     tab_name: Detailed Tables
   - title: Prescriber to Pharmacy Linkage Audit
     name: Prescriber to Pharmacy Linkage Audit
@@ -2537,10 +2528,10 @@
       Medication Generic Name: ndcs.generic_name
       Pharmacy State: pharmacy.state
       Fulfillment Date: dates.date_date
-    row: 20
+    row: 40
     col: 0
-    width: 24
-    height: 12
+    width: 72
+    height: 24
     tab_name: Detailed Tables
   filters:
   - name: Pharmacy State
